@@ -12,18 +12,24 @@
     <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    @Component('Components.LoginBar')
+    @endcomponent
+    @Component('Components.Sidebar')
+    @endcomponent
     <div class="container-fluid">
         <div class="card mt-3 p-3">
             <h3 class="card-title mt-2">TAMBAH INPUT JURNAL</h3>
         <hr>
-        <form class="text-end">
+        <form class="text-end" action="{{ $action }}">
+            @csrf
+            <input type="hidden" name="_method" value="{{ $method }}" />
             <!-- Tanggal Masuk -->
             <div class="row mb-3">
                 <div class="col-2">
-                    <label for="Tanggal" class="form-label">TANGGAL </label>
+                    <label for="Tanggal" class="form-label">TANGGAL</label>
                 </div>
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal">
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal">
                 </div>
             </div>
             <!-- TRANSAKSI -->
@@ -32,7 +38,7 @@
                     <label for="Transaksi" class="form-label">TRANSAKSI</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="Transaksi">
+                    <input type="number" class="form-control" id="Transaksi" name="transaksi">
                 </div>
             </div>
             <!-- KETERANGAN -->
@@ -41,7 +47,7 @@
                     <label for="KeteranganInputJurnal" class="form-label">KETERANGAN</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="KeteranganInputJurnal">
+                    <input type="text" class="form-control" id="keterangan" name="keterangan">
                 </div>
             </div>
             <!-- Bukti -->
@@ -50,33 +56,55 @@
                     <label for="Bukti" class="form-label">BUKTI</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti">
+                    <input type="text" class="form-control" id="Bukti" name="bukti">
+                </div>
+            </div>
+            <!-- Jumlah -->
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="jumlah" class="form-label">JUMLAH</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" id="jumlah" name="jumlah">
                 </div>
             </div>
             <!-- Debet -->
             <div class="row mb-3">
                 <div class="col-2">
-                    <label for="Debet" class="form-label">DEBET</label>
+                    <label for="akunD" class="form-label">DEBET</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="Debet">
+                    <input type="text" class="form-control" id="Debet" name="akunD">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="rpD" class="form-label">Rp</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" id="rpD" name="rpD">
                 </div>
             </div>
             
             <!-- KREDIT -->
             <div class="row mb-3">
                 <div class="col-2">
-                    <label for="Kredit" class="form-label">KREDIT</label>
+                    <label for="akunK" class="form-label">KREDIT</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="Kredit">
+                    <input type="text" class="form-control" id="akunK" name="akunK">
                 </div>
             </div>
-            <!-- Alamat -->
             <div class="row mb-3">
                 <div class="col-2">
-                    <label for="Alamat" class="form-label">Alamat</label>
+                    <label for="rpK" class="form-label">Rp</label>
                 </div>
+                <div class="col">
+                    <input type="number" class="form-control" id="rpK" name="rpK">
+                </div>
+            </div>
+            <!-- btn -->
+            <div class="row mb-3">
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success">Save</button>

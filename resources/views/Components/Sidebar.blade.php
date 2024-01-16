@@ -44,10 +44,10 @@
                                 </li>
                                 <!-- DATA KARYAWAN -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/datajurnal">Jurnal</a>
+                                    <a class="nav-link" href="/jurnal">Jurnal</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/jTamabhData" class="nav-link">Tambah Data Jurnal</a>
+                                    <a href="/jTambahData" class="nav-link">Tambah Data Jurnal</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="/cTambahData" class="nav-link">Tambah Data COA</a>

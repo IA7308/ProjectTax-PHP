@@ -15,6 +15,7 @@ class COAController extends Controller
     public function create()
     {
         return view('Tambah_Data_COA', [
+            'title' => 'TAMBAH',
             'method' => 'POST',
             'action' => '/cStore'
         ]);
@@ -31,5 +32,33 @@ class COAController extends Controller
         $prod->save();
         return redirect('/')->with('msg', 'Akun Berhasil dibuat');
     }
+
+    public function edit($id)
+    {
+        return view('Tambah_Data_COA', [
+            'title' => 'EDIT',
+            'method' => 'PUT',
+            'action' => "/$id/update",
+            'data' => COA::find($id)
+        ]);
+    }
+    public function update(Request $request, $id)
+    {
+        $prod = COA::find($id);
+        $prod->jenis_akun = $request->jenis_akun;
+        $prod->kelompok_akun = $request->kelompok_akun;
+        $prod->keterangan = $request->keterangan;
+        $prod->kode = $request->kode;
+        $prod->Nama_akun = $request->Nama_akun;
+        $prod->Saldo_awal = $request->Saldo_awal;
+        $prod->save();
+        return redirect('/')->with('msg', 'Edit berhasil');
+    }
+    public function destroy($id)
+    {
+        COA::destroy($id);
+        return redirect('/')->with('msg', 'Hapus berhasil');
+    }
+
 
 }

@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('jurnals', function (Blueprint $table) {
             $table->id();
             $table->string('transaksi');
+            $table->string('keterangan');
             $table->string('bukti');
-            $table->string('debet');
-            $table->string('kredit');
+            $table->integer('jumlah');
+            $table->string('akunD');
+            $table->integer('rpD');
+            $table->string('akunK');
+            $table->integer('rpK');
             $table->date('tanggal');
             $table->timestamps();
         });

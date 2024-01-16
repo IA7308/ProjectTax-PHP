@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lihat Data</title>
+    <title>BERANDA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -15,14 +15,14 @@
 </head>
 
 <body>
+    @Component('Components.LoginBar')
+    @endcomponent
     @Component('Components.Sidebar')
     @endcomponent
     <div class="container-fluid text-center">
-        <h3 class="mt-2">DATA </h3>
+        <h3 class="mt-2">DATA COA</h3>
         <hr>
         <div class="d-flex justify-content-center">
-            <a class="btn rounded-pill btn-success p-2 mx-2" href="#">
-                LIHAT DATA </a>
             <a class="btn rounded-pill btn-warning p-2 mx-2" href="#">
                 Print PDF</a>
             <a class="btn rounded-pill btn-light p-2 mx-2" href="#">
@@ -41,19 +41,15 @@
                 <div class="col">
                     <div class="text-end">
                         <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success mx-1" type="submit">Search</button>
-                            <input type="button" class="mx-1" value="Copy">
-                            <input type="button" class="mx-1" value="Excel">
-                            <input type="button" class="mx-1" value="PDF">
-                            <input type="button" class="mx-1" value="Column Visibility">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                id="searchInput">
                         </form>
                     </div>
                 </div>
             </div>
             <p class="text-start">Showing 1 to 1 of 1 entries</p>
             <!-- DATA TABEL -->
-            <table class="table">
+            <table class="table" id="myTable">
                 <tr class="table table-primary">
                     <th>JENIS AKUN</th>
                     <th>KELOMPOK AKUN</th>
@@ -61,6 +57,7 @@
                     <th>KODE</th>
                     <th>NAMA AKUN</th>
                     <th>INDEN</th>
+                    <th>PILIHAN</th>
                 </tr>
                 @foreach($data as $d)
                 <tr>
@@ -69,7 +66,16 @@
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
                     <td>{{$d->Nama_akun}}</td>
-                    <td>{{$d->Saldo_awal}}</td>
+                    <td>{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
+                    <td>
+                        <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
+                        <form method="post" action="/{{ $d->id }}" style="display:inline"
+                            onsubmit="return confirm('Yakin hapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </table>
@@ -89,5 +95,16 @@
     </div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>
 
 </html>

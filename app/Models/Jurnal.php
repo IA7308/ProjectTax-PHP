@@ -13,7 +13,10 @@ class Jurnal extends Model
         'transaksi',
         'keterangan',
         'bukti',
-        'debet',
-        'kredit'
+        'jumlah',
+        'akunD',
+        'rpD',
+        'akunK',
+        'rpK'
     ];
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lihat Data</title>
+    <title>Lihat Data Jurnal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -15,14 +15,14 @@
 </head>
 
 <body>
+    @Component('Components.LoginBar')
+    @endcomponent
     @Component('Components.Sidebar')
     @endcomponent
     <div class="container-fluid text-center">
-        <h3 class="mt-2">DATA </h3>
+        <h3 class="mt-2">DATA JURNAL</h3>
         <hr>
         <div class="d-flex justify-content-center">
-            <a class="btn rounded-pill btn-success p-2 mx-2" href="#">
-                LIHAT DATA </a>
             <a class="btn rounded-pill btn-warning p-2 mx-2" href="#">
                 Print PDF</a>
             <a class="btn rounded-pill btn-light p-2 mx-2" href="#">
@@ -36,7 +36,7 @@
                     <p>Show <input type="number" name="pagination" id="paginate"> entries</p>
                 </div>
                 <div class="col text-center">
-                    <h2>Tabel COA</h2>
+                    <h2>Tabel Jurnal</h2>
                 </div>
                 <div class="col">
                     <div class="text-end">
@@ -53,25 +53,44 @@
             </div>
             <p class="text-start">Showing 1 to 1 of 1 entries</p>
             <!-- DATA TABEL -->
-            <table class="table">
-                <tr class="table table-primary">
-                    <th>JENIS AKUN</th>
-                    <th>KELOMPOK AKUN</th>
-                    <th>KETERANGAN</th>
-                    <th>KODE</th>
-                    <th>NAMA AKUN</th>
-                    <th>INDEN</th>
-                </tr>
-                @foreach($data as $d)
-                <tr>
-                    <td>{{$d->jenis_akun}}</td>
-                    <td>{{$d->kelompok_akun}}</td>
-                    <td>{{$d->keterangan}}</td>
-                    <td>{{$d->kode}}</td>
-                    <td>{{$d->Nama_akun}}</td>
-                    <td>{{$d->Saldo_awal}}</td>
-                </tr>
-                @endforeach
+            <table class="table table-fluid" id="myTable">
+                <thead>
+                    <tr class="table table-primary">
+                        <th>TANGGAL</th>
+                        <th>TRANSAKSI</th>
+                        <th>KETERANGAN</th>
+                        <th>BUKTI</th>
+                        <th>JUMLAH</th>
+                        <th colspan="2">DEBET</th>
+                        <th colspan="2">KREDIT</th>
+                    </tr>
+                    <tr>
+                        <td><input type="date" class="w-50" id="searchInputtgl" placeholder="Search..."></td>
+                        <td><input type="text" class="w-50" id="searchInputtr" placeholder="Search..."></td>
+                        <td><input type="text" class="w-50" id="searchInputkt" placeholder="Search..."></td>
+                        <td><input type="text" class="w-50" id="searchInputbk" placeholder="Search..."></td>
+                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingjm"><input type="button" class="btn btn-light col" value="/\" id="ascendingjm"></td>
+                        <td><input type="text" class="w-50" id="searchInputakd" placeholder="Search..."></td>
+                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingD"><input type="button" class="btn btn-light col" value="/\" id="ascendingD"></td>
+                        <td><input type="text" class="w-50" id="searchInputakk" placeholder="Search..."></td>
+                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingK"><input type="button" class="btn btn-light col" value="/\" id="ascendingK"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr>
+                        <td>{{$d->tanggal}}</td>
+                        <td>{{$d->transaksi}}</td>
+                        <td>{{$d->keterangan}}</td>
+                        <td>{{$d->bukti}}</td>
+                        <td>{{number_format($d->jumlah, 2, ',', '.')}}</td>
+                        <td>{{$d->akunD}}</td>
+                        <td>{{number_format($d->rpD, 2, ',', '.')}}</td>
+                        <td>{{$d->akunK}}</td>
+                        <td>{{number_format($d->rpK, 2, ',', '.')}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
             <div class="text-end">
                 <nav aria-label="Page navigation example">
@@ -89,5 +108,144 @@
     </div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#searchInputtgl").on("input", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#searchInputtr").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#searchInputkt").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#searchInputbk").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#searchInputakd").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#searchInputakk").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
 
+            $("#descendingjm").on("click", function() {
+                var column = "jumlah"; 
+                var $tbody = $("#myTable tbody");
+                var rows = $tbody.find("tr").get();
+                rows.sort(function(a, b) {
+                    var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    return bValue - aValue;
+                });
+                $tbody.empty().append(rows);
+            });
+
+            $("#ascendingjm").on("click", function() {
+                    var column = "jumlah"; 
+                    var $tbody = $("#myTable tbody");
+                    var rows = $tbody.find("tr").get();
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        return aValue - bValue;
+                    });
+                    $tbody.empty().append(rows);
+                });
+            
+
+                $("#descendingjm").on("click", function() {
+                var column = "jumlah"; 
+                var $tbody = $("#myTable tbody");
+                var rows = $tbody.find("tr").get();
+                rows.sort(function(a, b) {
+                    var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    return bValue - aValue;
+                });
+                $tbody.empty().append(rows);
+            });
+
+            $("#ascendingD").on("click", function() {
+                    var column = "jumlah"; 
+                    var $tbody = $("#myTable tbody");
+                    var rows = $tbody.find("tr").get();
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        return aValue - bValue;
+                    });
+                    $tbody.empty().append(rows);
+                });
+
+                $("#descendingD").on("click", function() {
+                var column = "debet"; 
+                var $tbody = $("#myTable tbody");
+                var rows = $tbody.find("tr").get();
+                rows.sort(function(a, b) {
+                    var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    return bValue - aValue;
+                });
+                $tbody.empty().append(rows);
+            });
+
+            $("#ascendingK").on("click", function() {
+                    var column = "kredit"; 
+                    var $tbody = $("#myTable tbody");
+                    var rows = $tbody.find("tr").get();
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        return aValue - bValue;
+                    });
+                    $tbody.empty().append(rows);
+                });
+
+                $("#descendingK").on("click", function() {
+                var column = "kredit"; 
+                var $tbody = $("#myTable tbody");
+                var rows = $tbody.find("tr").get();
+                rows.sort(function(a, b) {
+                    var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                    return bValue - aValue;
+                });
+                $tbody.empty().append(rows);
+            });
+
+            $("#ascendingjm").on("click", function() {
+                    var column = "jumlah"; 
+                    var $tbody = $("#myTable tbody");
+                    var rows = $tbody.find("tr").get();
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
+                        return aValue - bValue;
+                    });
+                    $tbody.empty().append(rows);
+                });
+            });
+
+            
+    </script>
 </html>

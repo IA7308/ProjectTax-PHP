@@ -14,9 +14,13 @@
 </head>
 
 <body>
+    @Component('Components.LoginBar')
+    @endcomponent
+    @Component('Components.Sidebar')
+    @endcomponent
     <div class="container-fluid">
         <div class="card mt-3 p-3">
-            <h3 class="card-title mt-2">TAMBAH DATA COA</h3>
+            <h3 class="card-title mt-2">{{$title}} DATA COA</h3>
             <hr>
             <form class="text-end" action="{{ $action }}">
                 @csrf
@@ -29,8 +33,8 @@
                     <div class="col">
                       <select class="form-select" id="JenisAkun" name="jenis_akun">
                         <option selected>Choose...</option>
-                        <option value="A REAL">A REAL</option>
-                        <option value="A NOMINAL">A NOMINAL</option>
+                        <option value="A REAL" {{ isset($data) && $data->jenis_akun == 'A REAL' ? 'selected' : '' }}>A REAL</option>
+                        <option value="A NOMINAL" {{ isset($data) && $data->jenis_akun == 'A NOMINAL' ? 'selected' : '' }}>A NOMINAL</option>
                       </select>
                     </div>
                 </div>
@@ -42,11 +46,11 @@
                     <div class="col">
                       <select class="form-select" id="KelompokAkun" name="kelompok_akun">
                         <option selected>Choose...</option>
-                        <option value="HARTA">HARTA</option>
-                        <option value="HUTANG">HUTANG</option>
-                        <option value="MODAL">MODAL</option>
-                        <option value="PENDAPATAN">PENDAPATAN</option>
-                        <option value="BIAYA">BIAYA</option>
+                        <option value="HARTA" {{ isset($data) && $data->kelompok_akun == 'HARTA' ? 'selected' : '' }}>HARTA</option>
+                        <option value="HUTANG" {{ isset($data) && $data->kelompok_akun == 'HUTANG' ? 'selected' : '' }}>HUTANG</option>
+                        <option value="MODAL" {{ isset($data) && $data->kelompok_akun == 'MODAL' ? 'selected' : '' }}>MODAL</option>
+                        <option value="PENDAPATAN" {{ isset($data) && $data->kelompok_akun == 'PENDAPATAN' ? 'selected' : '' }}>PENDAPATAN</option>
+                        <option value="BIAYA" {{ isset($data) && $data->kelompok_akun == 'BIAYA' ? 'selected' : '' }}>BIAYA</option>
                       </select>
                     </div>
                 </div>
@@ -56,7 +60,7 @@
                         <label for="KeteranganTambahDataCoa" class="form-label">KETERANGAN</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="KeteranganTambahDataCoa" name="keterangan">
+                        <input type="text" class="form-control" id="KeteranganTambahDataCoa" name="keterangan" value="{{ isset($data)?$data->keterangan:'' }}" >
                     </div>
                 </div>
                 <!-- KODE -->
@@ -65,7 +69,7 @@
                         <label for="Kode" class="form-label">KODE</label>
                     </div>
                     <div class="col">
-                        <input type="number" class="form-control" id="Kode" name="kode">
+                        <input type="number" class="form-control" id="Kode" name="kode" value="{{ isset($data)?$data->kode:'' }}">
                     </div>
                 </div>
                 <!-- KODE -->
@@ -74,7 +78,7 @@
                         <label for="NamaAkun" class="form-label">NAMA AKUN</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="NamaAkun" name="Nama_akun">
+                        <input type="text" class="form-control" id="NamaAkun" name="Nama_akun" value="{{ isset($data)?$data->Nama_akun:'' }}">
                     </div>
                 </div>
                 <!-- SALDO AWAL -->
@@ -83,7 +87,7 @@
                         <label for="AngkaSaldoAwal" class="form-label">SALDO AWAL</label>
                     </div>
                     <div class="col">
-                        <input type="number" class="form-control" id="AngkaSaldoAwal" name="Saldo_awal">
+                        <input type="number" class="form-control" id="AngkaSaldoAwal" name="Saldo_awal" value="{{ isset($data)?$data->Saldo_awal:'' }}">
                     </div>
                 </div>
                 <div class="col">
