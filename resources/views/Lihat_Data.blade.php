@@ -31,9 +31,19 @@
         <hr>
         <div class="card p-3">
             <!-- Pagination -->
+            
             <div class="row">
                 <div class="col text-start">
-                    <p>Show <input type="number" name="pagination" id="paginate"> entries</p>
+                <form action="/" method="GET">
+                    <p>Show 
+                        <select name="pagination" id="paginate" onchange="this.form.submit()">
+                            <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
+                            <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
+                            <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>
+                            <!-- Tambahkan opsi lain sesuai kebutuhan -->
+                        </select> entries
+                    </p>
+                </form>
                 </div>
                 <div class="col text-center">
                     <h2>Tabel COA</h2>
@@ -44,12 +54,13 @@
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                 id="searchInput">
                         </form>
+                        <input type="text" id="kalkulasiJumlah" class="form-control my-3" placeholder="kalkulasi jumlah" disabled>
                     </div>
                 </div>
             </div>
-            <p class="text-start">Showing 1 to 1 of 1 entries</p>
             <!-- DATA TABEL -->
-            <table class="table" id="myTable">
+            <table class="table table-bordered table-hover" id="myTable" name="tabelCOA">
+                <thead>
                 <tr class="table table-primary">
                     <th>JENIS AKUN</th>
                     <th>KELOMPOK AKUN</th>
@@ -59,13 +70,15 @@
                     <th>INDEN</th>
                     <th>PILIHAN</th>
                 </tr>
+                </thead>
+                <tbody>
                 @foreach($data as $d)
-                <tr>
+                <tr data-saldo-awal="{{ $d->Saldo_awal }}">
                     <td>{{$d->jenis_akun}}</td>
                     <td>{{$d->kelompok_akun}}</td>
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
-                    <td>{{$d->Nama_akun}}</td>
+                    <td class="text-start">{{$d->Nama_akun}}</td>
                     <td>{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
                     <td>
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
@@ -78,25 +91,53 @@
                     </td>
                 </tr>
                 @endforeach
+                </tbody>
             </table>
-            <div class="text-end">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+            <div class="row d-flex justify-content-end pagination">
+                {{ $data->links() }}
             </div>
         </div>
         <p class="text-start mt-3">@2024 <b>CV.MWI</b> Program by Zou</p>
     </div>
 
 </body>
+
+<style>
+    p {
+        margin-top: 20px;
+    }
+    svg {
+        width: 20px;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var tableRows = document.querySelectorAll("tr[data-saldo-awal]");
+        var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");
+
+        tableRows.forEach(function(row) {
+            row.addEventListener("click", function() {
+                var saldoValue = row.dataset.saldoAwal;
+                var formattedValue = formatNumberWithCommas(saldoValue, 2);
+
+                kalkulasiJumlahInput.value = formattedValue;
+            });
+        });
+
+        function formatNumberWithCommas(number, decimalPlaces) {
+        var parts = number.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        
+        if (decimalPlaces && parts[1]) {
+            parts[1] = parseFloat("0." + parts[1]).toFixed(decimalPlaces).split(".")[1];
+        }
+
+        return parts.join(",");
+    }
+    });
+
+    
     $(document).ready(function () {
         $("#searchInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();

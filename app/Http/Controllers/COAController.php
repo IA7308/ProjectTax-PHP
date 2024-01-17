@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use \App\Models\COA;
 
 class COAController extends Controller
 {
     public function index(){
-        $data =COA::all();
-        return view("Lihat_Data", compact('data'));
+        $perPage = request('pagination', 4);
+
+        $data = (new COAController)->getData($perPage);
+
+        return view('Lihat_Data', compact('data'));
     }
 
     public function create()
@@ -22,10 +26,23 @@ class COAController extends Controller
     }
     public function store(Request $request)
     {
+        $data = COA::all();
         $prod = new COA;
         $prod->jenis_akun = $request->jenis_akun;
         $prod->kelompok_akun = $request->kelompok_akun;
         $prod->keterangan = $request->keterangan;
+        $kodeDuplikat = false;
+        foreach ($data as $d) {
+            if ($request->kode == $d->kode) {
+                $kodeDuplikat = true;
+                break;
+            }
+        }
+
+        if ($kodeDuplikat) {
+            return redirect()->back()->with('error', 'Kode Duplikat');
+        }
+
         $prod->kode = $request->kode;
         $prod->Nama_akun = $request->Nama_akun;
         $prod->Saldo_awal = $request->Saldo_awal;
@@ -60,5 +77,11 @@ class COAController extends Controller
         return redirect('/')->with('msg', 'Hapus berhasil');
     }
 
+    protected $table = 'tabelCOA'; // Ganti dengan nama tabel sebenarnya
+
+    public function getData($perPage)
+    {
+        return COA::paginate($perPage);
+    }
 
 }

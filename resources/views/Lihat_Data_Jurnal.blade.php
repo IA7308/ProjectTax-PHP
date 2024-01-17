@@ -53,7 +53,7 @@
             </div>
             <p class="text-start">Showing 1 to 1 of 1 entries</p>
             <!-- DATA TABEL -->
-            <table class="table table-fluid" id="myTable">
+            <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
                     <tr class="table table-primary">
                         <th>TANGGAL</th>
@@ -63,17 +63,28 @@
                         <th>JUMLAH</th>
                         <th colspan="2">DEBET</th>
                         <th colspan="2">KREDIT</th>
+                        <th>PILIHAN</th>
                     </tr>
                     <tr>
                         <td><input type="date" class="w-50" id="searchInputtgl" placeholder="Search..."></td>
                         <td><input type="text" class="w-50" id="searchInputtr" placeholder="Search..."></td>
                         <td><input type="text" class="w-50" id="searchInputkt" placeholder="Search..."></td>
                         <td><input type="text" class="w-50" id="searchInputbk" placeholder="Search..."></td>
-                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingjm"><input type="button" class="btn btn-light col" value="/\" id="ascendingjm"></td>
+                        <td class="row text-center">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingjm">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingjm">
+                        </td>
                         <td><input type="text" class="w-50" id="searchInputakd" placeholder="Search..."></td>
-                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingD"><input type="button" class="btn btn-light col" value="/\" id="ascendingD"></td>
+                        <td class="row text-center">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingD">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingD">
+                        </td>
                         <td><input type="text" class="w-50" id="searchInputakk" placeholder="Search..."></td>
-                        <td class="row"><input type="button" class="btn btn-light col" value="\/" id="descendingK"><input type="button" class="btn btn-light col" value="/\" id="ascendingK"></td>
+                        <td class="row text-center">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingK">
+                            <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingK">
+                        </td>
+                        <td> </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,6 +99,24 @@
                         <td>{{number_format($d->rpD, 2, ',', '.')}}</td>
                         <td>{{$d->akunK}}</td>
                         <td>{{number_format($d->rpK, 2, ',', '.')}}</td>
+                        <td>
+                            <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                AKSI
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ $d->id }}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
+                                <li>
+                                    <form method="post" action="/j{{ $d->id }}" style="display:inline"
+                                    onsubmit="return confirm('Yakin hapus?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="dropdown-item">Hapus</button>
+                                    </form>
+                                </li>
+                            </ul>
+                            
+
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -173,20 +202,8 @@
                 });
             
 
-                $("#descendingjm").on("click", function() {
-                var column = "jumlah"; 
-                var $tbody = $("#myTable tbody");
-                var rows = $tbody.find("tr").get();
-                rows.sort(function(a, b) {
-                    var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-                    var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-                    return bValue - aValue;
-                });
-                $tbody.empty().append(rows);
-            });
-
             $("#ascendingD").on("click", function() {
-                    var column = "jumlah"; 
+                    var column = "debet"; 
                     var $tbody = $("#myTable tbody");
                     var rows = $tbody.find("tr").get();
                     rows.sort(function(a, b) {
@@ -197,7 +214,7 @@
                     $tbody.empty().append(rows);
                 });
 
-                $("#descendingD").on("click", function() {
+            $("#descendingD").on("click", function() {
                 var column = "debet"; 
                 var $tbody = $("#myTable tbody");
                 var rows = $tbody.find("tr").get();
@@ -221,7 +238,7 @@
                     $tbody.empty().append(rows);
                 });
 
-                $("#descendingK").on("click", function() {
+            $("#descendingK").on("click", function() {
                 var column = "kredit"; 
                 var $tbody = $("#myTable tbody");
                 var rows = $tbody.find("tr").get();
@@ -232,20 +249,7 @@
                 });
                 $tbody.empty().append(rows);
             });
-
-            $("#ascendingjm").on("click", function() {
-                    var column = "jumlah"; 
-                    var $tbody = $("#myTable tbody");
-                    var rows = $tbody.find("tr").get();
-                    rows.sort(function(a, b) {
-                        var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-                        var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-                        return aValue - bValue;
-                    });
-                    $tbody.empty().append(rows);
-                });
-            });
-
             
+        });
     </script>
 </html>

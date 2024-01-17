@@ -40,15 +40,6 @@
 	</div>
 </div>
 
-<footer>
-	<p>
-		Created with <i class="fa fa-heart"></i> by
-		<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-		- Read how I created this and how you can join the challenge
-		<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-	</p>
-</footer>
-
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
@@ -277,30 +268,6 @@
 		width: 40px;
 	}
 
-	footer {
-		background-color: #222;
-		color: #fff;
-		font-size: 14px;
-		bottom: 0;
-		position: fixed;
-		left: 0;
-		right: 0;
-		text-align: center;
-		z-index: 999;
-	}
-
-	footer p {
-		margin: 10px 0;
-	}
-
-	footer i {
-		color: red;
-	}
-
-	footer a {
-		color: #3c97bf;
-		text-decoration: none;
-	}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
