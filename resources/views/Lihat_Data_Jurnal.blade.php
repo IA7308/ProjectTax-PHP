@@ -133,7 +133,7 @@
                 </nav>
             </div>
         </div>
-        <p class="text-start mt-3">@2024 <b>CV.MWI</b> Program by Zou</p>
+        <p class="text-start mt-3">@2024 <b>CV.SOLUSIKITA</b></p>
     </div>
 
 </body>
