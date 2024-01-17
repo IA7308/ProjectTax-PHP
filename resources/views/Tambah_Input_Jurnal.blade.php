@@ -38,7 +38,7 @@
                     <label for="Transaksi" class="form-label">TRANSAKSI</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="Transaksi" name="transaksi">
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi">
                 </div>
             </div>
             <!-- KETERANGAN -->
@@ -47,7 +47,7 @@
                     <label for="KeteranganInputJurnal" class="form-label">KETERANGAN</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan">
+                    <input type="text" class="form-control" id="Keterangan" name="keterangan">
                 </div>
             </div>
             <!-- Bukti -->
@@ -65,7 +65,7 @@
                     <label for="jumlah" class="form-label">JUMLAH</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="jumlah" name="jumlah">
+                    <input type="number_format" class="form-control" id="Jumlah" name="jumlah">
                 </div>
             </div>
             <!-- Debet -->
@@ -74,7 +74,7 @@
                     <label for="akunD" class="form-label">DEBET</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="Debet" name="akunD">
+                    <input type="text" class="form-control" id="akunD" name="akunD">
                 </div>
             </div>
             <div class="row mb-3">
@@ -82,7 +82,7 @@
                     <label for="rpD" class="form-label">Rp</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="rpD" name="rpD">
+                    <input type="number_format" class="form-control" id="rpD" name="rpD">
                 </div>
             </div>
             
@@ -100,7 +100,7 @@
                     <label for="rpK" class="form-label">Rp</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="rpK" name="rpK">
+                    <input type="number_format" class="form-control" id="rpK" name="rpK">
                 </div>
             </div>
             <!-- btn -->

@@ -56,7 +56,7 @@
                     <th>KETERANGAN</th>
                     <th>KODE</th>
                     <th>NAMA AKUN</th>
-                    <th>INDEN</th>
+                    <th>SALDO AWAL</th>
                     <th>PILIHAN</th>
                 </tr>
                 @foreach($data as $d)
@@ -65,7 +65,7 @@
                     <td>{{$d->kelompok_akun}}</td>
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
-                    <td>{{$d->Nama_akun}}</td>
+                    <td class="text-start">{{$d->Nama_akun}}</td>
                     <td>{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
                     <td>
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
@@ -91,7 +91,7 @@
                 </nav>
             </div>
         </div>
-        <p class="text-start mt-3">@2024 <b>CV.MWI</b> Program by Zou</p>
+        <p class="text-start mt-3">@2024 <b>CV.REGENCY</b></p>
     </div>
 
 </body>

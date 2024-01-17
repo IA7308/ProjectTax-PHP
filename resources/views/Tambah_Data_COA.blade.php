@@ -60,7 +60,14 @@
                         <label for="KeteranganTambahDataCoa" class="form-label">KETERANGAN</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="KeteranganTambahDataCoa" name="keterangan" value="{{ isset($data)?$data->keterangan:'' }}" >
+                      <select class="form-select" id="keterangan" name="keterangan">
+                        <option selected>Choose...</option>
+                        <option value="Akun, Debit" {{ isset($data) && $data->keterangan == 'HARTA' ? 'selected' : '' }}>Akun, Debit</option>
+                        <option value="Akun, Kredit" {{ isset($data) && $data->keterangan == 'HUTANG' ? 'selected' : '' }}>Akun, Kredit</option>
+                        <option value="Jumlah" {{ isset($data) && $data->keterangan == 'Jumlah' ? 'selected' : '' }}>Jumlah</option>
+                        <option value="Header" {{ isset($data) && $data->keterangan == 'Header' ? 'selected' : '' }}>Header</option>
+
+                      </select>
                     </div>
                 </div>
                 <!-- KODE -->
