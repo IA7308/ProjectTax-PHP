@@ -33,7 +33,7 @@
                     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">INTEGRAL</h5>
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">AKT VERSION 1.0</h5>
                             <button type="button" class="btn navbar-toggler-icon" data-bs-dismiss="offcanvas"
                                 aria-label="Close"></button>
                         </div>

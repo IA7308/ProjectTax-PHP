@@ -91,7 +91,7 @@
                     @foreach($data as $d)
                     <tr>
                         <td>{{$d->tanggal}}</td>
-                        <td>{{$d->transaksi}}</td>
+                        <td class="text-start">{{$d->transaksi}}</td>
                         <td>{{$d->keterangan}}</td>
                         <td>{{$d->bukti}}</td>
                         <td>{{number_format($d->jumlah, 2, ',', '.')}}</td>

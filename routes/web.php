@@ -34,7 +34,7 @@ Route::delete('/j{id}', [JurnalController::class, 'destroy']);
 
 //LOGIN
 Route::get('/login', [LoginController::class, 'create']);
-Route::get('/check', [LoginController::class, 'Login']);
+Route::get('/check', [LoginController::class, 'lihat_data']);
 Route::get('/loginCheck', [LoginController::class, 'LoginCheck']);
 Route::get('/store', [LoginController::class, 'store']);
 Route::get('/logout', [LoginController::class, 'logout']);

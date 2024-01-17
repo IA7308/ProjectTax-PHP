@@ -67,7 +67,7 @@
                     <th>KETERANGAN</th>
                     <th>KODE</th>
                     <th>NAMA AKUN</th>
-                    <th>INDEN</th>
+                    <th>SALDO AWAL</th>
                     <th>PILIHAN</th>
                 </tr>
                 </thead>
@@ -97,7 +97,7 @@
                 {{ $data->links() }}
             </div>
         </div>
-        <p class="text-start mt-3">@2024 <b>CV.MWI</b> Program by Zou</p>
+        <p class="text-start mt-3">@2024 <b>CV.REGENCY</b></p>
     </div>
 
 </body>
