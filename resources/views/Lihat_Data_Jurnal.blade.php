@@ -106,7 +106,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{{ $d->id }}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
                                 <li>
-                                    <form method="post" action="/j{{ $d->id }}" style="display:inline"
+                                    <form method="post" action="/j/{{ $d->id }}" style="display:inline"
                                     onsubmit="return confirm('Yakin hapus?')">
                                         @csrf
                                         @method('DELETE')
