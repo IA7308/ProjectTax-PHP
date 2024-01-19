@@ -95,9 +95,11 @@
                 @endforeach
                 </tbody>
             </table>
+            @if(session('paginate'))
             <div class="row-fluid d-flex justify-content-end pagination mt-4">
                 {{ $data->links() }}
             </div>
+            @endif
         </div>
         <p class="text-start mt-3">@2024 <b>CV.REGENCY</b></p>
     </div>

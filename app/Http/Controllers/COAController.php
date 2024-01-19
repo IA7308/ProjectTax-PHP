@@ -10,8 +10,9 @@ class COAController extends Controller
 {
     public function index(){
         $perPage = request('pagination', 5);
-        
+        session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
+            session(['paginate' => false]);
             $data = COA::paginate();
         }else{
             $data = (new COAController)->getData($perPage);

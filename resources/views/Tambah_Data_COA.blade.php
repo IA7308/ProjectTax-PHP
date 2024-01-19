@@ -100,8 +100,8 @@
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3" >
                         <button type="submit" class="btn btn-success">Save</button>
-                        <button type="submit" class="btn btn-danger mx-1">Reset</button>
-                        <button type="submit" class="btn btn-warning mx-1">Kembali</button>
+                        <a href="/cTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
+                        <a href="/"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                     </div>
                 </div>
             </form>
