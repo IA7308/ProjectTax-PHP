@@ -11,6 +11,15 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.bootstrap5.min.css">    
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 </head>
 </head>
 
@@ -19,15 +28,8 @@
     @endcomponent
     @Component('Components.Sidebar')
     @endcomponent
-    <div class="container-fluid text-center">
+    <div class="container-fluid text-center" id="container">
         <h3 class="mt-2">DATA COA</h3>
-        <hr>
-        <div class="d-flex justify-content-center">
-            <a class="btn rounded-pill btn-warning p-2 mx-2" href="#">
-                Print PDF</a>
-            <a class="btn rounded-pill btn-light p-2 mx-2" href="#">
-                Print Excel</a>
-        </div>
         <hr>
         <div class="card p-3">
             <!-- Pagination -->
@@ -59,7 +61,7 @@
                 </div>
             </div>
             <!-- DATA TABEL -->
-            <table class="table table-bordered table-hover" id="myTable" name="tabelCOA">
+            <table id="myTable" class="table table-bordered table-hover text-start" name="tabelCOA">
                 <thead>
                 <tr class="table table-primary">
                     <th>JENIS AKUN</th>
@@ -80,7 +82,7 @@
                     <td>{{$d->kode}}</td>
                     <td class="text-start">{{$d->Nama_akun}}</td>
                     <td>{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
-                    <td>
+                    <td class="text-center">
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
                         <form method="post" action="/{{ $d->id }}" style="display:inline"
                             onsubmit="return confirm('Yakin hapus?')">
@@ -93,7 +95,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="row d-flex justify-content-end pagination">
+            <div class="row-fluid d-flex justify-content-end pagination mt-4">
                 {{ $data->links() }}
             </div>
         </div>
@@ -110,7 +112,7 @@
         width: 20px;
     }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var tableRows = document.querySelectorAll("tr[data-saldo-awal]");
@@ -123,7 +125,7 @@
 
                 kalkulasiJumlahInput.value = formattedValue;
             });
-        });
+        }); 
 
         function formatNumberWithCommas(number, decimalPlaces) {
         var parts = number.toString().split(".");
@@ -137,6 +139,11 @@
     }
     });
 
+    $('#myTable').DataTable({
+        buttons: [
+            'pdf'
+        ]
+    });
     
     $(document).ready(function () {
         $("#searchInput").on("keyup", function () {
@@ -145,7 +152,34 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
         });
+        
+        if ($.fn.DataTable.isDataTable('#myTable')) {
+            $('#myTable').DataTable().destroy();
+        }
+        
+        $('#myTable').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Print PDF',
+                    className: 'btn rounded-pill btn-warning p-2 mx-2 mb-2 justify-content-start',
+                    extend: 'pdfHtml5',
+                    download: 'open'
+                },
+                {
+                    text: 'Print Excel',
+                    className: 'btn rounded-pill btn-light p-2 mx-2 mb-2 justify-content-start',
+                    extend: 'excel',
+                    download: 'open'
+                }
+            ]
+        });
+
     });
+    
 </script>
 
 </html>
