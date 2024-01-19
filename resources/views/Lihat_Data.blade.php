@@ -42,7 +42,7 @@
                             <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
                             <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
                             <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>
-                            <!-- Tambahkan opsi lain sesuai kebutuhan -->
+                            <option value="all" {{ strtolower(request('pagination')) == 'all' ? 'selected' : '' }}>ALL</option>
                         </select> entries
                     </p>
                 </form>
@@ -166,7 +166,7 @@
                 {
                     text: 'Print PDF',
                     className: 'btn rounded-pill btn-warning p-2 mx-2 mb-2 justify-content-start',
-                    extend: 'pdfHtml5',
+                    extend: 'pdf',
                     download: 'open'
                 },
                 {

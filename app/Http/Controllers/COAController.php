@@ -9,9 +9,13 @@ use \App\Models\COA;
 class COAController extends Controller
 {
     public function index(){
-        $perPage = request('pagination', 4);
-
-        $data = (new COAController)->getData($perPage);
+        $perPage = request('pagination', 5);
+        
+        if (strtolower($perPage) == 'all') {
+            $data = COA::paginate();
+        }else{
+            $data = (new COAController)->getData($perPage);
+        }
 
         return view('Lihat_Data', compact('data'));
     }
