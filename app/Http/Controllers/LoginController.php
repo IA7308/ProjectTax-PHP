@@ -15,9 +15,9 @@ class LoginController extends Controller
         $prods = Login::get();
         if (Auth::check()) {
             session_start();
-            return redirect('/');
+            return redirect('/beranda');
         } else {
-            return redirect('/login');
+            return redirect('/');
         };
     }
 
@@ -29,7 +29,7 @@ class LoginController extends Controller
         $user = Login::where('Email', $email)->first();
         if ($user && password_verify($password, $user->password)) {
             session(['name' => $user->name]);
-            return redirect('/');
+            return redirect('/beranda');
         } else {
             return redirect('/check')->with('error', 'Email atau password salah');
         }
@@ -65,13 +65,13 @@ class LoginController extends Controller
         $data->password = Hash::make($request->password);
         $data->email = $request->email;
         $data->save();
-        return redirect('/login')->with('msg', 'Akun Berhasil dibuat');
+        return redirect('/')->with('msg', 'Akun Berhasil dibuat');
     }
 
     public function logout()
     {
         session()->flush();
         $prods = Login::get();
-        return redirect('/login');
+        return redirect('/');
     }
 }

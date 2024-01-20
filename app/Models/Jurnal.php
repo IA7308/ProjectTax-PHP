@@ -9,6 +9,7 @@ class Jurnal extends Model
 {
     use HasFactory;
     protected $fillable =[
+        'nama_akun',
         'tanggal',
         'transaksi',
         'keterangan',

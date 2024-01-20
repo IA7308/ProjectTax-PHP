@@ -14,6 +14,7 @@ class COA extends Model
         'keterangan',
         'kode',
         'Nama_akun',
-        'Saldo_awal'
+        'Saldo_awal',
+        'jumlah_saldo'
     ];
 }

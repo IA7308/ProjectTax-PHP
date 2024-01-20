@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [COAController::class, 'index']);
+Route::get('/beranda', [COAController::class, 'index']);
 Route::get('/cTambahData', [COAController::class, 'create']);
 Route::get('/cStore', [COAController::class, 'store']);
 Route::get('/{id}/edit', [COAController::class, 'edit']);
@@ -33,7 +33,7 @@ Route::get('/{id}/updateJ', [JurnalController::class, 'update']);
 Route::delete('/j/{id}', [JurnalController::class, 'destroy']);
 
 //LOGIN
-Route::get('/login', [LoginController::class, 'create']);
+Route::get('/', [LoginController::class, 'create']);
 Route::get('/check', [LoginController::class, 'lihat_data']);
 Route::get('/loginCheck', [LoginController::class, 'LoginCheck']);
 Route::get('/store', [LoginController::class, 'store']);

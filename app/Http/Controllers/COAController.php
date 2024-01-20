@@ -13,7 +13,7 @@ class COAController extends Controller
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
-            $data = COA::paginate();
+            $data = COA::all();
         }else{
             $data = (new COAController)->getData($perPage);
         }
@@ -51,8 +51,9 @@ class COAController extends Controller
         $prod->kode = $request->kode;
         $prod->Nama_akun = $request->Nama_akun;
         $prod->Saldo_awal = $request->Saldo_awal;
+        $prod->jumlah_saldo = $request->Saldo_awal;
         $prod->save();
-        return redirect('/')->with('msg', 'Akun Berhasil dibuat');
+        return redirect('/beranda')->with('msg', 'Akun Berhasil dibuat');
     }
 
     public function edit($id)
@@ -73,13 +74,14 @@ class COAController extends Controller
         $prod->kode = $request->kode;
         $prod->Nama_akun = $request->Nama_akun;
         $prod->Saldo_awal = $request->Saldo_awal;
+        $prod->jumlah_saldo = $prod->jumlah_saldo - $request->Saldo_awal;
         $prod->save();
-        return redirect('/')->with('msg', 'Edit berhasil');
+        return redirect('/beranda')->with('msg', 'Edit berhasil');
     }
     public function destroy($id)
     {
         COA::destroy($id);
-        return redirect('/')->with('msg', 'Hapus berhasil');
+        return redirect('/beranda')->with('msg', 'Hapus berhasil');
     }
 
     protected $table = 'tabelCOA'; // Ganti dengan nama tabel sebenarnya

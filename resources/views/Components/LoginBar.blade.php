@@ -20,7 +20,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                    <li><a class="dropdown-item" href="/">Login</a></li>
                 </ul>
             </div>
             <div class="col text-end">

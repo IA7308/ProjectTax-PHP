@@ -31,36 +31,24 @@
     <div class="container-fluid text-center">
         <h3 class="mt-2">DATA JURNAL</h3>
         <hr>
-        <div class="d-flex justify-content-center">
-            <a class="btn rounded-pill btn-warning p-2 mx-2" href="#">
-                Print PDF</a>
-            <a class="btn rounded-pill btn-light p-2 mx-2" href="#">
-                Print Excel</a>
-        </div>
-        <hr>
         <div class="card p-3">
             <!-- Pagination -->
             <div class="row">
-                <div class="col text-start">
-                    <p>Show <input type="number" name="pagination" id="paginate"> entries</p>
-                </div>
-                <div class="col text-center">
+                <div class="col-12 text-center">
                     <h2>Tabel Jurnal</h2>
                 </div>
-                <div class="col">
-                    <div class="text-end">
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success mx-1" type="submit">Search</button>
-                            <input type="button" class="mx-1" value="Copy">
-                            <input type="button" class="mx-1" value="Excel">
-                            <input type="button" class="mx-1" value="PDF">
-                            <input type="button" class="mx-1" value="Column Visibility">
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <p class="text-start">Showing 1 to 1 of 1 entries</p>
+                <div class="col-4 text-start">
+                    <form action="/jurnal" method="GET">
+                        <p>Show 
+                            <select name="pagination" id="paginate" onchange="this.form.submit()">
+                                <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>
+                                <option value="all" {{ strtolower(request('pagination')) == 'all' ? 'selected' : '' }}>ALL</option>
+                            </select> entries
+                        </p>
+                    </form>
+                </div>                
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
@@ -122,25 +110,17 @@
                                         <button class="dropdown-item">Hapus</button>
                                     </form>
                                 </li>
-                            </ul>
-                            
-
+                            </ul>                           
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div class="text-end">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+            @if(session('paginate'))
+            <div class="row-fluid d-flex justify-content-end pagination mt-4">
+                {{ $data->links() }}
             </div>
+            @endif
         </div>
         <p class="text-start mt-3">@2024 <b>CV.SOLUSIKITA</b></p>
     </div>

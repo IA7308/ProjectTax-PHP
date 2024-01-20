@@ -36,7 +36,7 @@
             
             <div class="row">
                 <div class="col text-start">
-                <form action="/" method="GET">
+                <form action="/beranda" method="GET">
                     <p>Show 
                         <select name="pagination" id="paginate" onchange="this.form.submit()">
                             <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
@@ -75,7 +75,7 @@
                 </thead>
                 <tbody>
                 @foreach($data as $d)
-                <tr data-saldo-awal="{{ $d->Saldo_awal }}">
+                <tr data-jumlah-saldo="{{ $d->jumlah_saldo }}">
                     <td>{{$d->jenis_akun}}</td>
                     <td>{{$d->kelompok_akun}}</td>
                     <td>{{$d->keterangan}}</td>
@@ -117,34 +117,18 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var tableRows = document.querySelectorAll("tr[data-saldo-awal]");
+        var tableRows = document.querySelectorAll("tr[data-jumlah-saldo]");
         var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");
 
+        var totalSaldo = 0;
+
         tableRows.forEach(function(row) {
-            row.addEventListener("click", function() {
-                var saldoValue = row.dataset.saldoAwal;
-                var formattedValue = formatNumberWithCommas(saldoValue, 2);
+            var saldoValue = parseFloat(row.dataset.jumlahSaldo);
+            totalSaldo += saldoValue;
+        });
 
-                kalkulasiJumlahInput.value = formattedValue;
-            });
-        }); 
-
-        function formatNumberWithCommas(number, decimalPlaces) {
-        var parts = number.toString().split(".");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        
-        if (decimalPlaces && parts[1]) {
-            parts[1] = parseFloat("0." + parts[1]).toFixed(decimalPlaces).split(".")[1];
-        }
-
-        return parts.join(",");
-    }
-    });
-
-    $('#myTable').DataTable({
-        buttons: [
-            'pdf'
-        ]
+        var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+        kalkulasiJumlahInput.value = displayValue;
     });
     
     $(document).ready(function () {
