@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BukBesController;
 use App\Http\Controllers\COAController;
 use App\Http\Controllers\JurnalController;
 use App\Http\Controllers\LoginController;
@@ -38,4 +39,8 @@ Route::get('/check', [LoginController::class, 'lihat_data']);
 Route::get('/loginCheck', [LoginController::class, 'LoginCheck']);
 Route::get('/store', [LoginController::class, 'store']);
 Route::get('/logout', [LoginController::class, 'logout']);
+
+//BUKU BESAR
+Route::get('/bukubesar', [BukBesController::class, 'index']);
+Route::get('/bukubesar/{id}', [BukBesController::class, 'show']);
 

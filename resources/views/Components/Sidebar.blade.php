@@ -52,6 +52,9 @@
                                 <li class="nav-item">
                                     <a href="/cTambahData" class="nav-link">Tambah Data COA</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="/bukubesar" class="nav-link">Buku Besar</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
