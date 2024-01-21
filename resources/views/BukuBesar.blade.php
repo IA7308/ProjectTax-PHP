@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-4 text-start">
                 @if(session('paginate'))
-                    <form action="/bukubesar/{{$dataPilih->id}}" method="GET">
+                    <form action="/bukubesar" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
                                 <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
@@ -126,8 +126,8 @@
                         <td>{{number_format($d->rpD, 2, ',', '.')}}</td>
                         <td>{{$d->akunK}}</td>
                         <td>{{number_format($d->rpK, 2, ',', '.')}}</td>
-                        <td> tes
-                            //{{number_format($d->histori, 2, ',', '.')}}                           
+                        <td>
+                            {{number_format($d->histori_saldo, 2, ',', '.')}}                           
                         </td>
                     </tr>
                     @endforeach

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('akunK');
             $table->integer('rpK');
             $table->date('tanggal');
+            $table->integer('histori_saldo');
             $table->timestamps();
         });
     }

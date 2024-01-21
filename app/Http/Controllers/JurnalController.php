@@ -46,6 +46,7 @@ class JurnalController extends Controller
         $prod->rpK = $request->rpK;
         
         $akunCOA->jumlah_saldo = ($request->rpD - $request->rpK) + $akunCOA->jumlah_saldo;
+        $prod->histori_saldo = $akunCOA->jumlah_saldo;
         $akunCOA->save();
         $prod->save();
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');
@@ -80,7 +81,7 @@ class JurnalController extends Controller
         $akunCOA->jumlah_saldo = $akunCOA->jumlah_saldo + $prod->rpK;
         $prod->rpK = $request->rpK;
         $akunCOA->jumlah_saldo = $akunCOA->jumlah_saldo - $request->rpK;
-        
+        $prod->histori_saldo = $akunCOA->jumlah_saldo;
         $akunCOA->save();
         $prod->save();
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');
