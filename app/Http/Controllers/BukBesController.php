@@ -34,7 +34,7 @@ class BukBesController extends Controller
         $data = [];
         $jurnal = Jurnal::all();
         foreach($jurnal as $j){
-            if($j->nama_akun == $akunCOA->id){
+            if($j->akunD == $akunCOA->Nama_akun || $j->akunK == $akunCOA->Nama_akun){
                 $data[] = $j;
             }
         }   

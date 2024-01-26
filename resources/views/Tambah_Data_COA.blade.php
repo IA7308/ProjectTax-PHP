@@ -46,11 +46,11 @@
                     <div class="col">
                       <select class="form-select" id="KelompokAkun" name="kelompok_akun">
                         <option selected>Choose...</option>
-                        <option value="HARTA" {{ isset($data) && $data->kelompok_akun == 'HARTA' ? 'selected' : '' }}>HARTA</option>
-                        <option value="HUTANG" {{ isset($data) && $data->kelompok_akun == 'HUTANG' ? 'selected' : '' }}>HUTANG</option>
-                        <option value="MODAL" {{ isset($data) && $data->kelompok_akun == 'MODAL' ? 'selected' : '' }}>MODAL</option>
-                        <option value="PENDAPATAN" {{ isset($data) && $data->kelompok_akun == 'PENDAPATAN' ? 'selected' : '' }}>PENDAPATAN</option>
-                        <option value="BIAYA" {{ isset($data) && $data->kelompok_akun == 'BIAYA' ? 'selected' : '' }}>BIAYA</option>
+                        <option value="HARTA" data-jenis="A REAL" {{ isset($data) && $data->kelompok_akun == 'HARTA' ? 'selected' : '' }}>HARTA</option>
+                        <option value="HUTANG" data-jenis="A REAL" {{ isset($data) && $data->kelompok_akun == 'HUTANG' ? 'selected' : '' }}>HUTANG</option>
+                        <option value="MODAL" data-jenis="A REAL" {{ isset($data) && $data->kelompok_akun == 'MODAL' ? 'selected' : '' }}>MODAL</option>
+                        <option value="PENDAPATAN" data-jenis="A NOMINAL" {{ isset($data) && $data->kelompok_akun == 'PENDAPATAN' ? 'selected' : '' }}>PENDAPATAN</option>
+                        <option value="BIAYA" data-jenis="A NOMINAL" {{ isset($data) && $data->kelompok_akun == 'BIAYA' ? 'selected' : '' }}>BIAYA</option>
                       </select>
                     </div>
                 </div>
@@ -115,3 +115,16 @@
 </body>
 
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#JenisAkun').change(function() {
+            var selectedJenis = $(this).val();
+            $('#KelompokAkun option').hide();
+            $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]').show();
+            $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]:visible').first().prop('selected', true);
+        });
+        $('#JenisAkun').change();
+    });
+</script>
