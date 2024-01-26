@@ -51,8 +51,18 @@ class COAController extends Controller
 
         $prod->kode = $request->kode;
         $prod->Nama_akun = $request->Nama_akun;
-        $prod->Saldo_awal = $request->Saldo_awal;
-        $prod->jumlah_saldo = $request->Saldo_awal;
+        if ($request->Saldo_awal == null){
+            $prod->Saldo_awal = 0;
+        } else {
+            $prod->Saldo_awal = $request->Saldo_awal;
+        }
+        // $prod->Saldo_awal = $request->Saldo_awal;
+        if ($request->Saldo_awal == null){
+            $prod->jumlah_saldo = 0;
+        } else {
+            $prod->jumlah_saldo = $request->Saldo_awal;
+        }
+        // $prod->jumlah_saldo = $request->Saldo_awal;
         $prod->save();
         return redirect('/beranda')->with('msg', 'Akun Berhasil dibuat');
     }

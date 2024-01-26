@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->integer('kode')->nullable();
             $table->string('Nama_akun')->nullable();
-            $table->integer('Saldo_awal')->nullable();
-            $table->integer('jumlah_saldo')->nullable();
+            $table->bigInteger('Saldo_awal')->nullable();
+            $table->bigInteger('jumlah_saldo')->nullable();
             $table->timestamps();
         });
     }

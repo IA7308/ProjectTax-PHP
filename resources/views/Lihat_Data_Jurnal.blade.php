@@ -91,11 +91,11 @@
                         <td class="text-start">{{$d->transaksi}}</td>
                         <td>{{$d->keterangan}}</td>
                         <td>{{$d->bukti}}</td>
-                        <td>{{number_format($d->jumlah, 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format($d->jumlah, 2, ',', '.')}}</td>
                         <td>{{$d->akunD}}</td>
-                        <td>{{number_format($d->rpD, 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format($d->rpD, 2, ',', '.')}}</td>
                         <td>{{$d->akunK}}</td>
-                        <td>{{number_format($d->rpK, 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format($d->rpK, 2, ',', '.')}}</td>
                         <td>
                             <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 AKSI
