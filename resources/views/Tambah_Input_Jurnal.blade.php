@@ -23,20 +23,6 @@
         <form class="text-end" action="{{ $action }}">
             @csrf
             <input type="hidden" name="_method" value="{{ $method }}" />
-            <!-- nama akun coa -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Nama_akun" class="form-label">NAMA AKUN</label>
-                </div>
-                <div class="col">
-                  <select class="form-select" id="Nama_akun" name="Nama_akun">
-                    <option selected>Choose...</option>
-                    @foreach($data as $d)
-                    <option value="{{$d->id}}" {{ isset($dataJ) && $dataJ->id == $dataJ->id ? 'selected' : '' }}>{{$d->Nama_akun}}</option>
-                    @endforeach
-                  </select>
-                </div>
-            </div>
             <!-- Tanggal Masuk -->
             <div class="row mb-3">
                 <div class="col-2">
@@ -46,15 +32,6 @@
                     <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($dataJ)?$dataJ->tanggal:'' }}">
                 </div>
             </div>
-            <!-- TRANSAKSI -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Transaksi" class="form-label">TRANSAKSI</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}">
-                </div>
-            </div>
             <!-- KETERANGAN -->
             <div class="row mb-3">
                 <div class="col-2">
@@ -62,6 +39,15 @@
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($dataJ)?$dataJ->keterangan:'' }}">
+                </div>
+            </div>
+            <!-- TRANSAKSI -->
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="Transaksi" class="form-label">TRANSAKSI</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}">
                 </div>
             </div>
             <!-- Bukti -->
@@ -82,15 +68,29 @@
                     <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ isset($dataJ)?$dataJ->jumlah:'' }}">
                 </div>
             </div>
-            <!-- Debet -->
+            <!-- nama akun debit -->
             <div class="row mb-3">
+                <div class="col-2">
+                    <label for="Nama_akun_debit" class="form-label">NAMA AKUN Debit</label>
+                </div>
+                <div class="col">
+                  <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
+                    <option selected>Choose...</option>
+                    @foreach($dataDebit as $dd)
+                    <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->id == $dataJ->id ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
+                    @endforeach
+                  </select>
+                </div>
+            </div>
+            <!-- Debet -->
+            <!-- <div class="row mb-3">
                 <div class="col-2">
                     <label for="akunD" class="form-label">DEBET</label>
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" id="Debet" name="akunD" value="{{ isset($dataJ)?$dataJ->akunD:'' }}">
                 </div>
-            </div>
+            </div> -->
             <div class="row mb-3">
                 <div class="col-2">
                     <label for="rpD" class="form-label">Rp</label>
@@ -99,16 +99,29 @@
                     <input type="number" class="form-control" id="rpD" name="rpD" value="{{ isset($dataJ)?$dataJ->rpD:'' }}">
                 </div>
             </div>
-            
-            <!-- KREDIT -->
+            <!-- nama akun kredit -->
             <div class="row mb-3">
+                <div class="col-2">
+                    <label for="Nama_akun_kredit" class="form-label">NAMA AKUN KREDIT</label>
+                </div>
+                <div class="col">
+                  <select class="form-select" id="Nama_akun_kredit" name="Nama_akun_kredit">
+                    <option selected>Choose...</option>
+                    @foreach($dataKredit as $dk)
+                    <option value="{{$dk->id}}" {{ isset($dataJ) && $dataJ->id == $dataJ->id ? 'selected' : '' }}>{{$dk->Nama_akun}}</option>
+                    @endforeach
+                  </select>
+                </div>
+            </div>
+            <!-- KREDIT -->
+            <!-- <div class="row mb-3">
                 <div class="col-2">
                     <label for="akunK" class="form-label">KREDIT</label>
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" id="akunK" name="akunK" value="{{ isset($dataJ)?$dataJ->akunK:'' }}">
                 </div>
-            </div>
+            </div> -->
             <div class="row mb-3">
                 <div class="col-2">
                     <label for="rpK" class="form-label">Rp</label>

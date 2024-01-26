@@ -62,8 +62,8 @@
                     <div class="col">
                       <select class="form-select" id="keterangan" name="keterangan">
                         <option selected>Choose...</option>
-                        <option value="Akun, Debit" {{ isset($data) && $data->keterangan == 'HARTA' ? 'selected' : '' }}>Akun, Debit</option>
-                        <option value="Akun, Kredit" {{ isset($data) && $data->keterangan == 'HUTANG' ? 'selected' : '' }}>Akun, Kredit</option>
+                        <option value="Akun, Debit" {{ isset($data) && $data->keterangan == 'Akun, Debit' ? 'selected' : '' }}>Akun, Debit</option>
+                        <option value="Akun, Kredit" {{ isset($data) && $data->keterangan == 'Akun, Kredit' ? 'selected' : '' }}>Akun, Kredit</option>
                         <option value="Jumlah" {{ isset($data) && $data->keterangan == 'Jumlah' ? 'selected' : '' }}>Jumlah</option>
                         <option value="Header" {{ isset($data) && $data->keterangan == 'Header' ? 'selected' : '' }}>Header</option>
 
@@ -105,6 +105,11 @@
                     </div>
                 </div>
             </form>
+            @if(session('error'))
+            <div class="alert alert-warning">
+                {{ session('error') }}
+            </div>
+            @endif
         </div>
     </div>
 </body>

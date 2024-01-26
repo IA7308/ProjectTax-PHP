@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurnal;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use \App\Models\COA;
@@ -74,7 +75,29 @@ class COAController extends Controller
         $prod->kode = $request->kode;
         $prod->Nama_akun = $request->Nama_akun;
         $prod->Saldo_awal = $request->Saldo_awal;
-        $prod->jumlah_saldo = $prod->jumlah_saldo - $request->Saldo_awal;
+        //$prod->jumlah_saldo = $prod->jumlah_saldo - $request->Saldo_awal;
+        
+        $dataJ = Jurnal::all();
+        $data = [];
+        foreach($dataJ as $d){
+            if($d->akunD == $request->Nama_akun || $d->akunK == $request->Nama_akun){
+                $data[] = $d;
+            }
+        }
+        if($data == []){
+            $prod->jumlah_saldo = $request->Saldo_awal;
+        }else{
+            $totalSaldoJurnal = 0;
+            foreach($data as $d){
+                if($d->akunD == $request->Nama_akun){
+                    $totalSaldoJurnal = $totalSaldoJurnal + $d->rpD;
+                }elseif($d->akunK == $request->Nama_akun){
+                    $totalSaldoJurnal = $totalSaldoJurnal - $d->rpK;
+                }
+            }
+            $prod->jumlah_saldo = $request->Saldo_awal + $totalSaldoJurnal;
+        }
+
         $prod->save();
         return redirect('/beranda')->with('msg', 'Edit berhasil');
     }

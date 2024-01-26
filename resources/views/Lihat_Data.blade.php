@@ -81,7 +81,7 @@
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
                     <td class="text-start">{{$d->Nama_akun}}</td>
-                    <td>{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
+                    <td class="text-end">{{number_format($d->jumlah_saldo, 2, ',', '.')}}</td>
                     <td class="text-center">
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
                         <form method="post" action="/{{ $d->id }}" style="display:inline"
