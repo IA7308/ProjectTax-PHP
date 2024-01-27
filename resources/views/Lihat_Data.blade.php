@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BERANDA</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.bootstrap5.min.css">    
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-</head>
-</head>
+@section('title', 'BERANDA')
 
 <body>
-    @Component('Components.LoginBar')
-    @endcomponent
-    @Component('Components.Sidebar')
-    @endcomponent
+@section('content')    
     <div class="container-fluid text-center" id="container">
         <h3 class="mt-2">DATA COA</h3>
         <hr>
@@ -75,13 +51,13 @@
                 </thead>
                 <tbody>
                 @foreach($data as $d)
-                <tr data-jumlah-saldo="{{ $d->jumlah_saldo }}">
+                <tr data-jumlah-saldo="{{ $d->jumlah_saldo }}" class="{{ $d->backgroundClass }}">
                     <td>{{$d->jenis_akun}}</td>
                     <td>{{$d->kelompok_akun}}</td>
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
                     <td class="text-start">{{$d->Nama_akun}}</td>
-                    <td class="text-end">{{number_format($d->jumlah_saldo, 2, ',', '.')}}</td>
+                    <td class="text-end">{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
                     <td class="text-center">
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
                         <form method="post" action="/{{ $d->id }}" style="display:inline"
@@ -103,9 +79,10 @@
         </div>
         <p class="text-start mt-3">@2024 <b>CV.REGENCY</b></p>
     </div>
-
+    @endsection
 </body>
 
+@push('styles')
 <style>
     p {
         margin-top: 20px;
@@ -114,15 +91,15 @@
         width: 20px;
     }
 </style>
-
+@endpush
+@push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var tableRows = document.querySelectorAll("tr[data-jumlah-saldo]");
+        var tableRowsSaldo = document.querySelectorAll("tr[data-jumlah-saldo]");
         var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");
-
         var totalSaldo = 0;
 
-        tableRows.forEach(function(row) {
+        tableRowsSaldo.forEach(function(row) {
             var saldoValue = parseFloat(row.dataset.jumlahSaldo);
             totalSaldo += saldoValue;
         });
@@ -167,5 +144,5 @@
     });
     
 </script>
-
+@endpush
 </html>

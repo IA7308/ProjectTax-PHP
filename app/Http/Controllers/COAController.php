@@ -15,8 +15,30 @@ class COAController extends Controller
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
             $data = COA::all();
+            foreach ($data as $d) {
+                if ($d->keterangan == 'Header') {
+                    $d->backgroundClass = 'table-info';
+                } elseif ($d->keterangan == 'Jumlah') {
+                    $d->backgroundClass = 'table-secondary';
+                }elseif ($d->keterangan == 'Akun, Kredit') {
+                    $d->backgroundClass = 'table-warning';
+                } else {
+                    $d->backgroundClass = ''; // Kosongkan jika tidak ada keterangan tertentu
+                }
+            }
         }else{
             $data = (new COAController)->getData($perPage);
+            foreach ($data as $d) {
+                if ($d->keterangan == 'Header') {
+                    $d->backgroundClass = 'table-info';
+                } elseif ($d->keterangan == 'Jumlah') {
+                    $d->backgroundClass = 'table-secondary';
+                }elseif ($d->keterangan == 'Akun, Kredit') {
+                    $d->backgroundClass = 'table-warning';
+                } else {
+                    $d->backgroundClass = ''; // Kosongkan jika tidak ada keterangan tertentu
+                }
+            }
         }
 
         return view('Lihat_Data', compact('data'));

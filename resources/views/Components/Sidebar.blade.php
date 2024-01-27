@@ -18,15 +18,15 @@
         <div class="container-fluid justify-content-start">
             <!-- Menu Utama -->
             <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" data-bs-backdrop="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!-- isi Menu -->
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="false">
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-5" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="true">
                 <div class="offcanvas-header"> 
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">AKT VERSION 1.0</h5>
-                    <button type="button" class="btn navbar-toggler-icon" data-bs-dismiss="offcanvas"
+                    <button type="button" class="btn navbar-toggler-icon" data-bs-dismiss="offcanvas" data-bs-backdrop="false"
                         aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">

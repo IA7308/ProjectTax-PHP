@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Besar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.bootstrap5.min.css">    
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-</head>
-</head>
+@section('title', 'BUKU BESAR')
 
 <body>
-    @Component('Components.LoginBar')
-    @endcomponent
-    @Component('Components.Sidebar')
-    @endcomponent
+    @section('content')
     <div class="container-fluid text-center">
         <h3 class="mt-2">BUKU BESAR</h3>
         <hr>
@@ -59,7 +35,9 @@
                         <select name="pilihakun" id="pilihakun" onchange="this.form.submit()">
                         <option value="#">Choose</option>
                             @foreach($dataC as $c)
-                                <option value="{{$c->id}}">{{$c->kode}} {{$c->Nama_akun}}</option>
+                                <option value="{{$c->id}}" @if($c->keterangan == 'Header' || $c->keterangan == 'Jumlah') style="font-weight: bold;" @endif >
+                                    {{$c->kode}} {{$c->Nama_akun}}
+                                </option>
                             @endforeach
                         </select>
                     </form>
@@ -81,14 +59,14 @@
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
-                    <tr class="table table-primary">
+                    <tr class="table table-primary text-center ">
                         <th>TANGGAL</th>
                         <th>TRANSAKSI</th>
                         <th>KETERANGAN</th>
                         <th>BUKTI</th>
-                        <th>JUMLAH</th>
-                        <th colspan="2">DEBET</th>
-                        <th colspan="2">KREDIT</th>
+                        <!-- <th>JUMLAH</th> -->
+                        <th >DEBET</th>
+                        <th >KREDIT</th>
                         <th>Saldo</th>
                     </tr>
                     <tr>
@@ -100,17 +78,17 @@
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingjm">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingjm"> -->
                         </td>
-                        <td><input type="text" class="w-50" id="searchInputakd" placeholder="Search..."></td>
+                        <!-- <td><input type="text" class="w-50" id="searchInputakd" placeholder="Search..."></td> -->
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingD">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingD"> -->
                         </td>
-                        <td><input type="text" class="w-50" id="searchInputakk" placeholder="Search..."></td>
+                        <!-- <td><input type="text" class="w-50" id="searchInputakk" placeholder="Search..."></td> -->
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingK">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingK"> -->
                         </td>
-                        <td> </td>
+                        <!-- <td> </td> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -121,12 +99,12 @@
                         <td class="text-start">{{$d->transaksi}}</td>
                         <td>{{$d->keterangan}}</td>
                         <td>{{$d->bukti}}</td>
-                        <td>{{number_format($d->jumlah, 2, ',', '.')}}</td>
-                        <td>{{$d->akunD}}</td>
-                        <td>{{number_format($d->rpD, 2, ',', '.')}}</td>
-                        <td>{{$d->akunK}}</td>
-                        <td>{{number_format($d->rpK, 2, ',', '.')}}</td>
-                        <td>
+                        <!-- <td>{{number_format($d->jumlah, 2, ',', '.')}}</td> -->
+                        <!-- <td>{{$d->akunD}}</td> -->
+                        <td class="text-end">{{number_format($d->rpD, 2, ',', '.')}}</td>
+                        <!-- <td>{{$d->akunK}}</td> -->
+                        <td class="text-end">{{number_format($d->rpK, 2, ',', '.')}}</td>
+                        <td class="text-end">
                             {{number_format($d->histori_saldo, 2, ',', '.')}}                           
                         </td>
                     </tr>
@@ -142,8 +120,12 @@
         </div>
         <p class="text-start mt-3">@2024 <b>CV.SOLUSIKITA</b></p>
     </div>
-
+    @endsection
 </body>
+    @push('styles')
+    <style></style>
+    @endpush
+    @push('scripts')
     <script>
         $(document).ready(function(){
             $("#searchInputtgl").on("input", function() {
@@ -183,79 +165,6 @@
                 });
             });
 
-            // $("#descendingjm").on("click", function() {
-            //     var column = "jumlah"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
-
-            // $("#ascendingjm").on("click", function() {
-            //         var column = "jumlah"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-            
-
-            // $("#ascendingD").on("click", function() {
-            //         var column = "debet"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-
-            // $("#descendingD").on("click", function() {
-            //     var column = "debet"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
-
-            // $("#ascendingK").on("click", function() {
-            //         var column = "kredit"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-
-            // $("#descendingK").on("click", function() {
-            //     var column = "kredit"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
-            
             $('#myTable').DataTable({
                 searching: false,
                 dom: 'Bfrtip',
@@ -283,4 +192,5 @@
         });
         
     </script>
+    @endpush
 </html>

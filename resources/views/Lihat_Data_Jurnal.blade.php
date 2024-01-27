@@ -1,33 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lihat Data Jurnal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.bootstrap5.min.css">    
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-</head>
-</head>
-
+@section('title', 'LIHAT DATA JURNAL')
 <body>
-    @Component('Components.LoginBar')
-    @endcomponent
-    @Component('Components.Sidebar')
-    @endcomponent
+    @section('content')
     <div class="container-fluid text-center">
         <h3 class="mt-2">DATA JURNAL</h3>
         <hr>
@@ -124,8 +99,12 @@
         </div>
         <p class="text-start mt-3">@2024 <b>CV.SOLUSIKITA</b></p>
     </div>
-
+    @endsection
 </body>
+    @push('styles')
+    <style></style>
+    @endpush
+    @push('scripts')
     <script>
         $(document).ready(function(){
             $("#searchInputtgl").on("input", function() {
@@ -164,79 +143,6 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-
-            // $("#descendingjm").on("click", function() {
-            //     var column = "jumlah"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
-
-            // $("#ascendingjm").on("click", function() {
-            //         var column = "jumlah"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-            
-
-            // $("#ascendingD").on("click", function() {
-            //         var column = "debet"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-
-            // $("#descendingD").on("click", function() {
-            //     var column = "debet"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
-
-            // $("#ascendingK").on("click", function() {
-            //         var column = "kredit"; 
-            //         var $tbody = $("#myTable tbody");
-            //         var rows = $tbody.find("tr").get();
-            //         rows.sort(function(a, b) {
-            //             var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //             return aValue - bValue;
-            //         });
-            //         $tbody.empty().append(rows);
-            //     });
-
-            // $("#descendingK").on("click", function() {
-            //     var column = "kredit"; 
-            //     var $tbody = $("#myTable tbody");
-            //     var rows = $tbody.find("tr").get();
-            //     rows.sort(function(a, b) {
-            //         var aValue = parseFloat($(a).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         var bValue = parseFloat($(b).find("td:eq(" + $("th:contains('" + column + "')").index() + ")").text().replace(/\D/g, ''));
-            //         return bValue - aValue;
-            //     });
-            //     $tbody.empty().append(rows);
-            // });
             
             $('#myTable').DataTable({
             paging: false,
@@ -261,4 +167,5 @@
 
         });
     </script>
+    @endpush
 </html>
