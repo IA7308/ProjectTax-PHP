@@ -51,8 +51,8 @@
                         <option selected>Choose...</option>
                         <option value="Akun, Debit" {{ isset($data) && $data->keterangan == 'Akun, Debit' ? 'selected' : '' }}>Akun, Debit</option>
                         <option value="Akun, Kredit" {{ isset($data) && $data->keterangan == 'Akun, Kredit' ? 'selected' : '' }}>Akun, Kredit</option>
-                        <option value="Jumlah" {{ isset($data) && $data->keterangan == 'Jumlah' ? 'selected' : '' }}>Jumlah</option>
-                        <option value="Header" {{ isset($data) && $data->keterangan == 'Header' ? 'selected' : '' }}>Header</option>
+                        <option value="Jumlah" {{ isset($data) && $data->keterangan == 'Jumlah' ? 'selected' : '' }} style="font-weight:bold;">Jumlah</option>
+                        <option value="Header" {{ isset($data) && $data->keterangan == 'Header' ? 'selected' : '' }} style="font-weight:bold;">Header</option>
 
                       </select>
                     </div>
