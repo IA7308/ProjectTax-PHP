@@ -10,7 +10,7 @@ use \App\Models\COA;
 class COAController extends Controller
 {
     public function index(){
-        $perPage = request('pagination', 5);
+        $perPage = strtolower(request('pagination', 'all'));
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
