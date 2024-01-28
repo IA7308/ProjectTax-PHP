@@ -26,12 +26,12 @@ class LoginController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        $user = Login::where('Email', $email)->first();
+        $user = Login::where('email', $email)->first();
         if ($user && password_verify($password, $user->password)) {
             session(['name' => $user->name]);
             return redirect('/beranda');
         } else {
-            return redirect('/check')->with('error', 'Email atau password salah');
+            return redirect('/')->with('error', 'Email atau password salah');
         }
     }
 

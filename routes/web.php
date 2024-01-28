@@ -26,6 +26,7 @@ Route::get('/{id}/edit', [COAController::class, 'edit']);
 Route::get('/{id}/update', [COAController::class, 'update']);
 Route::delete('/{id}', [COAController::class, 'destroy']);
 
+
 Route::get('/jurnal', [JurnalController::class, 'index']);
 Route::get('/jTambahData', [JurnalController::class, 'create']);
 Route::get('/jStore', [JurnalController::class, 'store']);

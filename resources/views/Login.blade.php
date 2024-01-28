@@ -1,3 +1,8 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 <h2> Sign in/up Form</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
@@ -6,9 +11,10 @@
 			<input type="hidden" name="_method" value="{{ $methodSU }}" />
 			<h1>Create Account</h1>
 			<span>use your email for registration</span>
-			<input type="text" placeholder="Name" name="name"/>
-			<input type="email" placeholder="Email" name="email"/>
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="text" placeholder="Name" name="name" required/>
+			<input type="email" placeholder="Email" name="email" required/>
+			<input type="password" placeholder="Password" name="password" required/>
+			
 			<button>Sign Up</button>
 		</form>
 	</div>
@@ -18,8 +24,8 @@
 			<input type="hidden" name="_method" value="{{ $methodSI }}" />
 			<h1>Sign in</h1>
 			<span>or use your account</span>
-			<input type="email" placeholder="Email" name="email"/>
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="email" placeholder="Email" name="email" required/>
+			<input type="password" placeholder="Password" name="password" required/>
 			<a href="#">Forgot your password?</a>
 			<button>Sign In</button>
 		</form>
@@ -285,3 +291,13 @@
 		});
 	});
 </script>
+@if(session('error'))
+    <script>
+        alert("{{ session('error') }}");
+    </script>
+@endif
+@if(session('msg'))
+    <script>
+        alert("{{ session('msg') }}");
+    </script>
+@endif

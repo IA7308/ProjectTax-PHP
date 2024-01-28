@@ -31,21 +31,21 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/beranda">BERANDA</a>
+                        <li class="nav-item" id="beranda">
+                            <a class="nav-link active" aria-current="page" href="/beranda"><b>BERANDA</b></a>
                         </li>
                         <!-- DATA KARYAWAN -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/jurnal">Jurnal</a>
+                        <li class="nav-item" id="jurnal">
+                            <a class="nav-link" href="/jurnal"><b>JURNAL</b></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/jTambahData" class="nav-link">Tambah Data Jurnal</a>
+                        <li class="nav-item" id="jtambahdata">
+                            <a href="/jTambahData" class="nav-link"><b>TAMBAH DATA JURNAL</b></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/cTambahData" class="nav-link">Tambah Data COA</a>
+                        <li class="nav-item" id="ctambahdata">
+                            <a href="/cTambahData" class="nav-link"><b>TAMBAH DATA COA</b></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/bukubesar" class="nav-link">Buku Besar</a>
+                        <li class="nav-item" id="bukubesar">
+                            <a href="/bukubesar" class="nav-link"><b>BUKU BESAR</b></a>
                         </li>
                     </ul>
                 </div>
@@ -55,3 +55,9 @@
 </body>
 
 </html>
+
+<style>
+    .navbar-nav .nav-item:hover {
+        background-color: #666 ; 
+    }
+</style>

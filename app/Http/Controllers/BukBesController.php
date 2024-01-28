@@ -10,12 +10,27 @@ class BukBesController extends Controller
 {
     public function index(){
         $perPage = request('pagination', 5);
-        $dataC = COA::all();
+        $temp = COA::all();
+            $dataC = [];
+            foreach($temp as $t){
+                if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
+                    $dataC[] = $t;
+                }
+            }
         session(['pilihC' => false]);
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
-            $dataC = COA::all();
+            $temp = COA::all();
+            $dataC = [];
+            foreach($temp as $t){
+                if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
+                    $dataC[] = $t;
+                }
+            }
+
+            $data = $dataC;
+            
         }else{
             $data = (new JurnalController)->getData($perPage);
         }
@@ -29,7 +44,13 @@ class BukBesController extends Controller
     public function show($id){
         session(['pilihC' => true]);
         session(['paginate' => false]);
-        $dataC = COA::all();
+        $temp = COA::all();
+            $dataC = [];
+            foreach($temp as $t){
+                if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
+                    $dataC[] = $t;
+                }
+            }
         $akunCOA = COA::find($id);
         $data = [];
         $jurnal = Jurnal::all();

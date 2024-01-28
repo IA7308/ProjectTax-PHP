@@ -1,7 +1,6 @@
 @extends('main')
 
-@section('title', $title.'INPUT COA')
-
+php
 
 <body>
     @section('content')

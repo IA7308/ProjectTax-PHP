@@ -14,11 +14,11 @@
                 <div class="col text-start">
                 <form action="/beranda" method="GET">
                     <p>Show 
-                        <select name="pagination" id="paginate" onchange="this.form.submit()">
+                        <select name="pagination" id="paginate" onchange="this.form.submit()">                            
                             <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
-                            <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
-                            <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>
                             <option value="all" {{ strtolower(request('pagination')) == 'all' ? 'selected' : '' }}>ALL</option>
+                            <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
+                            <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>                           
                         </select> entries
                     </p>
                 </form>
@@ -57,7 +57,7 @@
                     <td>{{$d->keterangan}}</td>
                     <td>{{$d->kode}}</td>
                     <td class="text-start">{{$d->Nama_akun}}</td>
-                    <td class="text-end">{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
+                    <td class="text-end {{ $d->backgroundCell }}">{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
                     <td class="text-center">
                         <a href="{{ $d->id }}/edit" class="btn btn-primary">Edit</a>
                         <form method="post" action="/{{ $d->id }}" style="display:inline"

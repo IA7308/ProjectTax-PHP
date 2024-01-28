@@ -25,6 +25,11 @@ class COAController extends Controller
                 } else {
                     $d->backgroundClass = ''; // Kosongkan jika tidak ada keterangan tertentu
                 }
+                if($d->Saldo_awal < 0){
+                    $d->backgroundCell = 'table-danger';
+                }else{
+                    $d->backgroundCell = '';
+                }
             }
         }else{
             $data = (new COAController)->getData($perPage);
@@ -37,6 +42,11 @@ class COAController extends Controller
                     $d->backgroundClass = 'table-warning';
                 } else {
                     $d->backgroundClass = ''; // Kosongkan jika tidak ada keterangan tertentu
+                }
+                if($d->Saldo_awal < 0){
+                    $d->backgroundCell = 'table-danger';
+                }else{
+                    $d->backgroundCell = '';
                 }
             }
         }
@@ -146,4 +156,5 @@ class COAController extends Controller
         return COA::paginate($perPage);
     }
 
+    
 }

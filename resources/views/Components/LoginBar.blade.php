@@ -23,8 +23,8 @@
                     <li><a class="dropdown-item" href="/">Login</a></li>
                 </ul>
             </div>
-            <div class="col text-end">
-                <!-- Notifikasi -->
+            <!-- <div class="col text-end">
+                //Notifikasi
                 <a class="dropdown-toggle mx-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-bell"></i>
                 </a>
@@ -36,7 +36,7 @@
                     </li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-                <!-- Message -->
+                //Message
                 <a class="dropdown-toggle mx-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-envelope"></i>
                 </a>
@@ -48,7 +48,7 @@
                     </li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <hr>
 </body>
