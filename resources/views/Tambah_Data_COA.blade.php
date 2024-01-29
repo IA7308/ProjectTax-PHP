@@ -1,5 +1,5 @@
 @extends('main')
-
+@section('title', $title. 'DATA COA')
 <body>
     @section('content')
     <div class="container-fluid">

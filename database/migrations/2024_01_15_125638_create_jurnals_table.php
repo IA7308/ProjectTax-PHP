@@ -16,13 +16,14 @@ return new class extends Migration
             $table->string('transaksi');
             $table->string('keterangan');
             $table->string('bukti');
-            $table->integer('jumlah');
+            $table->bigInteger('jumlah');
             $table->string('akunD');
-            $table->integer('rpD');
+            $table->bigInteger('rpD');
             $table->string('akunK');
-            $table->integer('rpK');
+            $table->bigInteger('rpK');
             $table->date('tanggal');
-            $table->integer('histori_saldo');
+            $table->bigInteger('histori_saldo_debit');
+            $table->bigInteger('histori_saldo_kredit');
             $table->timestamps();
         });
     }

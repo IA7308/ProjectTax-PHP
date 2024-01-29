@@ -18,6 +18,7 @@ class Jurnal extends Model
         'rpD',
         'akunK',
         'rpK',
-        'histori_saldo'
+        'histori_saldo_debit',
+        'histroi_saldo_kredit'
     ];
 }

@@ -60,7 +60,8 @@ class JurnalController extends Controller
 
         $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;
         $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $request->rpK; 
-        $prod->histori_saldo = $akundebit->jumlah_saldo;
+        $prod->histori_saldo_debit = $akundebit->jumlah_saldo;
+        $prod->histori_saldo_kredit = $akunkredit->jumlah_saldo;
         // $prod->histori_saldo = $akunCOA->jumlah_saldo;
         // $akunCOA->save();
         $akundebit->save();
@@ -146,8 +147,9 @@ class JurnalController extends Controller
         
         $akundebit->save();
         $akunkredit->save();
-
-        $prod->histori_saldo = $akundebit->jumlah_saldo;
+        
+        $prod->histori_saldo_debit = $akundebit->jumlah_saldo;
+        $prod->histori_saldo_kredit = $akunkredit->jumlah_saldo;
 
         $prod->save();
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');

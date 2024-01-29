@@ -18,6 +18,9 @@ class BukBesController extends Controller
                     $dataC[] = $t;
                 }
             }
+            usort($dataC, function ($a, $b) {
+                return $a->kode <=> $b->kode;
+            });
         session(['pilihC' => false]);
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
@@ -29,6 +32,9 @@ class BukBesController extends Controller
                     $dataC[] = $t;
                 }
             }
+            usort($dataC, function ($a, $b) {
+                return $a->kode <=> $b->kode;
+            });
 
             $data = $dataC;
             
@@ -64,7 +70,7 @@ class BukBesController extends Controller
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = $j->rpD;
                 $bukudata->rpK = 0;
-                $bukudata->histori_saldo = $j->histori_saldo;
+                $bukudata->histori_saldo = $j->histori_saldo_debit;
                 $data[] = $bukudata;
             }elseif($j->akunK == $akunCOA->Nama_akun){
                 $bukudata = new bukubesar;
@@ -74,7 +80,7 @@ class BukBesController extends Controller
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = 0;
                 $bukudata->rpK = $j->rpD*-1;
-                $bukudata->histori_saldo = $j->histori_saldo;
+                $bukudata->histori_saldo = $j->histori_saldo_kredit;
                 $data[] = $bukudata;
             }
         }   

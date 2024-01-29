@@ -57,6 +57,7 @@ class COAController extends Controller
     public function create()
     {
         $data = COA::all();
+        $kode = [];
         foreach($data as $d){
             $kode[] = $d->kode;
         }
@@ -106,11 +107,17 @@ class COAController extends Controller
 
     public function edit($id)
     {
+        $data = COA::all();
+        $kode = [];
+        foreach($data as $d){
+            $kode[] = $d->kode;
+        }
         return view('Tambah_Data_COA', [
             'title' => 'EDIT',
             'method' => 'PUT',
             'action' => "/$id/update",
-            'data' => COA::find($id)
+            'data' => COA::find($id),
+            'dataKode' => $kode
         ]);
     }
     public function update(Request $request, $id)

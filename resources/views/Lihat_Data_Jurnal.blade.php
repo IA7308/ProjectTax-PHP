@@ -102,7 +102,15 @@
     @endsection
 </body>
     @push('styles')
-    <style></style>
+    <style>
+        p {
+        margin-top: 20px;
+        }
+
+        svg {
+            width: 20px;
+        }
+    </style>
     @endpush
     @push('scripts')
     <script>

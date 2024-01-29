@@ -32,16 +32,15 @@
                 <div class="col text-end">
                     
                     <form action="/bukubesar" method="GET">
-                        <select name="pilihakun" id="pilihakun" onchange="this.form.submit()">
-                        <option value="#">Choose</option>
+                        <select name="pilihakun" class="selectpicker w-25" data-live-search="true" id="pilihakun" onchange="this.form.submit()">
+                            <option value="" disabled hidden selected >Choose...</option>
                             @foreach($dataC as $c)
-                                <option value="{{$c->id}}" @if($c->keterangan == 'Header' || $c->keterangan == 'Jumlah') style="font-weight: bold;" @endif >
+                                <option value="{{$c->id}}">
                                     {{$c->kode}} {{$c->Nama_akun}}
                                 </option>
                             @endforeach
                         </select>
                     </form>
-                    
                 </div>
                 @if(session('pilihC'))
                     <div class="row d-flex justify-content-start">
@@ -166,6 +165,7 @@
             });
 
             $('#myTable').DataTable({
+                paging : false,
                 searching: false,
                 dom: 'Bfrtip',
                 buttons: [
@@ -186,12 +186,13 @@
                     { targets: [0, 1, 2, 3], orderable: false }
                 ]
             });
-            
+            $('#pilihakun').selectpicker();
             $('#pilihakun').change(function () {
-            if ($(this).val()) {
-                window.location.href = '/bukubesar/' + $(this).val();
-            }
-        });
+                var selectedValue = $('#pilihakun').val();
+                if (selectedValue) {
+                    window.location.href = '/bukubesar/' + selectedValue;
+                }
+            });
         });
         
     </script>
