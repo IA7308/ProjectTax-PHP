@@ -10,7 +10,7 @@
             <!-- Pagination -->
             <div class="row">
                 <div class="col-12 text-center">
-                    <h2>Tabel Jurnal</h2>
+                    <h2>TABEL JURNAL</h2>
                 </div>
                 <div class="col-4 text-start">
                     <form action="/jurnal" method="GET">

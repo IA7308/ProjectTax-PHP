@@ -1,7 +1,5 @@
 @extends('main')
 
-php
-
 <body>
     @section('content')
     <div class="container-fluid">
