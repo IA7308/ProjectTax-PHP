@@ -78,6 +78,14 @@
             <!-- AING NAMBAHIN INI BUAT NGURUTIN KODE DARI TERKECIL KE BESAR, TAPI FUNCTION SORTING NYA MALAH ILANG !-->
             <!-- PENGENNYA NGURUTIN KODE NYA DARI TERKECIL KE BESAR TAPI SORTINGAN PADA TABEL GA ILANG, BISA GA ??-->
 
+            <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    var table = $('#myTable').DataTable({
+                        "order": [[3, "asc"]] // Urutkan berdasarkan kolom ke-4 (indeks dimulai dari 0)
+                    });
+                });
+            </script> -->
             
             @if(session('paginate'))
             <div class="row-fluid d-flex justify-content-end pagination mt-4">
