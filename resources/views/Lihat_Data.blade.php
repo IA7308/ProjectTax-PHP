@@ -123,6 +123,10 @@
 
         var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
         kalkulasiJumlahInput.value = displayValue;
+        
+        if(totalSaldo != 0){
+            alert("SALDO TIDAK WAJAR, CEK KEMBALI");
+        }
     });
 
     $(document).ready(function () {
@@ -155,9 +159,10 @@
                     extend: 'excel',
                     download: 'open'
                 }
-            ]
+            ],
+            order: [[3, 'asc']]
         });
-
+        
     });
 
 </script>

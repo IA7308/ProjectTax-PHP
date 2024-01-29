@@ -89,9 +89,14 @@
                     </div>
                 </div>
             </form>
+            <!-- NOTIF KODE DUPLIKAT -->
+            <div class="alert alert-warning" id="Alert">
+                <p><b>KODE DUPLIKAT</b></p>
+            </div>
+            <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
             @if(session('error'))
             <div class="alert alert-warning">
-                {{ session('error') }}
+                <b>{{ session('error') }}</b>
             </div>
             @endif
         </div>
@@ -114,6 +119,27 @@
             $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]:visible').first().prop('selected', true);
         });
         $('#JenisAkun').change();
+
+        $('#Kode').on('input', function () {
+            var kodeValue = $(this).val();
+            var notif = $('#Alert');
+            if (isDuplicateKode(kodeValue)) {
+                notif.show();
+            }else {
+                notif.hide();
+            }
+        });
+
+        function isDuplicateKode(kodeValue) {
+            var dataKode = @json($dataKode);
+
+            return dataKode.includes(parseInt(kodeValue));
+        }
+        // var dataKode = @json($dataKode);
+        // console.log(dataKode);
+        var notif = $('#Alert');
+        notif.hide();
+
     });
 </script>
 @endpush

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\bukubesar;
 use App\Models\COA;
 use App\Models\Jurnal;
 use Illuminate\Http\Request;
@@ -55,8 +56,26 @@ class BukBesController extends Controller
         $data = [];
         $jurnal = Jurnal::all();
         foreach($jurnal as $j){
-            if($j->akunD == $akunCOA->Nama_akun || $j->akunK == $akunCOA->Nama_akun){
-                $data[] = $j;
+            if($j->akunD == $akunCOA->Nama_akun){
+                $bukudata = new bukubesar;
+                $bukudata->tanggal = $j->tanggal;
+                $bukudata->transaksi = $j->transaksi;
+                $bukudata->keterangan = $j->keterangan;
+                $bukudata->bukti = $j->bukti;
+                $bukudata->rpD = $j->rpD;
+                $bukudata->rpK = 0;
+                $bukudata->histori_saldo = $j->histori_saldo;
+                $data[] = $bukudata;
+            }elseif($j->akunK == $akunCOA->Nama_akun){
+                $bukudata = new bukubesar;
+                $bukudata->tanggal = $j->tanggal;
+                $bukudata->transaksi = $j->transaksi;
+                $bukudata->keterangan = $j->keterangan;
+                $bukudata->bukti = $j->bukti;
+                $bukudata->rpD = 0;
+                $bukudata->rpK = $j->rpD*-1;
+                $bukudata->histori_saldo = $j->histori_saldo;
+                $data[] = $bukudata;
             }
         }   
         return view("BukuBesar", 

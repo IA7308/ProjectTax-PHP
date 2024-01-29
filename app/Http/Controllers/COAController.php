@@ -56,10 +56,15 @@ class COAController extends Controller
 
     public function create()
     {
+        $data = COA::all();
+        foreach($data as $d){
+            $kode[] = $d->kode;
+        }
         return view('Tambah_Data_COA', [
             'title' => 'TAMBAH',
             'method' => 'POST',
-            'action' => '/cStore'
+            'action' => '/cStore',
+            'dataKode' => $kode
         ]);
     }
     public function store(Request $request)
@@ -78,7 +83,7 @@ class COAController extends Controller
         }
 
         if ($kodeDuplikat) {
-            return redirect()->back()->with('error', 'Kode Duplikat');
+            return redirect()->back()->with('error', 'KODE DUPLIKAT');
         }
 
         $prod->kode = $request->kode;

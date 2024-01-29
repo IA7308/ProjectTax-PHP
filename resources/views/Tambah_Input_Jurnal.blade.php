@@ -63,7 +63,7 @@
                   <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
                     <option selected>Choose...</option>
                     @foreach($dataDebit as $dd)
-                    <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->id == $dataJ->id ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
+                    <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->akunD == $dd->Nama_akun ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -94,7 +94,7 @@
                   <select class="form-select" id="Nama_akun_kredit" name="Nama_akun_kredit">
                     <option selected>Choose...</option>
                     @foreach($dataKredit as $dk)
-                    <option value="{{$dk->id}}" {{ isset($dataJ) && $dataJ->id == $dataJ->id ? 'selected' : '' }}>{{$dk->Nama_akun}}</option>
+                    <option value="{{$dk->id}}" {{ isset($dataJ) && $dataJ->akunK == $dk->Nama_akun ? 'selected' : '' }}>{{$dk->Nama_akun}}</option>
                     @endforeach
                   </select>
                 </div>

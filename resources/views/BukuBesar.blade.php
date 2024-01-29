@@ -70,10 +70,10 @@
                         <th>Saldo</th>
                     </tr>
                     <tr>
-                        <td><input type="date" class="w-50" id="searchInputtgl" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputtr" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputkt" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputbk" placeholder="Search..."></td>
+                        <td><input type="date" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputtr" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputkt" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputbk" placeholder="Search..."></td>
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingjm">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingjm"> -->
@@ -181,6 +181,9 @@
                         extend: 'excel',
                         download: 'open'
                     }
+                ],
+                columnDefs: [
+                    { targets: [0, 1, 2, 3], orderable: false }
                 ]
             });
             

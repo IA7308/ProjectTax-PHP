@@ -38,20 +38,20 @@
                         <th>PILIHAN</th>
                     </tr>
                     <tr>
-                        <td><input type="date" class="w-50" id="searchInputtgl" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputtr" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputkt" placeholder="Search..."></td>
-                        <td><input type="text" class="w-50" id="searchInputbk" placeholder="Search..."></td>
+                        <td><input type="date" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputtr" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputkt" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputbk" placeholder="Search..."></td>
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingjm">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingjm"> -->
                         </td>
-                        <td><input type="text" class="w-50" id="searchInputakd" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputakd" placeholder="Search..."></td>
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingD">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingD"> -->
                         </td>
-                        <td><input type="text" class="w-50" id="searchInputakk" placeholder="Search..."></td>
+                        <td><input type="text" class="w-75" id="searchInputakk" placeholder="Search..."></td>
                         <td > 
                             <!-- <input type="button" class="btn btn-light col-3 mx-auto" value="\/" id="descendingK">
                             <input type="button" class="btn btn-light col-3 mx-auto" value="/\" id="ascendingK"> -->
@@ -162,6 +162,9 @@
                     extend: 'excel',
                     download: 'open'
                 }
+            ],
+            columnDefs: [
+                { targets: [0, 1, 2, 3, 5, 7, 9], orderable: false }
             ]
         });
 

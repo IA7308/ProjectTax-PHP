@@ -75,9 +75,8 @@ class JurnalController extends Controller
         $dataDebit = [];
         $dataKredit= [];
         foreach($data as $d){
-            if($d->keterangan == "Akun, Debit"){
+            if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
                 $dataDebit[] = $d;
-            }if($d->keterangan == "Akun, Kredit"){
                 $dataKredit[] = $d;
             }
         }
