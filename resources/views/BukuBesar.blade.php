@@ -69,7 +69,7 @@
                         <th>Saldo</th>
                     </tr>
                     <tr>
-                        <td><input type="month" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
+                        <td><input type="date" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputtr" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputkt" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputbk" placeholder="Search..."></td>
@@ -136,9 +136,19 @@
     <script>
         $(document).ready(function(){
             $("#searchInputtgl").on("input", function() {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tbody tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                var inputDate = new Date($(this).val());
+        
+                function getFormattedDate(date) {
+                    var month = String(date.getMonth() + 1).padStart(2, '0');
+                    var year = date.getFullYear();
+                    return month + '-' + year;
+                }
+                var formattedInputDate = getFormattedDate(inputDate);
+
+                $("#myTable tbody tr").filter(function () {
+                    var rowDate = new Date($(this).find("td:first-child").text());
+                    var formattedRowDate = getFormattedDate(rowDate);
+                    $(this).toggle(formattedRowDate.indexOf(formattedInputDate) > -1);
                 });
             });
             $("#searchInputtr").on("keyup", function() {
