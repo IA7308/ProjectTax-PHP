@@ -85,7 +85,7 @@ class BukBesController extends Controller
                 $data[] = $bukudata;
             }
             usort($data, function ($a, $b) {
-                return strtotime($b['tanggal']) - strtotime($a['tanggal']);
+                return strtotime($a['tanggal']) - strtotime($b['tanggal']);
             });
         }   
         return view("BukuBesar", 

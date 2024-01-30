@@ -33,8 +33,8 @@
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                 id="searchInput">
                         </form>
-                        <input type="text" id="kalkulasiJumlah" class="form-control my-3 text-end"
-                            placeholder="kalkulasi jumlah" disabled>
+                        <!-- <input type="text" id="kalkulasiJumlah" class="form-control my-3 text-end"
+                            placeholder="kalkulasi jumlah" disabled> -->
                         <input type="text" id="kalkulasiJumlahSaldo" class="form-control my-3 text-end"
                             value= "{{ number_format(session('saldo'), 2, ',', '.') }}"disabled>
                     </div>
