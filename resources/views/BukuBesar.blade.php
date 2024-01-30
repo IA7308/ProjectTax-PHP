@@ -69,7 +69,7 @@
                         <th>Saldo</th>
                     </tr>
                     <tr>
-                        <td><input type="date" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
+                        <td><input type="month" class="w-75" id="searchInputtgl" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputtr" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputkt" placeholder="Search..."></td>
                         <td><input type="text" class="w-75" id="searchInputbk" placeholder="Search..."></td>

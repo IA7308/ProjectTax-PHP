@@ -114,21 +114,20 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var tableRowsSaldo = document.querySelectorAll("tr[data-jumlah-saldo]");
-        var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");
-        var totalSaldo = 0;
+        // var tableRowsSaldo = document.querySelectorAll("tr[data-jumlah-saldo]");
+        // var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");
+        // var totalSaldo = 0;
 
-        tableRowsSaldo.forEach(function (row) {
-            var saldoValue = parseFloat(row.dataset.jumlahSaldo);
-            totalSaldo += saldoValue;
-        });
+        // tableRowsSaldo.forEach(function (row) {
+        //     var saldoValue = parseFloat(row.dataset.jumlahSaldo);
+        //     totalSaldo += saldoValue;
+        // });
 
-        var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
-        kalkulasiJumlahInput.value = displayValue;
+        // var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+        // kalkulasiJumlahInput.value = displayValue;
         
         var saldo = document.getElementById("kalkulasiJumlahSaldo").value;
-
-        if(saldo != 0){
+        if(saldo != 0.00){
             alert("SALDO TIDAK WAJAR, CEK KEMBALI");
         }
     });
