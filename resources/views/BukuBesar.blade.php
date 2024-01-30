@@ -54,6 +54,9 @@
                             <h6 class="text-start">{{number_format($dataPilih->jumlah_saldo, 2, ',', '.')}}</h5>
                         </div>
                     </div>
+                    <div class="row d-flex justify-content-start">
+                        <h5 class="text-start mx-2">Saldo awal : {{number_format($dataPilih->Saldo_awal, 2, ',', '.')}}</h5>
+                    </div>
                 @endif
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
