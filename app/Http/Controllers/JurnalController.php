@@ -58,8 +58,8 @@ class JurnalController extends Controller
         
         // $akunCOA->jumlah_saldo = ($request->rpD - $request->rpK) + $akunCOA->jumlah_saldo;
 
-        $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;
-        $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $request->rpK; 
+        $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
+        $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK; 
         $prod->histori_saldo_debit = $akundebit->jumlah_saldo;
         $prod->histori_saldo_kredit = $akunkredit->jumlah_saldo;
         // $prod->histori_saldo = $akunCOA->jumlah_saldo;

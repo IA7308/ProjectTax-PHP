@@ -80,7 +80,7 @@ class BukBesController extends Controller
                 $bukudata->keterangan = $j->keterangan;
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = 0;
-                $bukudata->rpK = $j->rpD;
+                $bukudata->rpK = $j->rpK;
                 $bukudata->histori_saldo = $j->histori_saldo_kredit;
                 $data[] = $bukudata;
             }
