@@ -36,7 +36,7 @@
                         <input type="text" id="kalkulasiJumlah" class="form-control my-3 text-end"
                             placeholder="kalkulasi jumlah" disabled hidden>
                         <input type="text" id="kalkulasiJumlahSaldo" class="form-control my-3 text-end"
-                            value= "{{ number_format(session('saldo'), 2, ',', '.') }}"disabled>
+                           data-saldo="{{session('saldo')}}" value= "{{ number_format(session('saldo'), 2, ',', '.') }}"disabled>
                     </div>
                 </div>
             </div>
@@ -126,8 +126,8 @@
         // var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
         // kalkulasiJumlahInput.value = displayValue;
         
-        var saldo = document.getElementById("kalkulasiJumlahSaldo").value;
-        if(saldo != 0.00){
+        var saldo = document.getElementById("kalkulasiJumlahSaldo").getAttribute('data-saldo');
+        if(saldo != 0){
             alert("SALDO TIDAK WAJAR, CEK KEMBALI");
         }
     });
