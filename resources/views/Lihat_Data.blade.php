@@ -126,9 +126,9 @@
         var displayValue = totalSaldo.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
         kalkulasiJumlahInput.value = displayValue;
         
-        var saldo = document.getElementById("kalkulasiJumlahSaldo");
+        var saldo = document.getElementById("kalkulasiJumlahSaldo").value;
 
-        if(saldo.value != 0){
+        if(saldo != 0){
             alert("SALDO TIDAK WAJAR, CEK KEMBALI");
         }
     });
