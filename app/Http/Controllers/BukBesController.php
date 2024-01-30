@@ -21,6 +21,7 @@ class BukBesController extends Controller
             usort($dataC, function ($a, $b) {
                 return $a->kode <=> $b->kode;
             });
+            
         session(['pilihC' => false]);
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
@@ -79,10 +80,13 @@ class BukBesController extends Controller
                 $bukudata->keterangan = $j->keterangan;
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = 0;
-                $bukudata->rpK = $j->rpD*-1;
+                $bukudata->rpK = $j->rpD;
                 $bukudata->histori_saldo = $j->histori_saldo_kredit;
                 $data[] = $bukudata;
             }
+            usort($data, function ($a, $b) {
+                return strtotime($b['tanggal']) - strtotime($a['tanggal']);
+            });
         }   
         return view("BukuBesar", 
         [

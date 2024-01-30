@@ -167,6 +167,7 @@
             $('#myTable').DataTable({
                 paging : false,
                 searching: false,
+                sorting: false,
                 dom: 'Bfrtip',
                 buttons: [
                     {

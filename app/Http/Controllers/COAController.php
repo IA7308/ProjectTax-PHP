@@ -12,10 +12,12 @@ class COAController extends Controller
     public function index(){
         $perPage = strtolower(request('pagination', 'all'));
         session(['paginate' => true]);
+        $saldo = 0;
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
             $data = COA::all();
             foreach ($data as $d) {
+                $saldo += $d->Saldo_awal;
                 if ($d->keterangan == 'Header') {
                     $d->backgroundClass = 'table-info';
                 } elseif ($d->keterangan == 'Jumlah') {
@@ -31,9 +33,11 @@ class COAController extends Controller
                     $d->backgroundCell = '';
                 }
             }
+            session(['saldo' => $saldo]);
         }else{
             $data = (new COAController)->getData($perPage);
             foreach ($data as $d) {
+                $saldo += $d->Saldo_awal;
                 if ($d->keterangan == 'Header') {
                     $d->backgroundClass = 'table-info';
                 } elseif ($d->keterangan == 'Jumlah') {
@@ -49,6 +53,7 @@ class COAController extends Controller
                     $d->backgroundCell = '';
                 }
             }
+            session(['saldo' => $saldo]);
         }
 
         return view('Lihat_Data', compact('data'));
