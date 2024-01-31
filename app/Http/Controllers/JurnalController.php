@@ -55,7 +55,26 @@ class JurnalController extends Controller
         $prod->rpD = $request->rpD;
         $prod->akunK = $akunkredit->Nama_akun;
         $prod->rpK = $request->rpK;
-        
+        $allJurnals = Jurnal::orderBy('tanggal', 'asc')->get();
+
+        foreach ($allJurnals as $jurnal) {
+            $akunDebit = COA::where('Nama_akun', $jurnal->akunD)->first();
+            $akunKredit = COA::where('Nama_akun', $jurnal->akunK)->first();
+
+            if($akunDebit->keterangan == "Akun, Kredit"){
+                $akunDebit->jumlah_saldo = $akunDebit->jumlah_saldo - $jurnal->rpD;
+            }else{
+                $akunDebit->jumlah_saldo = $akunDebit->jumlah_saldo + $jurnal->rpD;
+            }
+            if($akunKredit->keterangan == "Akun, Kredit"){
+                $akunKredit->jumlah_saldo = $akunKredit->jumlah_saldo + $jurnal->rpK; 
+            }else{
+                $akunKredit->jumlah_saldo = $akunKredit->jumlah_saldo - $jurnal->rpK;
+            }
+
+            $akunDebit->save();
+            $akunKredit->save();
+        }
         // $akunCOA->jumlah_saldo = ($request->rpD - $request->rpK) + $akunCOA->jumlah_saldo;
         if($akundebit->keterangan == "Akun, Kredit"){
             $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;
@@ -103,9 +122,8 @@ class JurnalController extends Controller
         $data = COA::all();
         $prod = Jurnal::find($id);
         $akundebit = COA::find($request->Nama_akun_debit);
-        $akunkredit = COA::find($request->Nama_akun_kredit);
-        
-        
+        $akunkredit = COA::find($request->Nama_akun_kredit);   
+        $allJurnals = Jurnal::orderBy('tanggal', 'asc')->get();
 
         $prod->tanggal = $request->tanggal;
         $prod->transaksi = $request->transaksi;
@@ -175,8 +193,26 @@ class JurnalController extends Controller
                 $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK;
             }
             $akunkreditlama->save();
-        }        
-        
+        }
+        // PENAMABAHAN
+        $allJurnals = Jurnal::orderBy('tanggal', 'asc')->get();
+
+        foreach ($allJurnals as $jurnal) {
+            $akunDebit = COA::where('Nama_akun', $jurnal->akunD)->first();
+            $akunKredit = COA::where('Nama_akun', $jurnal->akunK)->first();
+
+            // Update jumlah_saldo pada setiap akun debit dan kredit
+            $akunDebit->jumlah_saldo += $jurnal->rpD;
+            $akunKredit->jumlah_saldo -= $jurnal->rpK;
+
+            $akunDebit->save();
+            $akunKredit->save();
+        }
+
+        // Simpan jurnal yang diperbarui
+        $akundebit->jumlah_saldo += $request->rpD;
+        $akunkredit->jumlah_saldo -= $request->rpK;
+        // ~~
         $akundebit->save();
         $akunkredit->save();
         
