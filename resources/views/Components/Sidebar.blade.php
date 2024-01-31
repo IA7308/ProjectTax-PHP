@@ -45,7 +45,7 @@
                             <a href="/cTambahData" class="nav-link"><b>TAMBAH DATA COA</b></a>
                         </li>
                         <li class="nav-item" id="bukubesar">
-                            <a href="/bukubesar" class="nav-link"><b>BUKU BESAR</b></a>
+                            <a href="/bukubesar/{{session('idDataterpilih')}}" class="nav-link"><b>BUKU BESAR</b></a>
                         </li>
                     </ul>
                 </div>

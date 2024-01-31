@@ -15,7 +15,7 @@
                     <label for="Tanggal" class="form-label">TANGGAL</label>
                 </div>
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($dataJ)?$dataJ->tanggal:'' }}">
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($dataJ)?$dataJ->tanggal:'' }}" required>
                 </div>
             </div>
             <!-- KETERANGAN -->
@@ -24,7 +24,7 @@
                     <label for="KeteranganInputJurnal" class="form-label">KETERANGAN</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($dataJ)?$dataJ->keterangan:'' }}">
+                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($dataJ)?$dataJ->keterangan:'' }}" required>
                 </div>
             </div>
             <!-- TRANSAKSI -->
@@ -33,7 +33,7 @@
                     <label for="Transaksi" class="form-label">TRANSAKSI</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}">
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}" required>
                 </div>
             </div>
             <!-- Bukti -->
@@ -42,7 +42,7 @@
                     <label for="Bukti" class="form-label">BUKTI</label>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ isset($dataJ)?$dataJ->bukti:'' }}">
+                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ isset($dataJ)?$dataJ->bukti:'' }}" required>
                 </div>
             </div>
             <!-- Jumlah -->
@@ -51,7 +51,7 @@
                     <label for="jumlah" class="form-label">JUMLAH</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ isset($dataJ)?$dataJ->jumlah:'' }}">
+                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ isset($dataJ)?$dataJ->jumlah:'' }}" required>
                 </div>
             </div>
             <!-- nama akun debit -->
@@ -82,7 +82,7 @@
                     <label for="rpD" class="form-label">Rp</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="rpD" name="rpD" value="{{ isset($dataJ)?$dataJ->rpD:'' }}">
+                    <input type="number" class="form-control" id="rpD" name="rpD" value="{{ isset($dataJ)?$dataJ->rpD:'' }}" required>
                 </div>
             </div>
             <!-- nama akun kredit -->
@@ -113,7 +113,7 @@
                     <label for="rpK" class="form-label">Rp</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="rpK" name="rpK" value="{{ isset($dataJ)?$dataJ->rpK:'' }}">
+                    <input type="number" class="form-control" id="rpK" name="rpK" value="{{ isset($dataJ)?$dataJ->rpK:'' }}" required>
                 </div>
             </div>
             <!-- btn -->

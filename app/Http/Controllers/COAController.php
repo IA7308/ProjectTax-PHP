@@ -13,6 +13,15 @@ class COAController extends Controller
         $perPage = strtolower(request('pagination', 'all'));
         session(['paginate' => true]);
         $saldo = 0;
+        $temp = COA::all();
+        $dataC = [];
+            foreach($temp as $t){
+                if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
+                    $dataC[] = $t;
+                }
+            }
+        session(['idDataterpilih' => $dataC[0]->id]);
+        
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
             $data = COA::all();
