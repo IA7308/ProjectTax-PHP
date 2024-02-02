@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bukubesar;
 use App\Models\COA;
 use App\Models\Jurnal;
+use Carbon\Exceptions\EndLessPeriodException;
 use Illuminate\Http\Request;
 
 class BukBesController extends Controller
@@ -71,7 +72,7 @@ class BukBesController extends Controller
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = $j->rpD;
                 $bukudata->rpK = 0;
-                $bukudata->histori_saldo = $j->histori_saldo_debit;
+                // $bukudata->histori_saldo = $j->histori_saldo_debit;
                 $data[] = $bukudata;
             }elseif($j->akunK == $akunCOA->Nama_akun){
                 $bukudata = new bukubesar;
@@ -81,12 +82,27 @@ class BukBesController extends Controller
                 $bukudata->bukti = $j->bukti;
                 $bukudata->rpD = 0;
                 $bukudata->rpK = $j->rpK;
-                $bukudata->histori_saldo = $j->histori_saldo_kredit;
+                // $bukudata->histori_saldo = $j->histori_saldo_kredit;
                 $data[] = $bukudata;
             }
             usort($data, function ($a, $b) {
                 return strtotime($a['tanggal']) - strtotime($b['tanggal']);
             });
+            for($i = 0; $i<count($data); $i++){
+                if($i == 0){
+                    if($akunCOA->keterangan == "Akun, Debit"){
+                        $data[$i]->histori_saldo = $akunCOA->Saldo_awal + $data[$i]->rpD - $data[$i]->rpK;
+                    }else{
+                        $data[$i]->histori_saldo = $akunCOA->Saldo_awal - $data[$i]->rpD + $data[$i]->rpK;
+                    }
+                }else{
+                    if($akunCOA->keterangan == "Akun, Debit"){
+                        $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo + $data[$i]->rpD - $data[$i]->rpK;
+                    }else{
+                        $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo - $data[$i]->rpD + $data[$i]->rpK;
+                    }
+                }
+            }
         }   
         return view("BukuBesar", 
         [
