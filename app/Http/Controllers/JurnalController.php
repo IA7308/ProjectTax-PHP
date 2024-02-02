@@ -114,9 +114,9 @@ class JurnalController extends Controller
         if($akundebit->Nama_akun == $prod->akunD){
             $prod->akunD = $akundebit->Nama_akun;
             if($akundebit->keterangan == "Akun, Kredit"){
-                $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - ($prod->rpD - $request->rpD);
+                $akundebit->jumlah_saldo = ($akundebit->jumlah_saldo + $prod->rpD) - $request->rpD;
             }else{
-                $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + ($prod->rpD - $request->rpD);
+                $akundebit->jumlah_saldo = ($akundebit->jumlah_saldo - $prod->rpD) + $request->rpD;
             }    
             $prod->rpD = $request->rpD;
             // $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;        
@@ -146,9 +146,9 @@ class JurnalController extends Controller
         if($akunkredit->Nama_akun == $prod->akunK){
             $prod->akunK = $akunkredit->Nama_akun;
             if($akunkredit->keterangan == "Akun, Kredit"){
-                $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + ($prod->rpK - $request->rpK); 
+                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo - $prod->rpK) + $request->rpK; 
             }else{
-                $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - ($prod->rpK - $request->rpK);
+                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo + $prod->rpK) - $request->rpK;
             }
             $prod->rpK = $request->rpK;
             // $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $request->rpK;        
@@ -160,9 +160,9 @@ class JurnalController extends Controller
                 }
             }
             if($akundebitlama->keterangan == "Akun, Kredit"){
-                $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;
-            }else{
                 $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo - $prod->rpK;
+            }else{
+                $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;
             }
 
             $prod->akunK = $akunkredit->Nama_akun;
