@@ -146,7 +146,7 @@ class JurnalController extends Controller
         if($akunkredit->Nama_akun == $prod->akunK){
             $prod->akunK = $akunkredit->Nama_akun;
             if($akunkredit->keterangan == "Akun, Kredit"){
-                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo - $prod->rpK) - $request->rpK; 
+                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo + $prod->rpK) - $request->rpK; 
             }else{
                 $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo + $prod->rpK) - $request->rpK;
             }
