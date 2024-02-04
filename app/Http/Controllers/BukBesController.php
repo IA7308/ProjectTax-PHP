@@ -93,6 +93,11 @@ class BukBesController extends Controller
                     if($akunCOA->keterangan == "Akun, Debit"){
                         $data[$i]->histori_saldo = $akunCOA->Saldo_awal + $data[$i]->rpD - $data[$i]->rpK;
                     }else{
+                        if($akunCOA->Saldo_awal<0){
+                            $akunCOA->Saldo_awal = $akunCOA->Saldo_awal *-1;
+                        }if($akunCOA->jumlah_saldo<0){
+                            $akunCOA->jumlah_saldo = $akunCOA->jumlah_saldo*-1;
+                        }
                         $data[$i]->histori_saldo = $akunCOA->Saldo_awal - $data[$i]->rpD + $data[$i]->rpK;
                     }
                 }else{

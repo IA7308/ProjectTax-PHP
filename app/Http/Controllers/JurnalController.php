@@ -57,12 +57,12 @@ class JurnalController extends Controller
         $prod->rpK = $request->rpK;
         
         if($akundebit->keterangan == "Akun, Kredit"){
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;
+            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
         }else{
             $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
         }
         if($akunkredit->keterangan == "Akun, Kredit"){
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $request->rpK; 
+            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK; 
         }else{
             $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK;
         }
@@ -114,7 +114,7 @@ class JurnalController extends Controller
         if($akundebit->Nama_akun == $prod->akunD){
             $prod->akunD = $akundebit->Nama_akun;
             if($akundebit->keterangan == "Akun, Kredit"){
-                $akundebit->jumlah_saldo = ($akundebit->jumlah_saldo + $prod->rpD) - $request->rpD;
+                $akundebit->jumlah_saldo = ($akundebit->jumlah_saldo - $prod->rpD) + $request->rpD;
             }else{
                 $akundebit->jumlah_saldo = ($akundebit->jumlah_saldo - $prod->rpD) + $request->rpD;
             }    
@@ -128,7 +128,7 @@ class JurnalController extends Controller
                 }
             }
             if($akundebitlama->keterangan == "Akun, Kredit"){
-                $akundebitlama->jumlah_saldo = $akundebitlama->jumlah_saldo + $prod->rpD;
+                $akundebitlama->jumlah_saldo = $akundebitlama->jumlah_saldo - $prod->rpD;
             }else{
                 $akundebitlama->jumlah_saldo = $akundebitlama->jumlah_saldo - $prod->rpD;
             }
@@ -136,7 +136,7 @@ class JurnalController extends Controller
             $prod->akunD = $akundebit->Nama_akun;
             $prod->rpD = $request->rpD;
             if($akundebit->keterangan == "Akun, Kredit"){
-                $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $request->rpD;
+                $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
             }else{
                 $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
             }
@@ -146,7 +146,7 @@ class JurnalController extends Controller
         if($akunkredit->Nama_akun == $prod->akunK){
             $prod->akunK = $akunkredit->Nama_akun;
             if($akunkredit->keterangan == "Akun, Kredit"){
-                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo - $prod->rpK) + $request->rpK; 
+                $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo - $prod->rpK) - $request->rpK; 
             }else{
                 $akunkredit->jumlah_saldo = ($akunkredit->jumlah_saldo + $prod->rpK) - $request->rpK;
             }
@@ -160,7 +160,7 @@ class JurnalController extends Controller
                 }
             }
             if($akundebitlama->keterangan == "Akun, Kredit"){
-                $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo - $prod->rpK;
+                $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;
             }else{
                 $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;
             }
@@ -168,7 +168,7 @@ class JurnalController extends Controller
             $prod->akunK = $akunkredit->Nama_akun;
             $prod->rpK = $request->rpK;
             if($akunkredit->keterangan == "Akun, Kredit"){
-                $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $request->rpK; 
+                $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK; 
             }else{
                 $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK;
             }
