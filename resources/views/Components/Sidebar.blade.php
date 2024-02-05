@@ -47,6 +47,9 @@
                         <li class="nav-item" id="bukubesar">
                             <a href="/bukubesar/{{session('idDataterpilih')}}" class="nav-link"><b>BUKU BESAR</b></a>
                         </li>
+                        <li class="nav-item" id="neracalajur">
+                            <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
+                        </li>
                     </ul>
                 </div>
             </div>
