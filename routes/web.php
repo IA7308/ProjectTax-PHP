@@ -5,6 +5,7 @@ use App\Http\Controllers\COAController;
 use App\Http\Controllers\JurnalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NeracaController;
+use App\Http\Controllers\penyesuaianController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,3 +49,8 @@ Route::get('/bukubesar/{id}', [BukBesController::class, 'show']);
 
 //NERACA
 Route::get('/neracalajur', [NeracaController::class, 'index']);
+
+//PENYESUAIAN
+Route::get('/penyesuaian', [penyesuaianController::class, 'index']);
+Route::get('/pTambahData', [penyesuaianController::class, 'create']);
+Route::get('/pStore', [penyesuaianController::class, 'store']);

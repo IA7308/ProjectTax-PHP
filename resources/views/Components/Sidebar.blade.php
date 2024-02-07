@@ -50,6 +50,12 @@
                         <li class="nav-item" id="neracalajur">
                             <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
                         </li>
+                        <li class="nav-item" id="penyesuaian">
+                            <a href="/penyesuaian" class="nav-link"><b>PENYESUAIAN</b></a>
+                        </li>
+                        <li class="nav-item" id="neracalajur">
+                            <a href="/pTambahData" class="nav-link"><b>TAMBAH DATA PENYESUAIAN</b></a>
+                        </li>
                     </ul>
                 </div>
             </div>

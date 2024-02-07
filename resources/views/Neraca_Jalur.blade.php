@@ -33,8 +33,14 @@
                         <th  rowspan="2">KODE AKUN</th>
                         <th  rowspan="2">NAMA AKUN</th>
                         <th  colspan="2" class="text-center">NERACA SALDO(NS)</th>
+                        <th  colspan="2" class="text-center">PENYESUAIAN</th>
+                        <th  colspan="2" class="text-center">NS DISESUAIKAN</th>
                     </tr>
                     <tr>
+                        <th><span>Rp</span></th>
+                        <th><span>Rp</span></th>
+                        <th><span>Rp</span></th>
+                        <th><span>Rp</span></th>
                         <th><span>Rp</span></th>
                         <th><span>Rp</span></th>
                     </tr>
@@ -44,8 +50,12 @@
                     <tr class="{{ $d->backgroundClass }}">
                         <td>{{$d->kode}}</td>
                         <td class="text-start">{{$d->nama_akun}}</td>
-                        <td class="text-end">{{number_format($d->rpD, 2, ',', '.')}}</td>
-                        <td class="text-end">{{number_format($d->rpK, 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->rpD), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->rpK), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->rpPD), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->rpPK), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->SaldoPenyesuaianP), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval($d->SaldoPenyesuaianN), 0, ',', '.')}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -75,6 +85,25 @@
 @endpush
 @push('scripts')
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dapatkan semua elemen dalam tabel dengan nilai
+        var cellsWithValue = document.querySelectorAll('table#myTable td');
+        
+        // Iterasi melalui setiap elemen
+        cellsWithValue.forEach(function(cell) {
+            // Dapatkan nilai dari setiap sel
+            var textValue = cell.innerText.trim();
+            
+            // Pastikan nilai tidak kosong dan berisi karakter '-'
+            if (textValue !== '' && textValue.includes('-')) {
+                // Parse teks ke bilangan bulat
+                var value = parseInt(textValue.replace(/[^0-9-]/g, ''), 10);
+                
+                // Ubah nilai menjadi positif dan tambahkan tanda '-'
+                cell.innerText = '(' + Math.abs(value).toLocaleString() + ')';
+            }
+        });
+    });
     $(document).ready(function () {
         $("#searchInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();

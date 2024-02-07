@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Neraca extends Model
+class penyesuaian extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'kode',
-        'nama_akun',
+        'tanggal',
+        'transaksi',
+        'bukti',
+        'jumlah',
+        'akunD',
         'rpD',
-        'rpK',
-        'rpPD',
-        'rpPK',
-        'SaldoPenyesuaian+',
-        'SaldoPenyesuaian-'
+        'akunK',
+        'rpK'
     ];
 }
