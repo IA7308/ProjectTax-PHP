@@ -4,7 +4,7 @@
     @section('content')
     <div class="container-fluid">
         <div class="card mt-3 p-3">
-            <h3 class="card-title mt-2">{{$title}} INPUT JURNAL</h3>
+            <h3 class="card-title mt-2">{{$title}} JURNAL PENYESUAIAN</h3>
         <hr>
         <form class="text-end" action="{{ $action }}">
             @csrf
@@ -19,14 +19,6 @@
                 </div>
             </div>
             <!-- KETERANGAN -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="KeteranganInputJurnal" class="form-label">KETERANGAN</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($dataJ)?$dataJ->keterangan:'' }}" required>
-                </div>
-            </div>
             <!-- TRANSAKSI -->
             <div class="row mb-3">
                 <div class="col-2">

@@ -32,8 +32,13 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item" id="beranda">
-                            <a class="nav-link active" aria-current="page" href="/beranda"><b>BERANDA</b></a>
+                            <a class="nav-link active" aria-current="page" href="/beranda"><b>COA</b></a>
                         </li>
+
+                        <li class="nav-item" id="ctambahdata">
+                            <a href="/cTambahData" class="nav-link"><b>TAMBAH DATA COA</b></a>
+                        </li>
+
                         <!-- DATA KARYAWAN -->
                         <li class="nav-item" id="jurnal">
                             <a class="nav-link" href="/jurnal"><b>JURNAL</b></a>
@@ -41,21 +46,21 @@
                         <li class="nav-item" id="jtambahdata">
                             <a href="/jTambahData" class="nav-link"><b>TAMBAH DATA JURNAL</b></a>
                         </li>
-                        <li class="nav-item" id="ctambahdata">
-                            <a href="/cTambahData" class="nav-link"><b>TAMBAH DATA COA</b></a>
-                        </li>
-                        <li class="nav-item" id="bukubesar">
-                            <a href="/bukubesar/{{session('idDataterpilih')}}" class="nav-link"><b>BUKU BESAR</b></a>
-                        </li>
-                        <li class="nav-item" id="neracalajur">
-                            <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
-                        </li>
+
                         <li class="nav-item" id="penyesuaian">
                             <a href="/penyesuaian" class="nav-link"><b>PENYESUAIAN</b></a>
                         </li>
                         <li class="nav-item" id="neracalajur">
                             <a href="/pTambahData" class="nav-link"><b>TAMBAH DATA PENYESUAIAN</b></a>
                         </li>
+
+                        <li class="nav-item" id="bukubesar">
+                            <a href="/bukubesar/{{session('idDataterpilih')}}" class="nav-link"><b>BUKU BESAR</b></a>
+                        </li>
+                        <li class="nav-item" id="neracalajur">
+                            <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>
