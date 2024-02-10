@@ -73,9 +73,9 @@
                                 AKSI
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" class="btn btn-primary dropdown-item">Edit</a></li>
+                                <li><a href="{{ $d->id }}/editP" class="btn btn-primary dropdown-item">Edit</a></li>
                                 <li>
-                                    <form method="post" action="#" style="display:inline"
+                                    <form method="post" action="/p/{{$d->id}}" style="display:inline"
                                     onsubmit="return confirm('Yakin hapus?')">
                                         @csrf
                                         @method('DELETE')

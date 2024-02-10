@@ -17,6 +17,10 @@ class Neraca extends Model
         'rpPD',
         'rpPK',
         'SaldoPenyesuaianP',
-        'SaldoPenyesuaianN'
+        'SaldoPenyesuaianN',
+        'LRD',
+        'LRK',
+        'nD',
+        'nK'
     ];
 }

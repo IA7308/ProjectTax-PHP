@@ -27,16 +27,13 @@ class NeracaController extends Controller
                     if($neraca->nama_akun == $dp->akunD){
                         $neraca->rpPD = $dp->rpD;
                         $neraca->rpPK = 0;
-                        $calc = $neraca->rpD - $neraca->rpPD;
+                        $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = $calc;
                             $neraca->SaldoPenyesuaianN = 0; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
-                            $neraca->SaldoPenyesuaianN = 0;
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
@@ -45,12 +42,9 @@ class NeracaController extends Controller
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = $calc;
                             $neraca->SaldoPenyesuaianN = 0; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
-                            $neraca->SaldoPenyesuaianN = 0;
                         }
                     }else{
                         $neraca->rpPD = 0;
@@ -59,6 +53,32 @@ class NeracaController extends Controller
                         $neraca->SaldoPenyesuaianN = 0;
                     }
                 }
+                if($neraca->SaldoPenyesuaianN != 0 || $neraca->SaldoPenyesuaianP != 0){
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->SaldoPenyesuaianP;
+                        $neraca->nK = $neraca->SaldoPenyesuaianN;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->SaldoPenyesuaianP;
+                        $neraca->LRK = $neraca->SaldoPenyesuaianN;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
+                    }
+                }else{
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->rpD;
+                        $neraca->nK = $neraca->rpK;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->rpD;
+                        $neraca->LRK = $neraca->rpK;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
+                    }
+                }
+                
             }elseif($dc->keterangan == 'Akun, Debit'){
                 $neraca->kode = $dc->kode;
                 $neraca->nama_akun = $dc->Nama_akun;
@@ -68,36 +88,55 @@ class NeracaController extends Controller
                     if($neraca->nama_akun == $dp->akunD){
                         $neraca->rpPD = $dp->rpD;
                         $neraca->rpPK = 0;
-                        $calc = $neraca->rpD - $neraca->rpPD;
+                        $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = $calc;
-                            $neraca->SaldoPenyesuaianN = 0;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = 0;
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
                         $neraca->rpPK = $dp->rpK;
-                        $calc = $neraca->rpK + $neraca->rpPK;
+                        $calc = $neraca->rpK - $neraca->rpPK;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = $calc;
-                            $neraca->SaldoPenyesuaianN = 0;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = 0;
                         }
                     }else{
                         $neraca->rpPD = 0;
                         $neraca->rpPK = 0;
-                        $neraca->SaldoPenyesuaianP = 0;
+                        $neraca->SaldoPenyesuaianP = $neraca->rpD;
                         $neraca->SaldoPenyesuaianN = 0;
+                    }
+                }
+                if($neraca->SaldoPenyesuaianN != 0 || $neraca->SaldoPenyesuaianP != 0){
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->SaldoPenyesuaianP;
+                        $neraca->nK = $neraca->SaldoPenyesuaianN;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->SaldoPenyesuaianP;
+                        $neraca->LRK = $neraca->SaldoPenyesuaianN;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
+                    }
+                }else{
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->rpD;
+                        $neraca->nK = $neraca->rpK;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->rpD;
+                        $neraca->LRK = $neraca->rpK;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
                     }
                 }
             }else{
@@ -109,36 +148,55 @@ class NeracaController extends Controller
                     if($neraca->nama_akun == $dp->akunD){
                         $neraca->rpPD = $dp->rpD;
                         $neraca->rpPK = 0;
-                        $calc = $neraca->rpD - $neraca->rpPD;
+                        $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = $calc;
-                            $neraca->SaldoPenyesuaianN = 0;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = 0;
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
                         $neraca->rpPK = $dp->rpK;
-                        $calc = $neraca->rpK + $neraca->rpPK;
+                        $calc = $neraca->rpK - $neraca->rpPK;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = $calc; 
-                        }elseif($calc>0){
+                        }elseif($calc>=0){
                             $neraca->SaldoPenyesuaianP = $calc;
-                            $neraca->SaldoPenyesuaianN = 0;
-                        }else{
-                            $neraca->SaldoPenyesuaianP = 0;
                             $neraca->SaldoPenyesuaianN = 0;
                         }
                     }else{
                         $neraca->rpPD = 0;
                         $neraca->rpPK = 0;
                         $neraca->SaldoPenyesuaianP = 0;
-                        $neraca->SaldoPenyesuaianN = 0;
+                        $neraca->SaldoPenyesuaianN = $neraca->rpK;
+                    }
+                }
+                if($neraca->SaldoPenyesuaianN != 0 || $neraca->SaldoPenyesuaianP != 0){
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->SaldoPenyesuaianP;
+                        $neraca->nK = $neraca->SaldoPenyesuaianN;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->SaldoPenyesuaianP;
+                        $neraca->LRK = $neraca->SaldoPenyesuaianN;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
+                    }
+                }else{
+                    if($dc->jenis_akun == 'A REAL'){
+                        $neraca->LRD = 0;
+                        $neraca->LRK = 0;
+                        $neraca->nD = $neraca->rpD;
+                        $neraca->nK = $neraca->rpK;
+                    }elseif($dc->jenis_akun == 'A NOMINAL'){
+                        $neraca->LRD = $neraca->rpD;
+                        $neraca->LRK = $neraca->rpK;
+                        $neraca->nD = 0;
+                        $neraca->nK = 0;
                     }
                 }
             }
@@ -146,4 +204,6 @@ class NeracaController extends Controller
         }
         return view('Neraca_Jalur', ['data' => $data]);
     }
+
+    
 }

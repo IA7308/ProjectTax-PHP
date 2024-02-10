@@ -54,3 +54,6 @@ Route::get('/neracalajur', [NeracaController::class, 'index']);
 Route::get('/penyesuaian', [penyesuaianController::class, 'index']);
 Route::get('/pTambahData', [penyesuaianController::class, 'create']);
 Route::get('/pStore', [penyesuaianController::class, 'store']);
+Route::get('/{id}/editP', [penyesuaianController::class, 'edit']);
+Route::get('/{id}/updateP', [penyesuaianController::class, 'update']);
+Route::delete('/p/{id}', [penyesuaianController::class, 'destroy']);
