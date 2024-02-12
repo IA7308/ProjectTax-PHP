@@ -60,7 +60,15 @@
                         <li class="nav-item" id="neracalajur">
                             <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
                         </li>
-                        
+                        <li class="nav-item" id="konsep">
+                            <a href="/konsep" class="nav-link"><b>KONSEP</b></a>
+                        </li>
+                        <li class="nav-item" id="neraca">
+                            <a href="/laporanneraca" class="nav-link"><b>NERACA</b></a>
+                        </li>
+                        <li class="nav-item" id="labarugi">
+                            <a href="/labarugi" class="nav-link"><b>RUGILABA</b></a>
+                        </li>
                     </ul>
                 </div>
             </div>

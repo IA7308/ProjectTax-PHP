@@ -3,6 +3,9 @@
 use App\Http\Controllers\BukBesController;
 use App\Http\Controllers\COAController;
 use App\Http\Controllers\JurnalController;
+use App\Http\Controllers\konsepController;
+use App\Http\Controllers\labarugiController;
+use App\Http\Controllers\lapNeracController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NeracaController;
 use App\Http\Controllers\penyesuaianController;
@@ -57,3 +60,12 @@ Route::get('/pStore', [penyesuaianController::class, 'store']);
 Route::get('/{id}/editP', [penyesuaianController::class, 'edit']);
 Route::get('/{id}/updateP', [penyesuaianController::class, 'update']);
 Route::delete('/p/{id}', [penyesuaianController::class, 'destroy']);
+
+//KONSEP
+Route::get('/konsep', [konsepController::class, 'index']);
+
+//NERACALAPORAN
+Route::get('/laporanneraca', [lapNeracController::class, 'index']);
+
+//LABARUGI
+Route::get('/labarugi', [labarugiController::class, 'index']);

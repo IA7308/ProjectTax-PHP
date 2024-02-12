@@ -83,7 +83,7 @@ class BukBesController extends Controller
                 $bukudata->rpD = 0;
                 $bukudata->rpK = $j->rpK;
                 // $bukudata->histori_saldo = $j->histori_saldo_kredit;
-                $data[] = $bukudata;
+                $data[] = $bukudata;    
             }
             usort($data, function ($a, $b) {
                 return strtotime($a['tanggal']) - strtotime($b['tanggal']);
