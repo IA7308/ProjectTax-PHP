@@ -22,10 +22,17 @@ class NeracaController extends Controller
                 $neraca->nama_akun = $dc->Nama_akun;
                 $neraca->rpD = 0;
                 $neraca->rpK = 0;
+                $neraca->rpPD = 0;
+                $neraca->rpPK = 0;
                 $neraca->backgroundClass = 'table-info';
                 foreach($dataPenyesuaian as $dp){
                     if($neraca->nama_akun == $dp->akunD){
-                        $neraca->rpPD = $dp->rpD;
+                        if($neraca->rpD == 0){
+                            $neraca->rpPD = $dp->rpD;
+                        }else{
+                            $neraca->rpPD = $neraca->rpPD+$dp->rpD;
+                        }
+                        
                         $neraca->rpPK = 0;
                         $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
@@ -37,7 +44,12 @@ class NeracaController extends Controller
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
-                        $neraca->rpPK = $dp->rpK;
+                        if($neraca->rpPK==0){
+                            $neraca->rpPK = $dp->rpK;
+                        }else{
+                            $neraca->rpPK = $neraca->rpPK-$dp->rpK;
+                        }
+                        
                         $calc = $neraca->rpK + $neraca->rpPK;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = $calc;
@@ -84,10 +96,16 @@ class NeracaController extends Controller
                 $neraca->nama_akun = $dc->Nama_akun;
                 $neraca->rpD = $dc->jumlah_saldo;
                 $neraca->rpK = 0;
+                $neraca->rpPD = 0;
+                $neraca->rpPK = 0;
                 foreach($dataPenyesuaian as $dp){
                     if($neraca->nama_akun == $dp->akunD){
-                        $neraca->rpPD = $dp->rpD;
-                        $neraca->rpPK = 0;
+                        if($neraca->rpD == 0){
+                            $neraca->rpPD = $dp->rpD;
+                        }else{
+                            $neraca->rpPD = $neraca->rpPD+$dp->rpD;
+                        }
+                        $neraca->rpPK = 0;                       
                         $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
@@ -98,7 +116,11 @@ class NeracaController extends Controller
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
-                        $neraca->rpPK = $dp->rpK;
+                        if($neraca->rpPK==0){
+                            $neraca->rpPK = $dp->rpK;
+                        }else{
+                            $neraca->rpPK = $neraca->rpPK+$dp->rpK;
+                        }
                         $calc = $neraca->rpK - $neraca->rpPK;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
@@ -144,9 +166,15 @@ class NeracaController extends Controller
                 $neraca->nama_akun = $dc->Nama_akun;
                 $neraca->rpD = 0;
                 $neraca->rpK = $dc->jumlah_saldo;
+                $neraca->rpPD = 0;
+                $neraca->rpPK = 0;
                 foreach($dataPenyesuaian as $dp){
                     if($neraca->nama_akun == $dp->akunD){
-                        $neraca->rpPD = $dp->rpD;
+                        if($neraca->rpD == 0){
+                            $neraca->rpPD = $dp->rpD;
+                        }else{
+                            $neraca->rpPD = $neraca->rpPD+$dp->rpD;
+                        }
                         $neraca->rpPK = 0;
                         $calc = $neraca->rpD + $neraca->rpPD;
                         if($calc<0){
@@ -158,7 +186,11 @@ class NeracaController extends Controller
                         }
                     }elseif($neraca->nama_akun == $dp->akunK){
                         $neraca->rpPD = 0;
-                        $neraca->rpPK = $dp->rpK;
+                        if($neraca->rpPK==0){
+                            $neraca->rpPK = $dp->rpK;
+                        }else{
+                            $neraca->rpPK = $neraca->rpPK+$dp->rpK;
+                        }
                         $calc = $neraca->rpK - $neraca->rpPK;
                         if($calc<0){
                             $neraca->SaldoPenyesuaianP = 0;
