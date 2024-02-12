@@ -122,7 +122,9 @@ class NeracaController extends Controller
                     }
                     
                     $neraca->rpPK = 0;
-                    $calc = $neraca->rpD + $neraca->rpPD;
+                    
+                }
+                $calc = $neraca->rpD + $neraca->rpPD;
                     if($calc<0){
                         $neraca->SaldoPenyesuaianP = 0;
                         $neraca->SaldoPenyesuaianN = $calc; 
@@ -130,7 +132,6 @@ class NeracaController extends Controller
                         $neraca->SaldoPenyesuaianP = $calc;
                         $neraca->SaldoPenyesuaianN = 0;
                     }
-                }
                 if($neraca->SaldoPenyesuaianN != 0 || $neraca->SaldoPenyesuaianP != 0){
                     if($dc->jenis_akun == 'A REAL'){
                         $neraca->LRD = 0;
@@ -178,7 +179,9 @@ class NeracaController extends Controller
                         $neraca->rpPK = $totalsaldoPenyesuaian;
                     }
                     
-                    $calc = $neraca->rpK + $neraca->rpPK;
+                    
+                }
+                $calc = $neraca->rpK + $neraca->rpPK;
                     if($calc<0){
                         $neraca->SaldoPenyesuaianP = 0;
                         $neraca->SaldoPenyesuaianN = $calc; 
@@ -186,7 +189,6 @@ class NeracaController extends Controller
                         $neraca->SaldoPenyesuaianP = $calc;
                         $neraca->SaldoPenyesuaianN = 0;
                     }
-                }
                 if($neraca->SaldoPenyesuaianN != 0 || $neraca->SaldoPenyesuaianP != 0){
                     if($dc->jenis_akun == 'A REAL'){
                         $neraca->LRD = 0;
