@@ -5,12 +5,12 @@
 <body>
     @section('content')
     <div class="container-fluid text-center" id="container">
-        <h3 class="mt-2">NERACA LAJUR</h3>
-        <hr>
+        <!-- <h3 class="mt-2">NERACA LAJUR</h3>
+        <hr> -->
         <div class="card p-3">
             <!-- Pagination -->
 
-            <div class="row">
+            <div class="row sticky-top" style="background-color: white;">
                 <div class="col text-start">
                     
                 </div>
@@ -69,6 +69,36 @@
                     </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr class = "table-danger">
+                        <th colspan='2'>JUMLAH</th>
+                        <td class="text-end">{{number_format(intval(abs($totalRpD)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalRpK)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalRpPD)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalRpPK)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalSaldoPenyesuaianP)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalSaldoPenyesuaianN)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalLRD)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalLRK)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalND)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($totalNK)), 0, ',', '.')}}</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th rowspan='2' colspan = '6' class="table-warning" style="color: red;">{{session('kesesuaian')}}</th>
+                        <th colspan='2'>LABA USAHA (EBIT)</th>
+                        <td class="text-end">{{number_format(intval(abs($LULBp)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($LULBn)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($LUNp)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($LUNn)), 0, ',', '.')}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <th colspan='2'>BALANCE</th>
+                        <td class="text-end">{{number_format(intval(abs($balanceLBp)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($balanceLBn)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($balanceNp)), 0, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($balanceNn)), 0, ',', '.')}}</td>
+                    </tr>                  
+                </tfoot>
             </table>
             
             @if(session('paginate'))
@@ -90,6 +120,11 @@
 
     svg {
         width: 20px;
+    }
+
+    .dt-buttons{
+        display: flex;
+        align-items: start;
     }
 </style>
 @endpush

@@ -11,10 +11,10 @@ class labarugiController extends Controller
 {
     public function index(){
         session(['paginate' => false]);
-        $datacoa = COA::all();
+        $datacoa = COA::orderBy('kode', 'asc')->get();
         $dataPenyesuaian = penyesuaian::all();
         $data = [];
-        
+        $totalsaldo = 0;
         foreach($datacoa as $dc){
             if($dc->jenis_akun == 'A NOMINAL'){
                 if($dc->keterangan == 'Header'){
@@ -22,7 +22,7 @@ class labarugiController extends Controller
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $labarugi = new labarugi;
-                    $labarugi->golongan = 'LABARUGI';
+                    $labarugi->golongan = $dc->kode;
                     $labarugi->nama_akun = $dc->Nama_akun;
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
@@ -47,7 +47,7 @@ class labarugiController extends Controller
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $labarugi = new labarugi;
-                    $labarugi->golongan = 'LABARUGI';
+                    $labarugi->golongan = $dc->kode;
                     $labarugi->nama_akun = $dc->Nama_akun;
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
@@ -65,14 +65,15 @@ class labarugiController extends Controller
                     }else{
                         $labarugi->saldo_periode = $calc;
                     }
-                    $labarugi->saldo_akhir = $dc->Saldo_awal + $calc;
+                    $labarugi->saldo_akhir = $totalsaldo;
+                    $totalsaldo = 0;
                     $data[] = $labarugi;
                 }else{
                     $calc = 0;
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $labarugi = new labarugi;
-                    $labarugi->golongan = 'LABARUGI';
+                    $labarugi->golongan = $dc->kode;
                     $labarugi->nama_akun = $dc->Nama_akun;
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
@@ -90,6 +91,7 @@ class labarugiController extends Controller
                         $labarugi->saldo_periode = $calc;
                     }
                     $labarugi->saldo_akhir = $dc->Saldo_awal + $calc;
+                    $totalsaldo += $labarugi->saldo_akhir;
                     $data[] = $labarugi;
                 }
             }

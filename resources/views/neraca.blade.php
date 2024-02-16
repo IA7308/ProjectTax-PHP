@@ -4,16 +4,16 @@
 <body>
     @section('content')
     <div class="container-fluid text-center">
-        <h3 class="mt-2">NERACA</h3>
-        <hr>
+        <!-- <h3 class="mt-2">NERACA</h3>
+        <hr> -->
         <div class="card p-3">
             <!-- Pagination -->
             <div class="row">
-                <div class="col-12 text-center">
+                <div class="col-12 text-center sticky-top" style="background-color: white;">
                     <h2>NERACA</h2>
                 </div>
                 <div class="col-4 text-start">
-                    <form action="/jurnal" method="GET">
+                    <!-- <form action="/jurnal" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
                                 <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
@@ -22,13 +22,13 @@
                                 <option value="all" {{ strtolower(request('pagination')) == 'all' ? 'selected' : '' }}>ALL</option>
                             </select> entries
                         </p>
-                    </form>
+                    </form> -->
                 </div>                
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
                     <tr class="table table-primary">
-                        <th>GOLONGAN</th>
+                        <th>KODE AKUN</th>
                         <th>SALDO NORMAL (KETERANGAN)</th>
                         <th>KETERANGAN</th>
                         <th>AWAL PERIODE</th>
@@ -42,9 +42,9 @@
                         <td class="text-start">{{$d->golongan}}</td>
                         <td class="text-start {{ $d->backgroundCell }}">{{$d->keterangan}}</td>
                         <td class="text-start">{{$d->nama_akun}}</td>
-                        <td class="text-end">{{number_format($d->Saldo_awal, 2, ',', '.')}}</td>
-                        <td class="text-end">{{number_format($d->saldo_periode, 2, ',', '.')}}</td>
-                        <td class="text-end">{{number_format($d->saldo_akhir, 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($d->Saldo_awal)), 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($d->saldo_periode)), 2, ',', '.')}}</td>
+                        <td class="text-end">{{number_format(intval(abs($d->saldo_akhir)), 2, ',', '.')}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -67,6 +67,11 @@
 
         svg {
             width: 20px;
+        }
+        
+        .dt-buttons{
+            display: flex;
+            align-items: start;
         }
     </style>
     @endpush
@@ -97,6 +102,7 @@
             paging: false,
             searching: false,
             info: false,
+            ordering: false,
             dom: 'Bfrtip',
             buttons: [
                 {

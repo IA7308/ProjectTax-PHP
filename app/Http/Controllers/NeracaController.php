@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\COA;
 use App\Models\Neraca;
 use App\Models\penyesuaian;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class NeracaController extends Controller
@@ -228,7 +229,69 @@ class NeracaController extends Controller
             }
             $data[] = $neraca;
         }
-        return view('Neraca_Jalur', ['data' => $data]);
+        $collection = new Collection($data);
+
+        // Melakukan perhitungan total dari masing-masing kolom
+        $totalRpD = $collection->sum('rpD');
+        $totalRpK = $collection->sum('rpK');
+        $totalRpPD = $collection->sum('rpPD');
+        $totalRpPK = $collection->sum('rpPK');
+        $totalSaldoPenyesuaianP = $collection->sum('SaldoPenyesuaianP');
+        $totalSaldoPenyesuaianN = $collection->sum('SaldoPenyesuaianN');
+        $totalLRD = $collection->sum('LRD');
+        $totalLRK = $collection->sum('LRK');
+        $totalND = $collection->sum('nD');
+        $totalNK = $collection->sum('nK');
+
+        $totalLU = $totalLRD + $totalLRK;
+        if($totalLU >= 0){
+            $LULBp = $totalLU;
+            $LULBn = 0;
+        }else{
+            $LULBp = 0;
+            $LULBn = $totalLU;
+        }
+        $totalLUN = $totalND + $totalNK;
+        if($totalLUN >= 0){
+            $LUNp = $totalLUN;
+            $LUNn = 0;
+        }else{
+            $LUNp = 0;
+            $LUNn = $totalLUN;
+        }
+        $balanceLBp = $totalLRD + $LULBp;
+        $balanceLBn = $totalLRK + $LULBn;
+        $balanceNp = $totalND + $LUNp;
+        $balanceNn = $totalNK + $LUNn;
+
+        $kesusaianLB = $balanceLBp - $balanceLBn; 
+        $kesuaianLK = $balanceNp - $balanceNn;
+        if($kesusaianLB == 0 && $kesuaianLK == 0){
+            session(['kesesuaian' => 'NERACA SALDO SESUAI']);
+        }else{
+            session(['kesesuaian' => 'NERACA SALDO TIDAK SESUAI']);
+        }
+        return view('Neraca_Jalur', ['data' => $data,
+                                        'totalRpD' => $totalRpD,
+                                        'totalRpK' => $totalRpK,
+                                        'totalRpPD' => $totalRpPD,
+                                        'totalRpPK' => $totalRpPK,
+                                        'totalSaldoPenyesuaianP' => $totalSaldoPenyesuaianP,
+                                        'totalSaldoPenyesuaianN' => $totalSaldoPenyesuaianN,
+                                        'totalLRD' => $totalLRD,
+                                        'totalLRK' => $totalLRK,
+                                        'totalND' => $totalND,
+                                        'totalNK' => $totalNK,
+                                        'LULBp' => $LULBp,
+                                        'LULBn' => $LULBn,
+                                        'LUNp' => $LUNp,
+                                        'LUNn' => $LUNn,
+                                        'balanceLBp' => $balanceLBp,
+                                        'balanceLBn' => $balanceLBn,
+                                        'balanceNp' => $balanceNp,
+                                        'balanceNn' => $balanceNn
+                                    ]
+                    );
     }
 
     // public function isiPenyesuaian($id,$neraca){

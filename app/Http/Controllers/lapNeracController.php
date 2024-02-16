@@ -12,18 +12,18 @@ class lapNeracController extends Controller
 {
     public function index(){
         session(['paginate' => false]);
-        $datacoa = COA::all();
+        $datacoa = COA::orderBy('kode', 'asc')->get();
         $dataPenyesuaian = penyesuaian::all();
         $data = [];
-        
+        $saldoJumlah = 0;
         foreach($datacoa as $dc){
-            if($dc->jenis_akun == 'A REAL'){
+            if($dc->jenis_akun == 'A REAL'){    
                 if($dc->keterangan == 'Header'){
                     $calc = 0;
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $neracaLap = new neracaLaporan;
-                    $neracaLap->golongan = 'NERACA';
+                    $neracaLap->golongan = $dc->kode;
                     $neracaLap->nama_akun = $dc->Nama_akun;
                     $neracaLap->keterangan = $dc->keterangan;
                     $neracaLap->Saldo_awal = $dc->Saldo_awal;
@@ -48,7 +48,7 @@ class lapNeracController extends Controller
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $neracaLap = new neracaLaporan;
-                    $neracaLap->golongan = 'NERACA';
+                    $neracaLap->golongan = $dc->kode;
                     $neracaLap->nama_akun = $dc->Nama_akun;
                     $neracaLap->keterangan = $dc->keterangan;
                     $neracaLap->Saldo_awal = $dc->Saldo_awal;
@@ -66,14 +66,15 @@ class lapNeracController extends Controller
                     }else{
                         $neracaLap->saldo_periode = $calc;
                     }
-                    $neracaLap->saldo_akhir = $dc->Saldo_awal + $calc;
+                    $neracaLap->saldo_akhir = $saldoJumlah;
+                    $saldoJumlah = 0;
                     $data[] = $neracaLap;
                 }else{
                     $calc = 0;
                     $sumDebit = 0;
                     $sumKredit = 0;
                     $neracaLap = new neracaLaporan;
-                    $neracaLap->golongan = 'NERACA';
+                    $neracaLap->golongan = $dc->kode;
                     $neracaLap->nama_akun = $dc->Nama_akun;
                     $neracaLap->keterangan = $dc->keterangan;
                     $neracaLap->Saldo_awal = $dc->Saldo_awal;
@@ -91,6 +92,7 @@ class lapNeracController extends Controller
                         $neracaLap->saldo_periode = $calc;
                     }
                     $neracaLap->saldo_akhir = $dc->Saldo_awal + $calc;
+                    $saldoJumlah += $neracaLap->saldo_akhir;
                     $data[] = $neracaLap;
                 }
             }
