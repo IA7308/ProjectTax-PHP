@@ -10,7 +10,7 @@
             <!-- Pagination -->
 
             <div class ="row sticky-top" style="background-color: white;">
-                <div class="col text-start sticky-top" style="background-color: white;">
+                <div class="col text-start">
                     <form action="/beranda" method="GET">
                         <p>Show
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
@@ -108,6 +108,7 @@
     svg {
         width: 20px;
     }
+    
 </style>
 @endpush
 @push('scripts')

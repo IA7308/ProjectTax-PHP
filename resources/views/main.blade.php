@@ -35,8 +35,6 @@
 
 
     <!-- Tambahkan stylesheet lainnya -->
-    
-
 </head>
 
 <body>

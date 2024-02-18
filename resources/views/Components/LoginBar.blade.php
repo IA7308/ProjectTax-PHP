@@ -18,38 +18,18 @@
                 <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{session('name')}}
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu position-relative" style="width: 100px; z-index: 1000;">
                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     <li><a class="dropdown-item" href="/">Login</a></li>
                 </ul>
             </div>
-            <!-- <div class="col text-end">
-                //Notifikasi
-                <a class="dropdown-toggle mx-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-bell"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                //Message
-                <a class="dropdown-toggle mx-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-envelope"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div> -->
         </div>
-        <hr>
+        <br>
 </body>
 </html>
+<style>
+    .dropdown-menu .dropdown-item:hover{
+        background-color: #666 ;
+    }
+
+</style>
