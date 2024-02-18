@@ -28,7 +28,7 @@
             </div>
             <!-- DATA TABEL -->
             <table id="myTable" class="table table-bordered table-hover text-start" name="tabelCOA">
-                <thead>
+                <thead class="sticky-top">
                     <tr class="table table-primary">
                         <th  rowspan="2">KODE AKUN</th>
                         <th  rowspan="2">NAMA AKUN</th>

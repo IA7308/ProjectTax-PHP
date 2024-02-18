@@ -4,7 +4,6 @@
 <body>
     @section('content')
     <div class="container-fluid text-center">
-        <h3 class="mt-2">DATA PENYESUAIAN</h3>
         <hr>
         <div class="card p-3">
             <!-- Pagination -->

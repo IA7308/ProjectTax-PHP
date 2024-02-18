@@ -26,9 +26,9 @@
                 </div>                
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
-                <thead>
+                <thead class="sticky-top">
                     <tr class="table table-primary">
-                        <th>GOLONGAN</th>
+                        <th>KODE AKUN</th>
                         <th>SALDO NORMAL (KETERANGAN)</th>
                         <th>KETERANGAN</th>
                         <th>AWAL PERIODE</th>

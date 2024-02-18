@@ -4,7 +4,6 @@
 <body>
     @section('content')
     <div class="container-fluid text-center">
-        <h3 class="mt-2">KONSEP</h3>
         <hr>
         <div class="card p-3">
             <!-- Pagination -->
@@ -26,7 +25,7 @@
                 </div>                
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
-                <thead>
+                <thead class="sticky-top">
                     <tr class="table table-primary">
                         <th>KODE AKUN</th>
                         <th>SALDO NORMAL (KETERANGAN)</th>

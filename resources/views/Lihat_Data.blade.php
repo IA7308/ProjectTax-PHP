@@ -5,13 +5,12 @@
 <body>
     @section('content')
     <div class="container-fluid text-center" id="container">
-        <h3 class="mt-2">DATA COA</h3>
         <hr>
         <div class="card p-3">
             <!-- Pagination -->
 
-            <div class="row">
-                <div class="col text-start">
+            <div class ="row sticky-top" style="background-color: white;">
+                <div class="col text-start sticky-top" style="background-color: white;">
                     <form action="/beranda" method="GET">
                         <p>Show
                             <select name="pagination" id="paginate" onchange="this.form.submit()">

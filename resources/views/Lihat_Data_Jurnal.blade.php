@@ -4,11 +4,10 @@
 <body>
     @section('content')
     <div class="container-fluid text-center">
-        <h3 class="mt-2">DATA JURNAL</h3>
         <hr>
         <div class="card p-3">
             <!-- Pagination -->
-            <div class="row">
+            <div class ="row sticky-top" style="background-color: white;">
                 <div class="col-12 text-center">
                     <h2>TABEL JURNAL</h2>
                 </div>
