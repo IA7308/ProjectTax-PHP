@@ -15,6 +15,7 @@ class labarugiController extends Controller
         $dataPenyesuaian = penyesuaian::all();
         $data = [];
         $totalsaldo = 0;
+        $datajumlah = [];
         foreach($datacoa as $dc){
             if($dc->jenis_akun == 'A NOMINAL'){
                 if($dc->keterangan == 'Header'){
@@ -41,6 +42,7 @@ class labarugiController extends Controller
                         $labarugi->saldo_periode = $calc;
                     }
                     $labarugi->saldo_akhir = $dc->Saldo_awal + $calc;
+                    $datajumlah[] = $labarugi;
                     $data[] = $labarugi;    
                 }elseif($dc->keterangan == 'Jumlah'){
                     $calc = 0;
@@ -67,6 +69,18 @@ class labarugiController extends Controller
                     }
                     $labarugi->saldo_akhir = $totalsaldo;
                     $totalsaldo = 0;
+                    $data[] = $labarugi;
+                }elseif($dc->keterangan == 'Total'){
+                    $calc = 0;
+                    $sumDebit = 0;
+                    $sumKredit = 0;
+                    $labarugi = new labarugi;
+                    $labarugi->golongan = $dc->kode;
+                    $labarugi->nama_akun = $dc->Nama_akun;
+                    $labarugi->keterangan = $dc->keterangan;
+                    $labarugi->Saldo_awal = $dc->Saldo_awal;
+                    $labarugi->backgroundClass = 'table-secondary';
+                    $labarugi->saldo_akhir = $datajumlah[count($datajumlah)]->saldo_akhir - $datajumlah[count($datajumlah) - 1]->saldo_akhir;
                     $data[] = $labarugi;
                 }else{
                     $calc = 0;

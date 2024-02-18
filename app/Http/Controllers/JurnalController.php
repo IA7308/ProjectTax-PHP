@@ -22,7 +22,7 @@ class JurnalController extends Controller
 
     public function create()
     {
-        $data = COA::all();
+        $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
         foreach($data as $d){
@@ -79,7 +79,7 @@ class JurnalController extends Controller
 
     public function edit($id)
     {
-        $data = COA::all();
+        $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
         foreach($data as $d){

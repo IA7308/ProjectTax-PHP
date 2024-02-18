@@ -29,7 +29,7 @@ class COAController extends Controller
                 $saldo += $d->Saldo_awal;
                 if ($d->keterangan == 'Header') {
                     $d->backgroundClass = 'table-info';
-                } elseif ($d->keterangan == 'Jumlah') {
+                } elseif ($d->keterangan == 'Jumlah'||$d->keterangan == 'Total') {
                     $d->backgroundClass = 'table-secondary';
                 }elseif ($d->keterangan == 'Akun, Kredit') {
                     $d->backgroundClass = 'table-warning';
@@ -49,7 +49,7 @@ class COAController extends Controller
                 $saldo += $d->Saldo_awal;
                 if ($d->keterangan == 'Header') {
                     $d->backgroundClass = 'table-info';
-                } elseif ($d->keterangan == 'Jumlah') {
+                } elseif ($d->keterangan == 'Jumlah'||$d->keterangan == 'Total') {
                     $d->backgroundClass = 'table-secondary';
                 }elseif ($d->keterangan == 'Akun, Kredit') {
                     $d->backgroundClass = 'table-warning';

@@ -15,7 +15,7 @@ class konsepController extends Controller
         $datacoa = COA::all();
         $datajurnal = Jurnal::all();
         $data = [];
-        
+        $datajumlah = [];
         foreach($datacoa as $dc){
             if($dc->keterangan == 'Header'){
                 $calc = 0;
@@ -68,6 +68,21 @@ class konsepController extends Controller
                 }
                 $konsep->saldo_akhir = $dc->Saldo_awal + $calc;
                 $konsep->backgroundCell = 'table-secondary';
+                if($dc->jenis_akun == "A NOMINAL"){
+                    $datajumlah[] = $konsep;
+                }
+                $data[] = $konsep;
+            }elseif($dc->keterangan == 'Total'){
+                $calc = 0;
+                $sumDebit = 0;
+                $sumKredit = 0;
+                $konsep = new konsep;
+                $konsep->kode = $dc->kode;
+                $konsep->nama_akun = $dc->Nama_akun;
+                $konsep->keterangan = $dc->keterangan;
+                $konsep->Saldo_awal = $dc->Saldo_awal;
+                $konsep->backgroundCell = 'table-secondary';
+                $konsep->saldo_akhir = $datajumlah[count($datajumlah)]->saldo_akhir - $datajumlah[count($datajumlah) - 1]->saldo_akhir;
                 $data[] = $konsep;
             }else{
                 $calc = 0;

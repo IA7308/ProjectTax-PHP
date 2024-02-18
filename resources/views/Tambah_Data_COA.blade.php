@@ -50,7 +50,7 @@
                         <option value="Akun, Kredit" {{ isset($data) && $data->keterangan == 'Akun, Kredit' ? 'selected' : '' }}>Akun, Kredit</option>
                         <option value="Jumlah" {{ isset($data) && $data->keterangan == 'Jumlah' ? 'selected' : '' }} style="font-weight:bold;">Jumlah</option>
                         <option value="Header" {{ isset($data) && $data->keterangan == 'Header' ? 'selected' : '' }} style="font-weight:bold;">Header</option>
-
+                        <option value="Total" {{ isset($data) && $data->keterangan == 'Total' ? 'selected' : '' }} style="font-weight:bold;">Total</option>
                       </select>
                     </div>
                 </div>

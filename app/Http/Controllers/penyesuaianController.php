@@ -27,7 +27,7 @@ class penyesuaianController extends Controller
 
     public function create()
     {
-        $data = COA::all();
+        $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
         foreach($data as $d){
