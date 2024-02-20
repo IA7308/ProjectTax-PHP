@@ -20,7 +20,7 @@ class COAController extends Controller
                     $dataC[] = $t;
                 }
             }
-        if($dataC != []){
+        if($dataC == []){
             session(['idDataterpilih' => '#']);
         }else{
             session(['idDataterpilih' => $dataC[0]->id]);
