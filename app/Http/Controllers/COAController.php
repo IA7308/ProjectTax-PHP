@@ -20,7 +20,12 @@ class COAController extends Controller
                     $dataC[] = $t;
                 }
             }
-        session(['idDataterpilih' => $dataC[0]->id]);
+        if($dataC != []){
+            session(['idDataterpilih' => '#']);
+        }else{
+            session(['idDataterpilih' => $dataC[0]->id]);
+        }
+        
         
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
