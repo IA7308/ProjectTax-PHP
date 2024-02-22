@@ -82,7 +82,7 @@ class konsepController extends Controller
                 $konsep->keterangan = $dc->keterangan;
                 $konsep->Saldo_awal = $dc->Saldo_awal;
                 $konsep->backgroundCell = 'table-secondary';
-                $konsep->saldo_akhir = $datajumlah[count($datajumlah)]->saldo_akhir - $datajumlah[count($datajumlah) - 1]->saldo_akhir;
+                $konsep->saldo_akhir = $datajumlah[count($datajumlah)-1]->saldo_akhir - $datajumlah[count($datajumlah) - 2]->saldo_akhir;
                 $data[] = $konsep;
             }else{
                 $calc = 0;
