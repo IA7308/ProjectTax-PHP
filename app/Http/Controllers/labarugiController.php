@@ -80,7 +80,7 @@ class labarugiController extends Controller
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
                     $labarugi->backgroundClass = 'table-secondary';
-                    $labarugi->saldo_akhir = $datajumlah[count($datajumlah)]->saldo_akhir - $datajumlah[count($datajumlah) - 1]->saldo_akhir;
+                    $labarugi->saldo_akhir = $datajumlah[count($datajumlah)-1]->saldo_akhir - $datajumlah[count($datajumlah) - 2]->saldo_akhir;
                     $data[] = $labarugi;
                 }else{
                     $calc = 0;
