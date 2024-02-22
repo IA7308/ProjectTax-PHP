@@ -245,19 +245,19 @@ class NeracaController extends Controller
 
         $totalLU = $totalLRD + $totalLRK;
         if($totalLU >= 0){
-            $LULBp = $totalLU;
-            $LULBn = 0;
-        }else{
             $LULBp = 0;
             $LULBn = $totalLU;
+        }else{
+            $LULBp = $totalLU;
+            $LULBn = 0;
         }
         $totalLUN = $totalND + $totalNK;
         if($totalLUN >= 0){
             $LUNp = $totalLUN;
             $LUNn = 0;
         }else{
-            $LUNp = 0;
-            $LUNn = $totalLUN;
+            $LUNp = $totalLUN;
+            $LUNn = 0;
         }
         $balanceLBp = $totalLRD + $LULBp;
         $balanceLBn = $totalLRK + $LULBn;
@@ -266,7 +266,8 @@ class NeracaController extends Controller
 
         $kesusaianLB = $balanceLBp - $balanceLBn; 
         $kesuaianLK = $balanceNp - $balanceNn;
-        if($kesusaianLB == 0 && $kesuaianLK == 0){
+        $kesuaianSaldo = $totalRpD + $totalRpK;
+        if($kesuaianSaldo > -1 && $kesuaianSaldo < 1){
             session(['kesesuaian' => 'NERACA SALDO SESUAI']);
         }else{
             session(['kesesuaian' => 'NERACA SALDO TIDAK SESUAI']);

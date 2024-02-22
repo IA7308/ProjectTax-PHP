@@ -5,18 +5,22 @@
 <body>
     @section('content')
     <div class="container-fluid text-center">
-        <h3 class="mt-2">BUKU BESAR</h3>
-        <hr>
+        <!-- <h3 class="mt-2">BUKU BESAR</h3>
+        <hr> -->
         <div class="card p-3">
             <!-- Pagination -->
             <div class="row">
-                <div class="col-12 text-center">
+                <div class="col-4 text-start">
+                    <h3>BUKU BESAR</h3>
+                </div>
+                <div class="col-4 text-center">
                 @if(session('pilihC'))
                     <h2>{{$dataPilih->Nama_akun}}</h2>
                 @endif
                 </div>
-                <div class="col-4 text-start">
                 @if(session('paginate'))
+                <div class="col-4 text-start">
+                
                     <form action="/bukubesar" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
@@ -27,12 +31,13 @@
                             </select> entries
                         </p>
                     </form>
-                @endif
+                
                 </div>
+                @endif
                 <div class="col text-end">
                     
                     <form action="/bukubesar" method="GET">
-                        <select name="pilihakun" class="selectpicker w-25" data-live-search="true" id="pilihakun" onchange="this.form.submit()">
+                        <select name="pilihakun" class="selectpicker w-75" data-live-search="true" id="pilihakun" onchange="this.form.submit()">
                             <option value="" disabled hidden selected >Choose...</option>
                             @foreach($dataC as $c)
                                 <option value="{{$c->id}}">

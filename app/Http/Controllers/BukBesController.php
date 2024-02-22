@@ -24,7 +24,7 @@ class BukBesController extends Controller
             });
             
         session(['pilihC' => false]);
-        session(['paginate' => true]);
+        session(['paginate' => false]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
             $temp = COA::all();
