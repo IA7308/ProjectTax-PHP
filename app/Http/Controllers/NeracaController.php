@@ -253,8 +253,8 @@ class NeracaController extends Controller
         }
         $totalLUN = $totalND + $totalNK;
         if($totalLUN >= 0){
-            $LUNp = $totalLUN;
-            $LUNn = 0;
+            $LUNp = 0;
+            $LUNn = $totalLUN;
         }else{
             $LUNp = $totalLUN;
             $LUNn = 0;
