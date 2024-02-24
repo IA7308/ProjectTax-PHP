@@ -103,8 +103,14 @@ class NeracaController extends Controller
             }elseif($dc->keterangan == 'Akun, Debit'){
                 $neraca->kode = $dc->kode;
                 $neraca->nama_akun = $dc->Nama_akun;
-                $neraca->rpD = $dc->jumlah_saldo;
-                $neraca->rpK = 0;
+                if($dc->jumlah_saldo < 0){
+                    $neraca->rpD = 0;
+                    $neraca->rpK = $dc->jumlah_saldo;
+                }else{
+                    $neraca->rpD = $dc->jumlah_saldo;
+                    $neraca->rpK = 0;
+                }
+                
                 $neraca->rpPD = 0;
                 $neraca->rpPK = 0;
                 foreach($dataPenyesuaian as $dp){
@@ -130,7 +136,12 @@ class NeracaController extends Controller
                         $neraca->rpPK = $totalsaldoPenyesuaian;
                     }    
                 }
-                $calc = $neraca->rpD + $neraca->rpPD - $neraca->rpPK;
+                if($neraca->rpD!=0){
+                    $calc = $neraca->rpD + $neraca->rpPD - $neraca->rpPK;
+                }else{
+                    $calc = $neraca->rpK + $neraca->rpPD - $neraca->rpPK;
+                }
+                
                     if($calc<0){
                         $neraca->SaldoPenyesuaianP = 0;
                         $neraca->SaldoPenyesuaianN = $calc; 
