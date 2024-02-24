@@ -203,7 +203,7 @@ class JurnalController extends Controller
             $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $prod->rpD;
         }
         if($akunkredit->keterangan == "Akun, Kredit"){
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $prod->rpK; 
+            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
         }else{
             $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
         }

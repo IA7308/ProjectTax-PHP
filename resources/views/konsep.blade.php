@@ -83,7 +83,7 @@
                     // Pastikan nilai tidak kosong dan berisi karakter '-'
                     if (textValue !== '' && textValue.includes('-')) {
                         // Parse teks ke bilangan bulat
-                        var value = parseInt(textValue.replace(/[^0-9-]/g, ''), 10);
+                        var value = parseInt(textValue.replace(/[^\d,-]/g, ''));
                         
                         // Ubah nilai menjadi positif dan tambahkan tanda '-'
                         cell.innerText = '(' + Math.abs(value).toLocaleString() + ')';
