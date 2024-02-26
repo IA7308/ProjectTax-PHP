@@ -159,7 +159,7 @@ class JurnalController extends Controller
                     $akunkreditlama = $d;
                 }
             }
-            if($akundebitlama->keterangan == "Akun, Kredit"){
+            if($akunkreditlama->keterangan == "Akun, Kredit"){
                 $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;
             }else{
                 $akunkreditlama->jumlah_saldo = $akunkreditlama->jumlah_saldo + $prod->rpK;

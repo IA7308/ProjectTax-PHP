@@ -254,15 +254,15 @@ class NeracaController extends Controller
         $totalND = $collection->sum('nD');
         $totalNK = $collection->sum('nK');
 
-        $totalLU = $totalLRD + $totalLRK;
-        if($totalLU >= 0){
+        $totalLU = $totalLRD - ($totalLRK*-1);
+        if($totalLRD > ($totalLRK*-1)){
             $LULBp = 0;
             $LULBn = $totalLU;
         }else{
             $LULBp = $totalLU;
             $LULBn = 0;
         }
-        $totalLUN = $totalND + $totalNK;
+        $totalLUN = $totalND - ($totalNK*-1);
         if($totalLUN >= 0){
             $LUNp = $totalLUN;
             $LUNn = 0;
@@ -270,8 +270,8 @@ class NeracaController extends Controller
             $LUNp = 0;
             $LUNn = $totalLUN;
         }
-        $balanceLBp = $totalLRD + $LULBp;
-        $balanceLBn = $totalLRK - $LULBn;
+        $balanceLBp = $totalLRD + ($LULBp*-1);
+        $balanceLBn = $totalLRK + $LULBn;
         $balanceNp = $totalND - $LUNp;
         $balanceNn = $totalNK + $LUNn;
 
