@@ -270,8 +270,8 @@ class NeracaController extends Controller
             $LUNp = 0;
             $LUNn = $totalLUN;
         }
-        $balanceLBp = $totalLRD - $LULBp;
-        $balanceLBn = $totalLRK + $LULBn;
+        $balanceLBp = $totalLRD + $LULBp;
+        $balanceLBn = $totalLRK - $LULBn;
         $balanceNp = $totalND - $LUNp;
         $balanceNn = $totalNK + $LUNn;
 
