@@ -63,28 +63,35 @@ class BukBesController extends Controller
         $akunCOA = COA::find($id);
         $data = [];
         $jurnal = Jurnal::all();
-        foreach($jurnal as $j){
-            if($j->akunD == $akunCOA->Nama_akun){
-                $bukudata = new bukubesar;
-                $bukudata->tanggal = $j->tanggal;
-                $bukudata->transaksi = $j->transaksi;
-                $bukudata->keterangan = $j->keterangan;
-                $bukudata->bukti = $j->bukti;
-                $bukudata->rpD = $j->rpD;
-                $bukudata->rpK = 0;
-                // $bukudata->histori_saldo = $j->histori_saldo_debit;
-                $data[] = $bukudata;
-            }elseif($j->akunK == $akunCOA->Nama_akun){
-                $bukudata = new bukubesar;
-                $bukudata->tanggal = $j->tanggal;
-                $bukudata->transaksi = $j->transaksi;
-                $bukudata->keterangan = $j->keterangan;
-                $bukudata->bukti = $j->bukti;
-                $bukudata->rpD = 0;
-                $bukudata->rpK = $j->rpK;
-                // $bukudata->histori_saldo = $j->histori_saldo_kredit;
-                $data[] = $bukudata;    
+        foreach($jurnal as $item){
+            $item->debit = json_decode($item->debit); 
+            $item->kredit = json_decode($item->kredit);
+            foreach($item->debit as $j){
+                if($j['akunD'] == $akunCOA->Nama_akun){
+                    $bukudata = new bukubesar;
+                    $bukudata->tanggal = $item->tanggal;
+                    $bukudata->transaksi = $item->transaksi;
+                    $bukudata->keterangan = $item->keterangan;
+                    $bukudata->bukti = $item->bukti;
+                    $bukudata->rpD = $j['rpD'];
+                    $bukudata->rpK = 0;
+                    // $bukudata->histori_saldo = $j->histori_saldo_debit;
+                    $data[] = $bukudata;
+                }
             }
+            foreach($item->kredit as $j){
+                if($j['akunK'] == $akunCOA->Nama_akun){
+                    $bukudata = new bukubesar;
+                    $bukudata->tanggal = $item->tanggal;
+                    $bukudata->transaksi = $item->transaksi;
+                    $bukudata->keterangan = $item->keterangan;
+                    $bukudata->bukti = $item->bukti;
+                    $bukudata->rpD = 0;
+                    $bukudata->rpK = $j['rpK'];
+                    // $bukudata->histori_saldo = $j->histori_saldo_kredit;
+                    $data[] = $bukudata;    
+                }
+            }    
             usort($data, function ($a, $b) {
                 return strtotime($a['tanggal']) - strtotime($b['tanggal']);
             });

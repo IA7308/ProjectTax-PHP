@@ -59,26 +59,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $d)
+                @foreach($data as $index => $d)
+                    @if($index >= 0)
+                        <!-- Baris kosong -->
+                        <tr></tr>
+                    @endif
                     <tr>
-                        <td>{{$d->tanggal}}</td>
-                        <td class="text-start">{{$d->transaksi}}</td>
-                        <td>{{$d->keterangan}}</td>
-                        <td>{{$d->bukti}}</td>
-                        <td class="text-end">{{number_format($d->jumlah, 2, ',', '.')}}</td>
-                        <td>{{$d->akunD}}</td>
-                        <td class="text-end">{{number_format($d->rpD, 2, ',', '.')}}</td>
-                        <td>{{$d->akunK}}</td>
-                        <td class="text-end">{{number_format($d->rpK, 2, ',', '.')}}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->tanggal }}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-start">{{ $d->transaksi }}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->keterangan }}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->bukti }}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-end">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
+
+                        @if(count($d->debit) > 0)
+                            <td>{{ $d->debit[0]['akunD'] }}</td>
+                            <td class="text-end">{{ number_format($d->debit[0]['rpD'], 2, ',', '.') }}</td>
+                        @else
+                            <td></td>
+                            <td class="text-end"></td>
+                        @endif
+
+                        @if(count($d->kredit) > 0)
+                            <td>{{ $d->kredit[0]['akunK'] }}</td>
+                            <td class="text-end">{{ number_format($d->kredit[0]['rpK'], 2, ',', '.') }}</td>
+                        @else
+                            <td></td>
+                            <td class="text-end"></td>
+                        @endif
+
                         <td>
                             <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 AKSI
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ $d->id }}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
+                                <li><a href="jTambahData/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}" class="btn btn-primary dropdown-item">Edit</a></li>
                                 <li>
-                                    <form method="post" action="/j/{{ $d->id }}" style="display:inline"
-                                    onsubmit="return confirm('Yakin hapus?')">
+                                    <form method="post" action="/j/{{ $d->id }}" style="display:inline" onsubmit="return confirm('Yakin hapus?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="dropdown-item">Hapus</button>
@@ -87,7 +103,28 @@
                             </ul>                           
                         </td>
                     </tr>
-                    @endforeach
+
+                    @for ($i = 1; $i < max(count($d->debit), count($d->kredit)); $i++)
+                        <tr>
+                            @if(isset($d->debit[$i]))
+                                <td>{{ $d->debit[$i]['akunD'] }}</td>
+                                <td class="text-end">{{ number_format($d->debit[$i]['rpD'], 2, ',', '.') }}</td>
+                            @else
+                                <td></td>
+                                <td class="text-end"></td>
+                            @endif
+
+                            @if(isset($d->kredit[$i]))
+                                <td>{{ $d->kredit[$i]['akunK'] }}</td>
+                                <td class="text-end">{{ number_format($d->kredit[$i]['rpK'], 2, ',', '.') }}</td>
+                            @else
+                                <td></td>
+                                <td class="text-end"></td>
+                            @endif
+                        </tr>
+                    @endfor
+                @endforeach
+
                 </tbody>
             </table>
             @if(session('paginate'))

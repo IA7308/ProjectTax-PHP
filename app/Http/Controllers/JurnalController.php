@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\COA;
 use App\Models\Jurnal;
+use App\Models\JurnalAkun;
+use App\Models\JurnalAkunKredit;
 use Illuminate\Http\Request;
 
 class JurnalController extends Controller
@@ -14,35 +16,96 @@ class JurnalController extends Controller
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
             $data = Jurnal::all();
+            foreach ($data as $entry) {
+                $entry->debit = json_decode($entry->debit); // true untuk mengembalikan array asosiatif
+                $entry->kredit = json_decode($entry->kredit);
+            }
         }else{
             $data = (new JurnalController)->getData($perPage);
+            foreach ($data as $entry) {
+                $entry->debit = json_decode($entry->debit); // true untuk mengembalikan array asosiatif
+                $entry->kredit = json_decode($entry->kredit);
+            }
         }
         return view("Lihat_Data_Jurnal", compact('data'));
     }
 
     public function create()
     {
+        session(['Multiple' => false]);
+        session(['jumlahJurnal' => 0]);
         $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
+        $dataMultipleD = JurnalAkun::all();
+        $dataMultipleK = JurnalAkunKredit::all();
+        $dataMultipleDebit = [];
+        $dataMultipleKredit = [];
+        $bukti = [];
+        $jurnal = Jurnal::all();
+        
+        foreach($jurnal as $d){
+            $bukti[] = $d->bukti;
+        }
+        
         foreach($data as $d){
             if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
                 $dataDebit[] = $d;
                 $dataKredit[] = $d;
             }
         }
+        foreach($dataMultipleD as $MD){
+            if($MD->bukti == ''){
+                $dataMultipleDebit[] = $MD;
+            }
+        }
+        foreach($dataMultipleK as $MK){
+            if($MK->bukti == ''){
+                $dataMultipleKredit[] = $MK;  
+            }
+        }
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
             'method' => 'POST',
+            'methodModal' => 'POST',
             'action' => '/jStore',
+            'actionModalKredit' => '/jTambahDataKredit',
             'dataDebit' => $dataDebit,
-            'dataKredit' => $dataKredit
+            'dataKredit' => $dataKredit,
+            'dataMultipleDebit' => $dataMultipleDebit,
+            'dataMultipleKredit' => $dataMultipleKredit,
+            'dataKode' => $bukti
         ]);
     }
     public function store(Request $request)
     {
-        $akundebit = COA::find($request->Nama_akun_debit);
-        $akunkredit = COA::find($request->Nama_akun_kredit);
+        $data = Jurnal::all();
+        $kodeDuplikat = false;
+        foreach ($data as $d) {
+            if ($request->bukti == $d->bukti) {
+                $kodeDuplikat = true;
+                break;
+            }
+        }
+
+        if ($kodeDuplikat) {
+            return redirect()->back()->with('error', 'BUKTI DUPLIKAT');
+        }
+
+        $datadebit = JurnalAkun::all();
+        $akundebit = [];
+        foreach($datadebit as $ad){
+            if($ad->bukti == $request->bukti){
+                $akundebit[] = $ad;
+            }
+        };
+        $datakredit = JurnalAkunKredit::all();
+        $akunkredit = [];
+        foreach($datakredit as $ad){
+            if($ad->bukti == $request->bukti){
+                $akunkredit[] = $ad;
+            }
+        };
 
         $prod = new Jurnal;
 
@@ -51,29 +114,20 @@ class JurnalController extends Controller
         $prod->keterangan = $request->keterangan;
         $prod->bukti = $request->bukti;
         $prod->jumlah = $request->jumlah;
-        $prod->akunD = $akundebit->Nama_akun;
-        $prod->rpD = $request->rpD;
-        $prod->akunK = $akunkredit->Nama_akun;
-        $prod->rpK = $request->rpK;
+        $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
+        $prod->kredit = json_encode($akunkredit);
+        $prod->histori_saldo_debit = 0;
+        $prod->histori_saldo_kredit = 0;
         
-        if($akundebit->keterangan == "Akun, Kredit"){
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
-        }else{
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $request->rpD;
-        }
-        if($akunkredit->keterangan == "Akun, Kredit"){
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK; 
-        }else{
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo - $request->rpK;
-        }
-        
-        $prod->histori_saldo_debit = $akundebit->jumlah_saldo;
-        $prod->histori_saldo_kredit = $akunkredit->jumlah_saldo;
-        // $prod->histori_saldo = $akunCOA->jumlah_saldo;
-        // $akunCOA->save();
-        $akundebit->save();
-        $akunkredit->save();
         $prod->save();
+
+        
+        // $prod->akunD = $akundebit[0]->akunD;
+        // $prod->rpD = $akundebit[0]->rpD;
+        // $prod->akunK = $akunkredit[0]->akunK;
+        // $prod->rpK = $akunkredit[0]->rpK;
+        
+        
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');
     }
 
@@ -189,37 +243,78 @@ class JurnalController extends Controller
     {
         $data = COA::all();
         $prod = Jurnal::find($id);
+        $prod->debit = json_decode($prod->debit);
+        $prod->kredit = json_decode($prod->kredit);
+        $akundebit = [];
+        $akunkredit = [];
         foreach($data as $d){
-            if($d->Nama_akun == $prod->akunD){
-                $akundebit = $d;
+            foreach($prod->debit as $p){
+                if($d->Nama_akun == $p['akunD']){
+                    $akundebit[] = $d;
+                }
             }
-            if($d->Nama_akun == $prod->akunK){
-                $akunkredit = $d;
+            foreach($prod->kredit as $p){
+                if($d->Nama_akun == $p['akunK']){
+                    $akunkredit[] = $d;
+                }
             }
-        }
-        if($akundebit->keterangan == "Akun, Kredit"){
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $prod->rpD;
-        }else{
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $prod->rpD;
-        }
-        if($akunkredit->keterangan == "Akun, Kredit"){
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
-        }else{
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
         }
 
-        $akundebit->save();
-        $akunkredit->save();
+        foreach($akundebit as $ad){
+            if($ad->keterangan == "Akun, Kredit"){
+                foreach($prod->debit as $p){
+                    if($ad->Nama_akun == $p['akunD']){
+                        $ad->jumlah_saldo = $ad->jumlah_saldo + $p['rpD'];
+                    }
+                    JurnalAkun::destroy($p['id']);
+                }
+            }else{
+                foreach($prod->debit as $p){
+                    if($ad->Nama_akun == $p['akunD']){
+                        $ad->jumlah_saldo = $ad->jumlah_saldo - $p['rpD'];
+                    }
+                    JurnalAkun::destroy($p['id']);
+                }
+            }
+            $ad->save();
+        }
+        
+        foreach($akunkredit as $ak){
+            if($ak->keterangan == "Akun, Kredit"){
+                foreach($prod->kredit as $p){
+                    if($ak->Nama_akun == $p['akunK']){
+                        $ak->jumlah_saldo = $ak->jumlah_saldo + $p['rpK'];
+                    }
+                    JurnalAkunKredit::destroy($p['id']);
+                }                 
+            }else{
+                foreach($prod->kredit as $p){
+                    if($ak->Nama_akun == $p['akunK']){
+                        $ak->jumlah_saldo = $ak->jumlah_saldo + $p['rpK'];
+                    }
+                    JurnalAkunKredit::destroy($p['id']);
+                }             
+            }
+            $ak->save();
+        }
+        
         Jurnal::destroy($id);
 
         $allJurnals = Jurnal::all();
 
         foreach ($allJurnals as $jurnal) {
-            $akunDebit = COA::where('Nama_akun', $jurnal->akunD)->first();
-            $akunKredit = COA::where('Nama_akun', $jurnal->akunK)->first();
-    
-            $jurnal->histori_saldo_debit = $akunDebit->jumlah_saldo;
-            $jurnal->histori_saldo_kredit = $akunKredit->jumlah_saldo;
+            $jurnal->debit = json_decode($jurnal->debit);
+            $jurnal->kredit = json_decode($jurnal->kredit);
+            foreach($jurnal->debit as $d){
+                $akunDebit = COA::where('Nama_akun', $d['akunD'])->first();
+                $d['histori_saldo_debit'] = $akunDebit->jumlah_saldo;
+            }
+            foreach($jurnal->kredit as $k){
+                $akunKredit = COA::where('Nama_akun', $k['akunK'])->first();                
+                $k['histori_saldo_kredit'] = $akunKredit->jumlah_saldo;
+            }
+            $jurnal->debit = json_encode($jurnal->debit);
+            $jurnal->kredit = json_encode($jurnal->kredit);        
             $jurnal->save();
         }
 

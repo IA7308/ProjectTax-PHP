@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BukBesController;
 use App\Http\Controllers\COAController;
+use App\Http\Controllers\JurnalAkunController;
 use App\Http\Controllers\JurnalController;
 use App\Http\Controllers\konsepController;
 use App\Http\Controllers\labarugiController;
@@ -34,10 +35,17 @@ Route::delete('/{id}', [COAController::class, 'destroy']);
 
 Route::get('/jurnal', [JurnalController::class, 'index']);
 Route::get('/jTambahData', [JurnalController::class, 'create']);
-Route::get('/jStore', [JurnalController::class, 'store']);
+Route::get('/jStore', [JurnalController::class, 'store'])->name('tambahJurnal');
 Route::get('/{id}/editJ', [JurnalController::class, 'edit']);
 Route::get('/{id}/updateJ', [JurnalController::class, 'update']);
 Route::delete('/j/{id}', [JurnalController::class, 'destroy']);
+//UPDATE JURNAL
+Route::get('/jTambahDataDebit', [JurnalAkunController::class, 'storeDebit'])->name('jTambahDebit');
+Route::get('/jTambahDataKredit', [JurnalAkunController::class, 'storeKredit'])->name('jTambahKredit');
+Route::get('/jTambahData/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'create'])->name('jTambahData');
+Route::get('/jD/{id}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteDebit']);
+Route::get('/jK/{id}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteKredit']);
+
 
 //LOGIN
 Route::get('/', [LoginController::class, 'create']);

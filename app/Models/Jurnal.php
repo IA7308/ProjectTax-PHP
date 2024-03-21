@@ -14,11 +14,11 @@ class Jurnal extends Model
         'keterangan',
         'bukti',
         'jumlah',
-        'akunD',
-        'rpD',
-        'akunK',
-        'rpK',
         'histori_saldo_debit',
         'histroi_saldo_kredit'
+    ];
+    protected $casts = [
+        'debit' => 'json', // Tentukan bahwa debit adalah tipe data JSON
+        'kredit' => 'json' // Tentukan bahwa kredit adalah tipe data JSON
     ];
 }
