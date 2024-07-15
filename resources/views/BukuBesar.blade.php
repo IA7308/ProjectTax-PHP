@@ -37,7 +37,7 @@
                 <div class="col text-end">
                     
                     <form action="/bukubesar" method="GET">
-                        <select name="pilihakun" class="selectpicker w-75" data-live-search="true" id="pilihakun" onchange="this.form.submit()">
+                        <select name="pilihakun" class="selectpicker " data-live-search="true" id="pilihakun" onchange="this.form.submit()">
                             <option value="" disabled hidden selected >Choose...</option>
                             @foreach($dataC as $c)
                                 <option value="{{$c->id}}">

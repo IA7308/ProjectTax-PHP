@@ -7,6 +7,7 @@ use App\Models\Jurnal;
 use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class JurnalController extends Controller
 {
@@ -41,13 +42,17 @@ class JurnalController extends Controller
         $dataMultipleK = JurnalAkunKredit::all();
         $dataMultipleDebit = [];
         $dataMultipleKredit = [];
+        $idjurnal = 0;
         $bukti = [];
         $jurnal = Jurnal::all();
         
         foreach($jurnal as $d){
             $bukti[] = $d->bukti;
+            if($d->id > $idjurnal){
+                $idjurnal = $d->id;
+            }
         }
-        
+        session(['jurnalid' => $idjurnal+1]);
         foreach($data as $d){
             if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
                 $dataDebit[] = $d;
@@ -319,6 +324,28 @@ class JurnalController extends Controller
         }
 
         return redirect('/jurnal')->with('msg', 'Hapus berhasil');
+    }
+
+    public function resetJurnal($jurnalid)
+    {
+        // Hapus semua entri kredit yang terkait dengan jurnal ID
+        JurnalAkunKredit::where('jurnalid', $jurnalid)->delete();
+
+        // Hapus semua entri debit yang terkait dengan jurnal ID
+        JurnalAkun::where('jurnalid', $jurnalid)->delete();
+        
+        return redirect('/jTambahData')->with('msg', 'Data Jurnal Telah di Reset');
+    }
+
+    public function kembaliJurnal($jurnalid)
+    {
+        // Hapus semua entri kredit yang terkait dengan jurnal ID
+        JurnalAkunKredit::where('jurnalid', $jurnalid)->delete();
+
+        // Hapus semua entri debit yang terkait dengan jurnal ID
+        JurnalAkun::where('jurnalid', $jurnalid)->delete();
+        
+        return redirect('/jurnal')->with('msg', 'Data Jurnal Telah di Reset');
     }
 
     public function getData($perPage)

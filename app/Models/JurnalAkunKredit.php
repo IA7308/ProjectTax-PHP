@@ -14,6 +14,7 @@ class JurnalAkunKredit extends Model
         'bukti',
         'akunK',
         'rpK',
-        'histroi_saldo_kredit'
+        'histroi_saldo_kredit',
+        'JurnalId'
     ];
 }

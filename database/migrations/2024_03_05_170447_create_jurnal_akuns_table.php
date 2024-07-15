@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('rpD');
             $table->date('tanggal');
             $table->bigInteger('histori_saldo_debit');
+            $table->integer('JurnalId');
             $table->timestamps();
 
 

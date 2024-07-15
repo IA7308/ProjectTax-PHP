@@ -204,7 +204,7 @@
                             
                             @foreach($dataMultipleDebit as $MD)
                             <tr>
-                                <td>{{$MD->akunD}} <a href="/jD/{{$MD->id}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
+                                <td>{{$MD->akunD}} <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
                                 <td class="text-end">{{$MD->rpD}}</td>
                             </tr>
                             @endforeach
@@ -235,7 +235,7 @@
                             
                             @foreach($dataMultipleKredit as $MK)
                             <tr>
-                                <td>{{$MK->akunK}} <a href="/jK/{{$MK->id}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
+                                <td>{{$MK->akunK}} <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
                                 <td class="text-end">{{$MK->rpK}}</td>
                             </tr>
                             @endforeach
@@ -254,6 +254,7 @@
                     </table>
                 </div>
             </div>
+            <input type="hidden" id="jurnalid" name="jurnalid" value="{{ session('jurnalid') }}" disabled/>
             <!-- nama akun debit -->
             <!-- <div class="row mb-3">
                 <div class="col-2">
@@ -321,8 +322,19 @@
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
-                        <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
-                        <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                        @if(!session('Multiple'))
+                            <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
+                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                         @else
+                            <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger mx-1">Reset</button>
+                            </form>
+                            <form action="{{ route('kembaliJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-warning mx-1">Kembali</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>           
@@ -375,6 +387,7 @@
             var rpD = $('#rpD').val();
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
 
             // Kirim data menggunakan AJAX
             $.ajax({
@@ -386,6 +399,7 @@
                     keterangan: keterangan,
                     tanggal: tanggal,
                     bukti: bukti,
+                    jurnalid :jurnalid,
                     akunD: akunD,
                     rpD: rpD
                 },
@@ -394,7 +408,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/jTambahData/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -410,6 +424,7 @@
             var rpK = $('#rpK').val();
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
 
             // Kirim data menggunakan AJAX
             $.ajax({
@@ -421,6 +436,7 @@
                     keterangan: keterangan,
                     tanggal: tanggal,
                     bukti: bukti,
+                    jurnalid :jurnalid,
                     akunK: akunK,
                     rpK: rpK
                 },
@@ -429,7 +445,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/jTambahData/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -444,6 +460,7 @@
             var bukti = $('#Bukti').val();
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
 
             // Kirim data menggunakan AJAX
             $.ajax({

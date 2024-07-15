@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('rpK');
             $table->date('tanggal');
             $table->bigInteger('histori_saldo_kredit');
+            $table->integer('JurnalId');
             $table->timestamps();
 
 

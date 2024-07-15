@@ -14,6 +14,7 @@ class JurnalAkun extends Model
         'bukti',
         'akunD',
         'rpD',
-        'histori_saldo_debit'
+        'histori_saldo_debit',
+        'JurnalId'
     ];
 }
