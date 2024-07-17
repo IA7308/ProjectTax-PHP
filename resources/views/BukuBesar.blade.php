@@ -68,8 +68,8 @@
                 <thead>
                     <tr class="table table-primary text-center ">
                         <th>TANGGAL</th>
-                        <th>TRANSAKSI</th>
                         <th>KETERANGAN</th>
+                        <th>TRANSAKSI</th>                        
                         <th>BUKTI</th>
                         <!-- <th>JUMLAH</th> -->
                         <th >DEBET</th>
@@ -103,8 +103,8 @@
                     @foreach($data as $d)
                     <tr>
                         <td>{{$d->tanggal}}</td>
-                        <td class="text-start">{{$d->transaksi}}</td>
                         <td>{{$d->keterangan}}</td>
+                        <td class="text-start">{{$d->transaksi}}</td>                   
                         <td>{{$d->bukti}}</td>
                         <!-- <td>{{number_format($d->jumlah, 2, ',', '.')}}</td> -->
                         <!-- <td>{{$d->akunD}}</td> -->

@@ -36,7 +36,7 @@ Route::delete('/{id}', [COAController::class, 'destroy']);
 Route::get('/jurnal', [JurnalController::class, 'index']);
 Route::get('/jTambahData', [JurnalController::class, 'create']);
 Route::get('/jStore', [JurnalController::class, 'store'])->name('tambahJurnal');
-Route::get('/{id}/editJ', [JurnalController::class, 'edit']);
+Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/editJ', [JurnalController::class, 'edit']);
 Route::get('/{id}/updateJ', [JurnalController::class, 'update']);
 Route::delete('/j/{id}', [JurnalController::class, 'destroy']);
 //UPDATE JURNAL

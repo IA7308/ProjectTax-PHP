@@ -16,7 +16,7 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ session('namaTgl') }}" disabled required>
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ session('namaTgl') }}" required>
                 </div>
                 @else
                 <div class="col">
@@ -31,7 +31,7 @@
                 </div>                
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ session('namaKtr') }}" disabled required>
+                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ session('namaKtr') }}" required>
                 </div>
                 @else
                 <div class="col">
@@ -47,7 +47,7 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ session('namaTr') }}"  disabled required>
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ session('namaTr') }}"  required>
                 </div>
                 @else
                 <div class="col">
@@ -62,7 +62,7 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ session('namaBkt') }}" disabled required>
+                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ session('namaBkt') }}" required>
                 </div>
                 @else
                 <div class="col">
@@ -341,7 +341,7 @@
           </form>
           <!-- NOTIF KODE DUPLIKAT -->
           <div class="alert alert-warning" id="Alert">
-                <p><b>BUKTI DUPLIKAT</b></p>
+                <p><b>KREDIT MASIH TERSEDIA</b></p>
             </div>
             <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
             @if(session('error'))
@@ -360,25 +360,53 @@
 <script>
     $(document).ready(function() {
         
-        $('#Bukti').on('input', function () {
-            var kodeValue = $(this).val();
-            var notif = $('#Alert');
-            if (isDuplicateKode(kodeValue)) {
-                notif.show();
-            }else {
-                notif.hide();
-            }
+        // Hitung selisih jumlah debit dan jumlah kredit saat halaman dimuat
+        var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
+        var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+        var selisihJumlah = jumlahDebit - jumlahKredit;
+
+        var notif = $('#Alert');
+        updateAlert(selisihJumlah);
+
+        // Fungsi untuk mengupdate notifikasi saat input berubah
+        $('#jumlah').on('input', function () {
+            var jumlahDebit = parseFloat($('#JumlahDebit').val());
+            var jumlahKredit = parseFloat($('#JumlahKredit').val());
+            var selisihJumlah = jumlahDebit - jumlahKredit;
+
+            updateAlert(selisihJumlah);
         });
 
-        function isDuplicateKode(kodeValue) {
-            var dataKode = @json($dataKode);
-
-            return dataKode.includes(kodeValue.toString());
+        function updateAlert(selisih) {
+            if (selisih != 0) {
+                notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').show();
+            } else {
+                notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').hide();
+            }
         }
+
+        // $('#Jumlah').on('input', function () {
+        //     var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
+        //     var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+        //     var selisihJumlah = jumlahDebit - jumlahKredit;
+
+        //     var notif = $('#Alert');
+        //     if (selisihJumlah != 0) {
+        //         notif.show();
+        //     }else {
+        //         notif.hide();
+        //     }
+        // });
+
+        // function isDuplicateKode(kodeValue) {
+        //     var dataKode = @json($dataKode);
+
+        //     return dataKode.includes(kodeValue.toString());
+        // }
         // var dataKode = @json($dataKode);
         // console.log(dataKode);
-        var notif = $('#Alert');
-        notif.hide();
+        // var notif = $('#Alert');
+        // notif.hide();
 
         $('#submitDebit').click(function() {
             var tanggal = $('#Tanggal').val();
@@ -462,10 +490,14 @@
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
 
+
+            var url = jurnalid ? '/'+ jurnalid +'/updateJ' : "{{ route('tambahJurnal') }}";
+
+
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: "{{ route('tambahJurnal') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
-                type: "GET",
+                url: url, // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
+                type: jurnalid ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
                     transaksi: transaksi,

@@ -28,8 +28,8 @@
                 <thead>
                     <tr class="table table-primary">
                         <th>TANGGAL</th>
-                        <th>TRANSAKSI</th>
                         <th>KETERANGAN</th>
+                        <th>TRANSAKSI</th>
                         <th>BUKTI</th>
                         <th>JUMLAH</th>
                         <th colspan="2">DEBET</th>
@@ -66,8 +66,8 @@
                     @endif
                     <tr>
                         <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->tanggal }}</td>
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-start">{{ $d->transaksi }}</td>
                         <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->keterangan }}</td>
+                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-start">{{ $d->transaksi }}</td>                        
                         <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->bukti }}</td>
                         <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-end">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
 
@@ -92,7 +92,7 @@
                                 AKSI
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="jTambahData/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}" class="btn btn-primary dropdown-item">Edit</a></li>
+                                <li><a href="/{{$d->id}}/{{$d->id}}/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
                                 <li>
                                     <form method="post" action="/j/{{ $d->id }}" style="display:inline" onsubmit="return confirm('Yakin hapus?')">
                                         @csrf
