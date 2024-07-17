@@ -79,3 +79,7 @@ Route::get('/laporanneraca', [lapNeracController::class, 'index']);
 
 //LABARUGI
 Route::get('/labarugi', [labarugiController::class, 'index']);
+
+//wordpresss
+Route::post('/api/store', [LoginController::class, 'store']);
+Route::post('/api/login', [LoginController::class, 'LoginCheck']);

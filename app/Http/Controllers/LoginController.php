@@ -66,6 +66,7 @@ class LoginController extends Controller
         $data->email = $request->email;
         $data->save();
         return redirect('/')->with('msg', 'Akun Berhasil dibuat');
+       // return response()->json(['msg' => 'Akun Berhasil dibuat'], 200);
     }
 
     public function logout()
