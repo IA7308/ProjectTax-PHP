@@ -88,6 +88,12 @@ class JurnalAkunController extends Controller
         //         $akundebit = $d;
         //     }
         // }
+
+        session(['namaBkt' => $request->bukti]);
+        session(['namaKtr' => $request->keterangan]);
+        session(['namaTgl' => $request->tanggal]);
+        session(['namaTr' => $request->transaksi]);
+        
         $akunD = COA::find($request->akunD);
         $keterangan = $request->keterangan;
         $transaksi = $request->transaksi;
@@ -109,6 +115,8 @@ class JurnalAkunController extends Controller
         
         $prod = new JurnalAkun;
         $prod->tanggal = $request->tanggal;
+        $prod->transaksi = $request->transaksi;
+        $prod->keterangan = $request->keterangan;
         $prod->bukti = $request->bukti;
         $prod->akunD = $akunD->Nama_akun;
         $prod->rpD = $request->rpD;
@@ -129,8 +137,8 @@ class JurnalAkunController extends Controller
             'jurnalid' => $prod->JurnalId,
             'bukti' => $prod->bukti,
             'tgl' => $prod->tanggal,
-            'ktr' => $transaksi,
-            'tr' => $keterangan
+            'ktr' => $keterangan,
+            'tr' => $transaksi
         ])->with('msg', 'Akun Berhasil dibuat');
 
     }
@@ -153,8 +161,8 @@ class JurnalAkunController extends Controller
             'jurnalid' => $jurnalid,
             'bukti' => $bukti,
             'tgl' => $tgl,
-            'ktr' => $tr,
-            'tr' => $ktr
+            'ktr' => $ktr,
+            'tr' => $tr
         ])->with('msg', 'Akun Berhasil dibuat');
 
     }
@@ -168,12 +176,19 @@ class JurnalAkunController extends Controller
         //         $akunkredit = $d;
         //     }
         // }
+        session(['namaBkt' => $request->bukti]);
+        session(['namaKtr' => $request->keterangan]);
+        session(['namaTgl' => $request->tanggal]);
+        session(['namaTr' => $request->transaksi]);
+
         $akunK = COA::find($request->akunK);
         $keterangan = $request->keterangan;
         $transaksi = $request->transaksi;
 
         $prod = new JurnalAkunKredit;
         $prod->tanggal = $request->tanggal;
+        $prod->transaksi = $request->transaksi;
+        $prod->keterangan = $request->keterangan;
         $prod->bukti = $request->bukti;
         $prod->akunK = $akunK->Nama_akun;
         $prod->rpK = $request->rpK;
@@ -193,8 +208,8 @@ class JurnalAkunController extends Controller
             'jurnalid' => $prod->JurnalId,
             'bukti' => $prod->bukti,
             'tgl' => $prod->tanggal,
-            'ktr' => $transaksi,
-            'tr' => $keterangan
+            'ktr' => $keterangan,
+            'tr' => $transaksi
         ])->with('msg', 'Akun Berhasil dibuat');
     }
     public function DeleteKredit($id, $jurnalid, $bukti, $tgl, $tr, $ktr){
@@ -217,8 +232,8 @@ class JurnalAkunController extends Controller
             'jurnalid' => $jurnalid,
             'bukti' => $bukti,
             'tgl' => $tgl,
-            'ktr' => $tr,
-            'tr' => $ktr
+            'ktr' => $ktr,
+            'tr' => $tr
         ])->with('msg', 'Akun Berhasil dibuat');
 
     }

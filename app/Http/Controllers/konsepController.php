@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\bukubesar;
 use App\Models\COA;
 use App\Models\Jurnal;
+use App\Models\JurnalAkun;
+use App\Models\JurnalAkunKredit;
 use App\Models\konsep;
 use Illuminate\Http\Request;
 
@@ -14,6 +16,8 @@ class konsepController extends Controller
         session(['paginate' => false]);
         $datacoa = COA::all();
         $datajurnal = Jurnal::all();
+        $datadebit = JurnalAkun::all();
+        $datakredit = JurnalAkunKredit::all();
         $data = [];
         $datajumlah = [];
         foreach($datacoa as $dc){
@@ -93,11 +97,20 @@ class konsepController extends Controller
                 $konsep->nama_akun = $dc->Nama_akun;
                 $konsep->keterangan = $dc->keterangan;
                 $konsep->Saldo_awal = $dc->Saldo_awal;
-                foreach($datajurnal as $dj){
-                    if($dj->akunD == $konsep->nama_akun){
-                        $sumDebit+=$dj->rpD;
-                    }elseif($dj->akunK == $konsep->nama_akun){
-                        $sumKredit+=$dj->rpK;
+                // foreach($datajurnal as $dj){
+                //     if($dj->akunD == $konsep->nama_akun){
+                //         $sumDebit+=$dj->rpD;
+                //     }elseif($dj->akunK == $konsep->nama_akun){
+                //         $sumKredit+=$dj->rpK;
+                //     }
+                // }
+                foreach ($datadebit as $dd){
+                    if($dd->akunD == $konsep->nama_akun){
+                        $sumDebit+=$dd->rpD;
+                    }
+                }foreach ($datakredit as $dk){
+                    if($dk->akunK == $konsep->nama_akun){
+                        $sumKredit+=$dk->rpK;
                     }
                 }
                 $calc = $sumDebit - $sumKredit;

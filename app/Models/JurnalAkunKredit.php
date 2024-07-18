@@ -11,6 +11,8 @@ class JurnalAkunKredit extends Model
 
     protected $fillable =[
         'tanggal',
+        'transaksi',
+        'keterangan',
         'bukti',
         'akunK',
         'rpK',

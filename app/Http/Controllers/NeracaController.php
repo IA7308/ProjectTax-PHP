@@ -263,7 +263,7 @@ class NeracaController extends Controller
             $LULBn = 0;
         }
         //$totalLUN = $totalND - ($totalNK*-1);
-        if($totalND > ($totalNK*-1)){
+        if(($totalNK*-1) > $totalND){
             $LUNp = 0;;
             $LUNn = $totalND - ($totalNK*-1);;
         }else{

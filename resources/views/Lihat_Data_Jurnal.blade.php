@@ -59,73 +59,68 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($data as $index => $d)
-                    @if($index >= 0)
-                        <!-- Baris kosong -->
-                        <tr></tr>
-                    @endif
-                    <tr>
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->tanggal }}</td>
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->keterangan }}</td>
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-start">{{ $d->transaksi }}</td>                        
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}">{{ $d->bukti }}</td>
-                        <td rowspan="{{ max(count($d->debit), count($d->kredit)) + 1 }}" class="text-end">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
+                    <tr></tr>
+                    @foreach($data as $index => $d)
+                        @php
+                            $maxRows = max(count($d->debit), count($d->kredit) + 1);
+                        @endphp
+                        
+                        @for ($i = 0; $i < $maxRows; $i++)
+                           
+                            <tr>
+                                @if($i == 0)
+                                    <td>{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td>{{ $d->debit[$i]['keterangan'] ?? '' }}</td>
+                                    <td class="text-start">{{ $d->debit[$i]['transaksi'] ?? '' }}</td>
+                                    <td>{{ $d->debit[$i]['bukti'] ?? '' }}</td>
+                                    <td class="text-end" rowspan="{{ $maxRows }}">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
+                                @else
+                                    <td>{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td>{{ $d->debit[$i]['keterangan'] ?? '' }}</td>
+                                    <td class="text-start">{{ $d->debit[$i]['transaksi'] ?? '' }}</td>
+                                    <td>{{ $d->debit[$i]['bukti'] ?? '' }}</td>
+                                @endif
+                                    
+                                @if(isset($d->debit[$i]))
+                                    <td>{{ $d->debit[$i]['akunD'] }}</td>
+                                    <td class="text-end">{{ number_format($d->debit[$i]['rpD'], 2, ',', '.') }}</td>
+                                @else
+                                    <td></td>
+                                    <td class="text-end"></td>
+                                @endif
 
-                        @if(count($d->debit) > 0)
-                            <td>{{ $d->debit[0]['akunD'] }}</td>
-                            <td class="text-end">{{ number_format($d->debit[0]['rpD'], 2, ',', '.') }}</td>
-                        @else
-                            <td></td>
-                            <td class="text-end"></td>
-                        @endif
+                                @if(isset($d->kredit[$i]))
+                                    <td>{{ $d->kredit[$i]['akunK'] }}</td>
+                                    <td class="text-end">{{ number_format($d->kredit[$i]['rpK'], 2, ',', '.') }}</td>
+                                @else
+                                    <td></td>
+                                    <td class="text-end"></td>
+                                @endif
 
-                        @if(count($d->kredit) > 0)
-                            <td>{{ $d->kredit[0]['akunK'] }}</td>
-                            <td class="text-end">{{ number_format($d->kredit[0]['rpK'], 2, ',', '.') }}</td>
-                        @else
-                            <td></td>
-                            <td class="text-end"></td>
-                        @endif
-
-                        <td>
-                            <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                AKSI
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/{{$d->id}}/{{$d->id}}/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
-                                <li>
-                                    <form method="post" action="/j/{{ $d->id }}" style="display:inline" onsubmit="return confirm('Yakin hapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="dropdown-item">Hapus</button>
-                                    </form>
-                                </li>
-                            </ul>                           
-                        </td>
-                    </tr>
-
-                    @for ($i = 1; $i < max(count($d->debit), count($d->kredit)); $i++)
-                        <tr>
-                            @if(isset($d->debit[$i]))
-                                <td>{{ $d->debit[$i]['akunD'] }}</td>
-                                <td class="text-end">{{ number_format($d->debit[$i]['rpD'], 2, ',', '.') }}</td>
-                            @else
-                                <td></td>
-                                <td class="text-end"></td>
-                            @endif
-
-                            @if(isset($d->kredit[$i]))
-                                <td>{{ $d->kredit[$i]['akunK'] }}</td>
-                                <td class="text-end">{{ number_format($d->kredit[$i]['rpK'], 2, ',', '.') }}</td>
-                            @else
-                                <td></td>
-                                <td class="text-end"></td>
-                            @endif
-                        </tr>
-                    @endfor
-                @endforeach
-
+                                @if($i == 0)
+                                    <td rowspan="{{ $maxRows }}">
+                                        <a class="dropdown-toggle text-start" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            AKSI
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/{{$d->id}}/{{$d->debit[$i]['JurnalId']}}/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
+                                            <li>
+                                                <form method="post" action="/j/{{ $d->id }}" style="display:inline" onsubmit="return confirm('Yakin hapus?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item">Hapus</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endfor
+                    @endforeach
                 </tbody>
+
+
+
             </table>
             @if(session('paginate'))
             <div class="row-fluid d-flex justify-content-end pagination mt-4">
@@ -151,6 +146,7 @@
     @push('scripts')
     <script>
         $(document).ready(function(){
+
             $("#searchInputtgl").on("input", function() {
                 var value = $(this).val().toLowerCase();
                 $("#myTable tbody tr").filter(function() {

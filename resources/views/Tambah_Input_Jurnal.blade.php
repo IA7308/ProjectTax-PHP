@@ -204,7 +204,14 @@
                             
                             @foreach($dataMultipleDebit as $MD)
                             <tr>
-                                <td>{{$MD->akunD}} <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
+                                <td>{{$MD->akunD}} 
+                                    <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
+                                    @if(session('editMode'))
+                                    <a href="/{{$MD->id}}/{{$MD->JurnalId}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                    @else
+                                    <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                    @endif
+                                </td>
                                 <td class="text-end">{{$MD->rpD}}</td>
                             </tr>
                             @endforeach
@@ -215,7 +222,7 @@
                             <tr>
                                 <th>JUMLAH</th>
                                 @if(session('Multiple'))
-                                <th class="text-end">{{session('jumlahDebit')}}</th>
+                                <th class="text-end">{{number_format(session('jumlahDebit'), 2, ',', '.')}}</th>
                                 @else
                                 <th class="text-end">0</th>
                                 @endif
@@ -235,7 +242,15 @@
                             
                             @foreach($dataMultipleKredit as $MK)
                             <tr>
-                                <td>{{$MK->akunK}} <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a></td>
+                                <td>{{$MK->akunK}} 
+                                    <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
+                                    @if(session('editMode'))
+                                    <a href="/{{$MK->id}}/{{$MK->JurnalId}}/{{$MK->bukti}}/{{$MK->tanggal}}/{{$MK->keterangan}}/{{$MK->transaksi}}/editJ">Select</a>
+                                    @else
+                                    <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                    @endif
+                                </td>
+                                
                                 <td class="text-end">{{$MK->rpK}}</td>
                             </tr>
                             @endforeach
@@ -245,7 +260,7 @@
                             <tr>
                                 <th>JUMLAH</th>
                                 @if(session('Multiple'))
-                                <th class="text-end">{{session('jumlahKredit')}}</th>
+                                <th class="text-end">{{number_format(session('jumlahKredit'), 2, ',', '.')}}</th>
                                 @else
                                 <th class="text-end">0</th>
                                 @endif
@@ -322,7 +337,7 @@
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
-                        @if(!session('Multiple'))
+                        @if(!session('Multiple') || session('editMode'))
                             <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
                             <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                          @else
@@ -374,7 +389,7 @@
             var jumlahKredit = parseFloat($('#JumlahKredit').val());
             var selisihJumlah = jumlahDebit - jumlahKredit;
 
-            updateAlert(selisihJumlah);
+            updateAlert(number_format(selisihJumlah, 2, ',', '.'));
         });
 
         function updateAlert(selisih) {
@@ -490,14 +505,17 @@
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
 
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var editj =pathArray[7];
 
-            var url = jurnalid ? '/'+ jurnalid +'/updateJ' : "{{ route('tambahJurnal') }}";
+            var url = editj ? '/'+ id + '/' + jurnalid +'/updateJ' : "{{ route('tambahJurnal') }}";
 
 
             // Kirim data menggunakan AJAX
             $.ajax({
                 url: url, // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
-                type: jurnalid ? "GET" : "GET",
+                type: editj ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
                     transaksi: transaksi,

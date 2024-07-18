@@ -11,6 +11,8 @@ class JurnalAkun extends Model
 
     protected $fillable =[
         'tanggal',
+        'transaksi',
+        'keterangan',
         'bukti',
         'akunD',
         'rpD',

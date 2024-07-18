@@ -37,7 +37,7 @@ Route::get('/jurnal', [JurnalController::class, 'index']);
 Route::get('/jTambahData', [JurnalController::class, 'create']);
 Route::get('/jStore', [JurnalController::class, 'store'])->name('tambahJurnal');
 Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/editJ', [JurnalController::class, 'edit']);
-Route::get('/{id}/updateJ', [JurnalController::class, 'update']);
+Route::get('/{id}/{jurnalid}/updateJ', [JurnalController::class, 'update']);
 Route::delete('/j/{id}', [JurnalController::class, 'destroy']);
 //UPDATE JURNAL
 Route::get('/jTambahDataDebit', [JurnalAkunController::class, 'storeDebit'])->name('jTambahDebit');

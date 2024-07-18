@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('jurnal_akun_kredits', function (Blueprint $table) {
             $table->id();
+            $table->string('transaksi');
+            $table->string('keterangan');
             $table->string('bukti');
             $table->string('akunK');
             $table->bigInteger('rpK');
