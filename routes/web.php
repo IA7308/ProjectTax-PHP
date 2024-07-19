@@ -36,9 +36,10 @@ Route::delete('/{id}', [COAController::class, 'destroy']);
 Route::get('/jurnal', [JurnalController::class, 'index']);
 Route::get('/jTambahData', [JurnalController::class, 'create']);
 Route::get('/jStore', [JurnalController::class, 'store'])->name('tambahJurnal');
-Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/editJ', [JurnalController::class, 'edit']);
-Route::get('/{id}/{jurnalid}/updateJ', [JurnalController::class, 'update']);
+Route::get('/{id}/{jurnalid}/{idakun}/{bukti}/{tgl}/{ktr}/{tr}/editJ', [JurnalController::class, 'edit']);
+Route::get('/{id}/{jurnalid}/{idakun}/updateJ', [JurnalController::class, 'update']);
 Route::delete('/j/{id}', [JurnalController::class, 'destroy']);
+
 //UPDATE JURNAL
 Route::get('/jTambahDataDebit', [JurnalAkunController::class, 'storeDebit'])->name('jTambahDebit');
 Route::get('/jTambahDataKredit', [JurnalAkunController::class, 'storeKredit'])->name('jTambahKredit');
@@ -70,6 +71,14 @@ Route::get('/pStore', [penyesuaianController::class, 'store']);
 Route::get('/{id}/editP', [penyesuaianController::class, 'edit']);
 Route::get('/{id}/updateP', [penyesuaianController::class, 'update']);
 Route::delete('/p/{id}', [penyesuaianController::class, 'destroy']);
+
+//Update Penyesuaian
+Route::get('/pTambahDataDebit', [JurnalAkunController::class, 'storeDebit'])->name('jTambahDebit');
+Route::get('/pTambahDataKredit', [JurnalAkunController::class, 'storeKredit'])->name('jTambahKredit');
+Route::get('/pTambahData/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'create'])->name('jTambahData');
+Route::get('/pD/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteDebit']);
+Route::get('/pK/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteKredit']);
+
 
 //KONSEP
 Route::get('/konsep', [konsepController::class, 'index']);

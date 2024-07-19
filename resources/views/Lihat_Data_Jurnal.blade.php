@@ -103,7 +103,7 @@
                                             AKSI
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="/{{$d->id}}/{{$d->debit[$i]['JurnalId']}}/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
+                                            <li><a href="/{{$d->id}}/{{$d->debit[$i]['JurnalId']}}/{{$d->debit[$i]['id']}}/{{$d->bukti}}/{{$d->tanggal}}/{{$d->keterangan}}/{{$d->transaksi}}/editJ" class="btn btn-primary dropdown-item">Edit</a></li>
                                             <li>
                                                 <form method="post" action="/j/{{ $d->id }}" style="display:inline" onsubmit="return confirm('Yakin hapus?')">
                                                     @csrf

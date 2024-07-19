@@ -207,9 +207,9 @@
                                 <td>{{$MD->akunD}} 
                                     <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                    <a href="/{{$MD->id}}/{{$MD->JurnalId}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                        <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
                                     @else
-                                    <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
                                     @endif
                                 </td>
                                 <td class="text-end">{{$MD->rpD}}</td>
@@ -245,9 +245,9 @@
                                 <td>{{$MK->akunK}} 
                                     <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                    <a href="/{{$MK->id}}/{{$MK->JurnalId}}/{{$MK->bukti}}/{{$MK->tanggal}}/{{$MK->keterangan}}/{{$MK->transaksi}}/editJ">Select</a>
+                                    <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
                                     @else
-                                    <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
                                     @endif
                                 </td>
                                 
@@ -507,9 +507,10 @@
 
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
+            var idakun = pathArray[3];
             var editj =pathArray[7];
 
-            var url = editj ? '/'+ id + '/' + jurnalid +'/updateJ' : "{{ route('tambahJurnal') }}";
+            var url = editj ? '/'+ id + '/' + jurnalid + '/' + idakun +'/updateJ' : "{{ route('tambahJurnal') }}";
 
 
             // Kirim data menggunakan AJAX

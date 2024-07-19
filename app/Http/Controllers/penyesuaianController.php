@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\COA;
+use App\Models\debitPenyesuaian;
+use App\Models\kreditPenyesuaian;
 use App\Models\penyesuaian;
 use Illuminate\Http\Request;
 
@@ -27,21 +29,73 @@ class penyesuaianController extends Controller
 
     public function create()
     {
+        // $data = COA::orderBy('kode', 'asc')->get();
+        // $dataDebit = [];
+        // $dataKredit= [];
+        // foreach($data as $d){
+        //     if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
+        //         $dataDebit[] = $d;
+        //         $dataKredit[] = $d;
+        //     }
+        // }
+        // return view('Tambah_Penyesuaian', [
+        //     'title' => 'TAMBAH',
+        //     'method' => 'POST',
+        //     'action' => '/pStore',
+        //     'dataDebit' => $dataDebit,
+        //     'dataKredit' => $dataKredit
+        // ]);
+
+        session(['Multiple' => false]);
+        session(['editMode' => false]);
+        session(['jumlahPenyesuaian' => 0]);
+        session(['jumlahDebit' => 0]);
+        session(['jumlahKredit' => 0]);
         $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
+        $dataMultipleD = debitPenyesuaian::all();
+        $dataMultipleK = kreditPenyesuaian::all();
+        $dataMultipleDebit = [];
+        $dataMultipleKredit = [];
+        $idpenyesuaian = 0;
+        $bukti = [];
+        $penyesuaian = penyesuaian::all();
+        
+        foreach($penyesuaian as $d){
+            $bukti[] = $d->bukti;
+            if($d->id > $idpenyesuaian){
+                $idjurnal = $d->id;
+            }
+        }
+        session(['penyesuaianid' => $idpenyesuaian+1]);
         foreach($data as $d){
             if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
                 $dataDebit[] = $d;
                 $dataKredit[] = $d;
             }
         }
-        return view('Tambah_Penyesuaian', [
+        foreach($dataMultipleD as $MD){
+            if($MD->bukti == ''){
+                $dataMultipleDebit[] = $MD;
+            }
+        }
+        foreach($dataMultipleK as $MK){
+            if($MK->bukti == ''){
+                $dataMultipleKredit[] = $MK;  
+            }
+        }
+        return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
             'method' => 'POST',
+            'methodModal' => 'POST',
             'action' => '/pStore',
+            'actionModalKredit' => '/pTambahDataKredit',
             'dataDebit' => $dataDebit,
-            'dataKredit' => $dataKredit
+            'dataKredit' => $dataKredit,
+            'dataMultipleDebit' => $dataMultipleDebit,
+            'dataMultipleKredit' => $dataMultipleKredit,
+            'dataKode' => $bukti
         ]);
     }
 

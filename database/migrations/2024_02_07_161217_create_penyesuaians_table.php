@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('transaksi');
             $table->string('bukti');
             $table->bigInteger('jumlah');
-            $table->string('akunD');
-            $table->bigInteger('rpD');
-            $table->string('akunK');
-            $table->bigInteger('rpK');
+            // $table->string('akunD');
+            // $table->bigInteger('rpD');
+            // $table->string('akunK');
+            // $table->bigInteger('rpK');
+            $table->json('debit'); 
+            $table->json('kredit');
             $table->timestamps();
         });
     }

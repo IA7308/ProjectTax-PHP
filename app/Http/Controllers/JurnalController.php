@@ -139,7 +139,7 @@ class JurnalController extends Controller
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');
     }
 
-    public function edit($id, $jurnalid, $bukti, $tgl, $tr, $ktr)
+    public function edit($id, $jurnalid, $idakun, $bukti, $tgl, $ktr, $tr)
     {
         // $data = COA::orderBy('kode', 'asc')->get();
         // $dataDebit = [];
@@ -157,6 +157,7 @@ class JurnalController extends Controller
         session(['namaTgl' => $tgl]);
         session(['namaTr' => $tr]);
         session(['jurnalid' => $jurnalid]);
+        session(['idjurnal' => $id]);
         
         $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
@@ -206,7 +207,7 @@ class JurnalController extends Controller
         return view('Tambah_Input_Jurnal', [
             'title' => 'EDIT',
             'method' => 'PUT',
-            'action' => "/$id/$jurnalid/$bukti/$tgl/$ktr/$tr/updateJ",
+            'action' => "/$id/$jurnalid/$idakun/$bukti/$tgl/$ktr/$tr/updateJ",
             'methodModal' => 'POST',
             'actionModalKredit' => '/jTambahDataKredit',
             'dataMultipleDebit' => $dataMultipleDebit,
@@ -217,8 +218,10 @@ class JurnalController extends Controller
             'dataKredit' => $dataKredit
         ]);
     }
-    public function update(Request $request, $id, $jurnalid)
+    public function update(Request $request, $id, $jurnalid, $idakun)
     {
+
+
         
         $prod = Jurnal::find($id);
 
@@ -227,7 +230,7 @@ class JurnalController extends Controller
         foreach($datadebit as $ad){
             if($ad->JurnalId == $jurnalid){
                 $akundebit[] = $ad;
-                if($prod->transaksi == $ad->transaksi && $prod->keterangan == $ad->keterangan && $prod->bukti == $ad->bukti){
+                if($ad->id == $idakun){
                     $ad->tanggal = $request->tanggal;
                     $ad->transaksi = $request->transaksi;
                     $ad->keterangan = $request->keterangan;
@@ -241,7 +244,7 @@ class JurnalController extends Controller
         foreach($datakredit as $ad){
             if($ad->JurnalId == $jurnalid){
                 $akunkredit[] = $ad;
-                if($prod->transaksi == $ad->transaksi && $prod->keterangan == $ad->keterangan && $prod->bukti == $ad->bukti){
+                if($ad->id == $idakun){
                     $ad->tanggal = $request->tanggal;
                     $ad->transaksi = $request->transaksi;
                     $ad->keterangan = $request->keterangan;

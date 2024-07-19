@@ -3,36 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\COA;
-use App\Models\Jurnal;
-use App\Models\JurnalAkun;
-use App\Models\JurnalAkunKredit;
+use App\Models\debitPenyesuaian;
+use App\Models\kreditPenyesuaian;
+use App\Models\penyesuaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class JurnalAkunController extends Controller
+class penyesuaianAkunController extends Controller
 {
-
-    public function create($jurnalid, $bukti, $tgl, $ktr, $tr)
+    public function create($penyesuaianid, $bukti, $tgl, $tr)
     {
         session(['Multiple' => true]);
         session(['namaBkt' => $bukti]);
-        session(['namaKtr' => $ktr]);
         session(['namaTgl' => $tgl]);
         session(['namaTr' => $tr]);
-        session(['jurnalid' => $jurnalid]);
+        session(['jurnalid' => $penyesuaianid]);
         
         $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
-        $dataMultipleD = JurnalAkun::all();
-        $dataMultipleK = JurnalAkunKredit::all();
+        $dataMultipleD = debitPenyesuaian::all();
+        $dataMultipleK = kreditPenyesuaian::all();
         $dataMultipleDebit = [];
         $dataMultipleKredit = [];
         $jumlahDebit = 0;
         $jumlahKredit = 0;
         $jumlahJurnal = 0;
         // $bukti = [];
-        $jurnal = Jurnal::all();
+        $penyesuaian = penyesuaian::all();
         
         // foreach($jurnal as $d){
         //     $bukti[] = $d->bukti;
@@ -45,13 +43,13 @@ class JurnalAkunController extends Controller
             }
         }
         foreach($dataMultipleD as $MD){
-            if($MD->JurnalId == $jurnalid){
+            if($MD->penyesuaianid == $penyesuaianid){
                 $dataMultipleDebit[] = $MD;
                 $jumlahDebit += $MD->rpD;
             }
         }
         foreach($dataMultipleK as $MK){
-            if($MK->JurnalId == $jurnalid){
+            if($MK->penyesuaianid == $penyesuaianid){
                 $dataMultipleKredit[] = $MK;
                 $jumlahKredit += $MK->rpK;
             }
@@ -62,9 +60,9 @@ class JurnalAkunController extends Controller
             $jumlahJurnal = $jumlahKredit;
         }
 
-        session(['jumlahJurnal' => $jumlahJurnal]);
-        session(['jumlahDebit' => $jumlahDebit]);
-        session(['jumlahKredit' => $jumlahKredit]);
+        // session(['jumlahJurnal' => $jumlahJurnal]);
+        // session(['jumlahDebit' => $jumlahDebit]);
+        // session(['jumlahKredit' => $jumlahKredit]);
 
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
@@ -90,14 +88,13 @@ class JurnalAkunController extends Controller
         // }
 
         session(['namaBkt' => $request->bukti]);
-        session(['namaKtr' => $request->keterangan]);
         session(['namaTgl' => $request->tanggal]);
         session(['namaTr' => $request->transaksi]);
         
         $akunD = COA::find($request->akunD);
         $keterangan = $request->keterangan;
         $transaksi = $request->transaksi;
-        $data = Jurnal::all();
+        $data = penyesuaian::all();
         
         $kodeDuplikat = false;
         
@@ -113,15 +110,14 @@ class JurnalAkunController extends Controller
             return redirect()->back()->with('error', 'BUKTI DUPLIKAT');
         }
         
-        $prod = new JurnalAkun;
+        $prod = new debitPenyesuaian;
         $prod->tanggal = $request->tanggal;
         $prod->transaksi = $request->transaksi;
-        $prod->keterangan = $request->keterangan;
         $prod->bukti = $request->bukti;
         $prod->akunD = $akunD->Nama_akun;
         $prod->rpD = $request->rpD;
         $prod->histori_saldo_debit = $akunD->jumlah_saldo;
-        $prod->JurnalId = $request->jurnalid;
+        $prod->penyesuaianid = $request->penyesuaianid;
         
         if($akunD->keterangan == "Akun, Kredit"){
             $akunD->jumlah_saldo = $akunD->jumlah_saldo + $request->rpD;
@@ -133,18 +129,17 @@ class JurnalAkunController extends Controller
         $akunD->save();
         $prod->save();
         
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $prod->JurnalId,
+        return Redirect::route('pTambahData', [
+            'penyesuaianid' => $prod->penyesuaianid,
             'bukti' => $prod->bukti,
             'tgl' => $prod->tanggal,
-            'ktr' => $keterangan,
             'tr' => $transaksi
         ])->with('msg', 'Akun Berhasil dibuat');
 
     }
-    public function DeleteDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+    public function DeleteDebit($id, $penyesuaianid, $bukti, $tgl, $tr){
         $data = COA::all();
-        $prod = JurnalAkun::find($id);
+        $prod = debitPenyesuaian::find($id);
         foreach($data as $d){
             if($d->Nama_akun == $prod->akunD){
                 $akundebit = $d;
@@ -156,12 +151,11 @@ class JurnalAkunController extends Controller
             $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $prod->rpD;
         }
         $akundebit->save();
-        JurnalAkun::destroy($id);
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $jurnalid,
+        debitPenyesuaian::destroy($id);
+        return Redirect::route('pTambahData', [
+            'penyesuaianid' => $penyesuaianid,
             'bukti' => $bukti,
             'tgl' => $tgl,
-            'ktr' => $ktr,
             'tr' => $tr
         ])->with('msg', 'Akun Berhasil dibuat');
 
@@ -177,22 +171,19 @@ class JurnalAkunController extends Controller
         //     }
         // }
         session(['namaBkt' => $request->bukti]);
-        session(['namaKtr' => $request->keterangan]);
         session(['namaTgl' => $request->tanggal]);
         session(['namaTr' => $request->transaksi]);
 
         $akunK = COA::find($request->akunK);
-        $keterangan = $request->keterangan;
         $transaksi = $request->transaksi;
 
-        $prod = new JurnalAkunKredit;
+        $prod = new kreditPenyesuaian;
         $prod->tanggal = $request->tanggal;
         $prod->transaksi = $request->transaksi;
-        $prod->keterangan = $request->keterangan;
         $prod->bukti = $request->bukti;
         $prod->akunK = $akunK->Nama_akun;
         $prod->rpK = $request->rpK;
-        $prod->JurnalId = $request->jurnalid;
+        $prod->penyesuaianid = $request->penyesuaianid;
         
         if($akunK->keterangan == "Akun, Kredit"){
             $akunK->jumlah_saldo = $akunK->jumlah_saldo - $request->rpK; 
@@ -204,17 +195,16 @@ class JurnalAkunController extends Controller
         $akunK->save();
         $prod->save();
 
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $prod->JurnalId,
+        return Redirect::route('pTambahData', [
+            'penyesuaianid' => $prod->penyesuaianid,
             'bukti' => $prod->bukti,
             'tgl' => $prod->tanggal,
-            'ktr' => $keterangan,
             'tr' => $transaksi
         ])->with('msg', 'Akun Berhasil dibuat');
     }
-    public function DeleteKredit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+    public function DeleteKredit($id, $penyesuaianid, $bukti, $tgl, $tr, $ktr){
         $data = COA::all();
-        $prod = JurnalAkunKredit::find($id);
+        $prod = kreditPenyesuaian::find($id);
         foreach($data as $d){
             if($d->Nama_akun == $prod->akunK){
                 $akunkredit = $d;
@@ -227,9 +217,9 @@ class JurnalAkunController extends Controller
         }
 
         $akunkredit->save();
-        JurnalAkunKredit::destroy($id);
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $jurnalid,
+        kreditPenyesuaian::destroy($id);
+        return Redirect::route('pTambahData', [
+            'penyesuaianid' => $penyesuaianid,
             'bukti' => $bukti,
             'tgl' => $tgl,
             'ktr' => $ktr,
