@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('jurnals', function (Blueprint $table) {
             $table->id();
-            $table->string('transaksi');
-            $table->string('keterangan');
-            $table->string('bukti');
+            // $table->string('transaksi');
+            // $table->string('keterangan');
+            // $table->string('bukti');
             $table->bigInteger('jumlah');
             $table->json('debit'); 
             $table->json('kredit'); 
@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->bigInteger('rpD');
             // $table->string('akunK');
             // $table->bigInteger('rpK');
-            $table->date('tanggal');
+            // $table->date('tanggal');
             $table->bigInteger('histori_saldo_debit');
             $table->bigInteger('histori_saldo_kredit');
             $table->timestamps();

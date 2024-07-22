@@ -89,38 +89,38 @@ class JurnalController extends Controller
     {
         $data = Jurnal::all();
         $kodeDuplikat = false;
-        foreach ($data as $d) {
-            if ($request->bukti == $d->bukti) {
-                $kodeDuplikat = true;
-                break;
-            }
-        }
+        // foreach ($data as $d) {
+        //     if ($request->bukti == $d->bukti) {
+        //         $kodeDuplikat = true;
+        //         break;
+        //     }
+        // }
 
-        if ($kodeDuplikat) {
-            return redirect()->back()->with('error', 'BUKTI DUPLIKAT');
-        }
+        // if ($kodeDuplikat) {
+        //     return redirect()->back()->with('error', 'BUKTI DUPLIKAT');
+        // }
 
         $datadebit = JurnalAkun::all();
         $akundebit = [];
         foreach($datadebit as $ad){
-            if($ad->bukti == $request->bukti){
+            if($ad->JurnalId == session('jurnalid')){
                 $akundebit[] = $ad;
             }
         };
         $datakredit = JurnalAkunKredit::all();
         $akunkredit = [];
         foreach($datakredit as $ad){
-            if($ad->bukti == $request->bukti){
+            if($ad->JurnalId == session('jurnalid')){
                 $akunkredit[] = $ad;
             }
         };
 
         $prod = new Jurnal;
 
-        $prod->tanggal = $request->tanggal;
-        $prod->transaksi = $request->transaksi;
-        $prod->keterangan = $request->keterangan;
-        $prod->bukti = $request->bukti;
+        // $prod->tanggal = $request->tanggal;
+        // $prod->transaksi = $request->transaksi;
+        // $prod->keterangan = $request->keterangan;
+        // $prod->bukti = $request->bukti;
         $prod->jumlah = $request->jumlah;
         $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
         $prod->kredit = json_encode($akunkredit);
@@ -171,7 +171,20 @@ class JurnalController extends Controller
         $jumlahJurnal = 0;
         // $bukti = [];
         $jurnal = Jurnal::all();
-        
+        // $jurnalpilihan = Jurnal::find($id);
+        // $debitjurnal = json_decode($jurnalpilihan->debit);
+        // $kreditjurnal = json_decode($jurnalpilihan->kredit);
+        // foreach($debitjurnal as $d){
+        //     if($d->id == $idakun){
+        //         $dataj = $d;
+        //     }
+        // }
+        // foreach($kreditjurnal as $d){
+        //     if($d->id == $idakun){
+        //         $dataj = $d;
+        //     }
+        // }
+
         // foreach($jurnal as $d){
         //     $bukti[] = $d->bukti;
         // }
@@ -203,6 +216,12 @@ class JurnalController extends Controller
         session(['jumlahJurnal' => $jumlahJurnal]);
         session(['jumlahDebit' => $jumlahDebit]);
         session(['jumlahKredit' => $jumlahKredit]);
+
+        $datapilihan = JurnalAkun::find($idakun);
+        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
+            $datapilihan = JurnalAkunKredit::find($idakun);
+        }
+
         
         return view('Tambah_Input_Jurnal', [
             'title' => 'EDIT',
@@ -214,6 +233,7 @@ class JurnalController extends Controller
             'dataMultipleKredit' => $dataMultipleKredit,
             'dataKode' => $bukti,
             'dataJ' => Jurnal::find($id),
+            'datapilihan' => $datapilihan,
             'dataDebit' => $dataDebit,
             'dataKredit' => $dataKredit
         ]);
@@ -254,10 +274,10 @@ class JurnalController extends Controller
             }
         };
 
-        $prod->tanggal = $request->tanggal;
-        $prod->transaksi = $request->transaksi;
-        $prod->keterangan = $request->keterangan;
-        $prod->bukti = $request->bukti;
+        // $prod->tanggal = $request->tanggal;
+        // $prod->transaksi = $request->transaksi;
+        // $prod->keterangan = $request->keterangan;
+        // $prod->bukti = $request->bukti;
         $prod->jumlah = $request->jumlah;
         $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
         $prod->kredit = json_encode($akunkredit);

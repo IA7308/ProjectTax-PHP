@@ -16,11 +16,11 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ session('namaTgl') }}" required>
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($dataJ)?$dataJ->tanggal:'' }}" required>
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
                 </div>
                 @endif                
             </div>
@@ -31,11 +31,11 @@
                 </div>                
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ session('namaKtr') }}" required>
+                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($datapilihan)?$datapilihan->keterangan:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($dataJ)?$dataJ->keterangan:'' }}" required>
+                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($datapilihan)?$datapilihan->keterangan:'' }}" required>
                 </div>
                 @endif
                 
@@ -47,11 +47,11 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ session('namaTr') }}"  required>
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}" required>
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
                 </div>
                 @endif                
             </div>
@@ -62,11 +62,11 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ session('namaBkt') }}" required>
+                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ isset($dataJ)?$dataJ->bukti:'' }}" required>
+                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
                 </div>
                 @endif
             </div>
@@ -269,7 +269,7 @@
                     </table>
                 </div>
             </div>
-            <input type="hidden" id="jurnalid" name="jurnalid" value="{{ session('jurnalid') }}" disabled/>
+            <input type="hidden" id="jurnalid" name="jurnalid" value="{{ session('jurnalid') }}" readonly/>
             <!-- nama akun debit -->
             <!-- <div class="row mb-3">
                 <div class="col-2">
@@ -499,10 +499,10 @@
 
         $('#submitJurnal').click(function() {
             var jumlah = $('#jumlah').val();
-            var tanggal = $('#Tanggal').val();
-            var bukti = $('#Bukti').val();
-            var transaksi = $('#Transaksi').val();
-            var keterangan = $('#keterangan').val();
+            // var tanggal = $('#Tanggal').val();
+            // var bukti = $('#Bukti').val();
+            // var transaksi = $('#Transaksi').val();
+            // var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
 
             var pathArray = window.location.pathname.split('/');
@@ -519,11 +519,11 @@
                 type: editj ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    transaksi: transaksi,
-                    keterangan: keterangan,
-                    tanggal: tanggal,
+                    // transaksi: "",
+                    // keterangan: "",
+                    // tanggal: "01-20-2024",
                     jumlah: jumlah,
-                    bukti: bukti
+                    // bukti: ""
                 },
                 success: function(response) {
                     // Handle response jika diperlukan

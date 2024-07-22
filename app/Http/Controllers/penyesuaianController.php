@@ -85,7 +85,7 @@ class penyesuaianController extends Controller
                 $dataMultipleKredit[] = $MK;  
             }
         }
-        return view('Tambah_Input_Jurnal', [
+        return view('Tambah_Penyesuaian', [
             'title' => 'TAMBAH',
             'method' => 'POST',
             'methodModal' => 'POST',

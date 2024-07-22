@@ -9,10 +9,10 @@ class Jurnal extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'tanggal',
-        'transaksi',
-        'keterangan',
-        'bukti',
+        // 'tanggal',
+        // 'transaksi',
+        // 'keterangan',
+        // 'bukti',
         'jumlah',
         'histori_saldo_debit',
         'histroi_saldo_kredit'
