@@ -101,19 +101,35 @@ class penyesuaianController extends Controller
 
     public function store(Request $request)
     {
-        $akundebit = COA::find($request->Nama_akun_debit);
-        $akunkredit = COA::find($request->Nama_akun_kredit);
+        // $akundebit = COA::find($request->Nama_akun_debit);
+        // $akunkredit = COA::find($request->Nama_akun_kredit);
+        $datadebit = debitPenyesuaian::all();
+        $akundebit = [];
+        foreach($datadebit as $ad){
+            if($ad->JurnalId == session('penyesuaianid')){
+                $akundebit[] = $ad;
+            }
+        };
+        $datakredit = kreditPenyesuaian::all();
+        $akunkredit = [];
+        foreach($datakredit as $ad){
+            if($ad->JurnalId == session('penyesuaianid')){
+                $akunkredit[] = $ad;
+            }
+        };
 
         $prod = new penyesuaian;
 
-        $prod->tanggal = $request->tanggal;
-        $prod->transaksi = $request->transaksi;
-        $prod->bukti = $request->bukti;
+        // $prod->tanggal = $request->tanggal;
+        // $prod->transaksi = $request->transaksi;
+        // $prod->bukti = $request->bukti;
         $prod->jumlah = $request->jumlah;
-        $prod->akunD = $akundebit->Nama_akun;
-        $prod->rpD = $request->rpD;
-        $prod->akunK = $akunkredit->Nama_akun;
-        $prod->rpK = $request->rpK;
+        // $prod->akunD = $akundebit->Nama_akun;
+        // $prod->rpD = $request->rpD;
+        // $prod->akunK = $akunkredit->Nama_akun;
+        // $prod->rpK = $request->rpK;
+        $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
+        $prod->kredit = json_encode($akunkredit);
         
         $prod->save();
         return redirect('/penyesuaian');

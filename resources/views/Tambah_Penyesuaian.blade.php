@@ -207,9 +207,9 @@
                             <tr>
                                 <th>JUMLAH</th>
                                 @if(session('Multiple'))
-                                <th class="text-end">{{number_format(session('jumlahDebit'), 2, ',', '.')}}</th>
+                                    <th class="text-end">{{number_format(session('jumlahDebit'), 2, ',', '.')}}</th>
                                 @else
-                                <th class="text-end">0</th>
+                                    <th class="text-end">0</th>
                                 @endif
                             </tr>
                         </tfoot>
@@ -255,69 +255,6 @@
                 </div>
             </div>
             <input type="hidden" id="penyesuaianid" name="penyesuaianid" value="{{ session('penyesuaianid') }}" disabled/>
-            <!-- nama akun debit -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Nama_akun_debit" class="form-label">NAMA AKUN Debit</label>
-                </div>
-                <div class="col">
-                  <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
-                    <option selected>Choose...</option>
-                    @foreach($dataDebit as $dd)
-                    <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->akunD == $dd->Nama_akun ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
-                    @endforeach
-                  </select>
-                </div>
-            </div> -->
-            <!-- Debet -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="akunD" class="form-label">DEBET</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="Debet" name="akunD" value="{{ isset($dataJ)?$dataJ->akunD:'' }}">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="rpD" class="form-label">Rp</label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" id="rpD" name="rpD" value="{{ isset($dataJ)?$dataJ->rpD:'' }}" required>
-                </div>
-            </div> -->
-            <!-- nama akun kredit -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Nama_akun_kredit" class="form-label">NAMA AKUN KREDIT</label>
-                </div>
-                <div class="col">
-                  <select class="form-select" id="Nama_akun_kredit" name="Nama_akun_kredit">
-                    <option selected>Choose...</option>
-                    @foreach($dataKredit as $dk)
-                    <option value="{{$dk->id}}" {{ isset($dataJ) && $dataJ->akunK == $dk->Nama_akun ? 'selected' : '' }}>{{$dk->Nama_akun}}</option>
-                    @endforeach
-                  </select>
-                </div>
-            </div> -->
-            <!-- KREDIT -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="akunK" class="form-label">KREDIT</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="akunK" name="akunK" value="{{ isset($dataJ)?$dataJ->akunK:'' }}">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="rpK" class="form-label">Rp</label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" id="rpK" name="rpK" value="{{ isset($dataJ)?$dataJ->rpK:'' }}" required>
-                </div>
-            </div> -->
-            <!-- btn -->
             <div class="row mb-3">
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
@@ -385,29 +322,6 @@
             }
         }
 
-        // $('#Jumlah').on('input', function () {
-        //     var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
-        //     var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
-        //     var selisihJumlah = jumlahDebit - jumlahKredit;
-
-        //     var notif = $('#Alert');
-        //     if (selisihJumlah != 0) {
-        //         notif.show();
-        //     }else {
-        //         notif.hide();
-        //     }
-        // });
-
-        // function isDuplicateKode(kodeValue) {
-        //     var dataKode = @json($dataKode);
-
-        //     return dataKode.includes(kodeValue.toString());
-        // }
-        // var dataKode = @json($dataKode);
-        // console.log(dataKode);
-        // var notif = $('#Alert');
-        // notif.hide();
-
         $('#submitDebit').click(function() {
             var tanggal = $('#Tanggal').val();
             var bukti = $('#Bukti').val();
@@ -425,7 +339,7 @@
                     transaksi: transaksi,
                     tanggal: tanggal,
                     bukti: bukti,
-                    jurnalid :jurnalid,
+                    penyesuaianid :penyesuaianid,
                     akunD: akunD,
                     rpD: rpD
                 },
@@ -460,7 +374,7 @@
                     transaksi: transaksi,
                     tanggal: tanggal,
                     bukti: bukti,
-                    jurnalid :jurnalid,
+                    penyesuaianid :penyesuaianid,
                     akunK: akunK,
                     rpK: rpK
                 },

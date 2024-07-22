@@ -9,9 +9,9 @@ class penyesuaian extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tanggal',
-        'transaksi',
-        'bukti',
+        // 'tanggal',
+        // 'transaksi',
+        // 'bukti',
         'jumlah',
     ];
 

@@ -445,14 +445,15 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
             var idakun = pathArray[3];
-            var editj =pathArray[7];
+            var editj =pathArray[8];
+            var update =pathArray[7];
 
             var url;
             if (editj === 'editJ') {
                 url = '/' + id + '/' + jurnalid + '/' + idakun + '/updateJ';
-            } else if (editj === 'editDebit') {
+            } else if (update === 'editDebit') {
                 url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateD'; // Gantilah dengan rute yang benar untuk 'editDebit'
-            } else if (editj === 'editKredit') {
+            } else if (update === 'editKredit') {
                 url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateK'; // Gantilah dengan rute yang benar untuk 'editDebit'
             } else {
                 url = "{{ route('tambahJurnal') }}";
@@ -461,7 +462,7 @@
             // Kirim data menggunakan AJAX
             $.ajax({
                 url: url,
-                type: "GET",
+                type: editj ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
                     transaksi: transaksi,
@@ -473,7 +474,7 @@
                 success: function(response) {
                     // Handle response jika diperlukan
                     console.log(response);
-                    if (editj === 'editDebit' || editj === 'editKredit') {
+                    if (update === 'editDebit' || update === 'editKredit') {
                         window.location.href = '/jTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + keterangan + '/' + transaksi;
                     } else {
                         window.location.href = '/jurnal';

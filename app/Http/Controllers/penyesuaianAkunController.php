@@ -17,7 +17,7 @@ class penyesuaianAkunController extends Controller
         session(['namaBkt' => $bukti]);
         session(['namaTgl' => $tgl]);
         session(['namaTr' => $tr]);
-        session(['jurnalid' => $penyesuaianid]);
+        session(['penyesuaianid' => $penyesuaianid]);
         
         $data = COA::orderBy('kode', 'asc')->get();
         $dataDebit = [];
@@ -68,8 +68,8 @@ class penyesuaianAkunController extends Controller
             'title' => 'TAMBAH',
             'method' => 'POST',
             'methodModal' => 'POST',
-            'action' => '/jStore',
-            'actionModalKredit' => '/jTambahDataKredit',
+            'action' => '/pStore',
+            'actionModalKredit' => '/pTambahDataKredit',
             'dataDebit' => $dataDebit,
             'dataKredit' => $dataKredit,
             'dataMultipleDebit' => $dataMultipleDebit,
@@ -119,14 +119,6 @@ class penyesuaianAkunController extends Controller
         $prod->histori_saldo_debit = $akunD->jumlah_saldo;
         $prod->penyesuaianid = $request->penyesuaianid;
         
-        if($akunD->keterangan == "Akun, Kredit"){
-            $akunD->jumlah_saldo = $akunD->jumlah_saldo + $request->rpD;
-        }else{
-            $akunD->jumlah_saldo = $akunD->jumlah_saldo + $request->rpD;
-        }
-
-        
-        $akunD->save();
         $prod->save();
         
         return Redirect::route('pTambahData', [
@@ -138,19 +130,7 @@ class penyesuaianAkunController extends Controller
 
     }
     public function DeleteDebit($id, $penyesuaianid, $bukti, $tgl, $tr){
-        $data = COA::all();
         $prod = debitPenyesuaian::find($id);
-        foreach($data as $d){
-            if($d->Nama_akun == $prod->akunD){
-                $akundebit = $d;
-            }
-        }
-        if($akundebit->keterangan == "Akun, Kredit"){
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo + $prod->rpD;
-        }else{
-            $akundebit->jumlah_saldo = $akundebit->jumlah_saldo - $prod->rpD;
-        }
-        $akundebit->save();
         debitPenyesuaian::destroy($id);
         return Redirect::route('pTambahData', [
             'penyesuaianid' => $penyesuaianid,
@@ -185,14 +165,6 @@ class penyesuaianAkunController extends Controller
         $prod->rpK = $request->rpK;
         $prod->penyesuaianid = $request->penyesuaianid;
         
-        if($akunK->keterangan == "Akun, Kredit"){
-            $akunK->jumlah_saldo = $akunK->jumlah_saldo - $request->rpK; 
-        }else{
-            $akunK->jumlah_saldo = $akunK->jumlah_saldo - $request->rpK;
-        }
-
-        $prod->histori_saldo_kredit = $akunK->jumlah_saldo;
-        $akunK->save();
         $prod->save();
 
         return Redirect::route('pTambahData', [
@@ -203,20 +175,7 @@ class penyesuaianAkunController extends Controller
         ])->with('msg', 'Akun Berhasil dibuat');
     }
     public function DeleteKredit($id, $penyesuaianid, $bukti, $tgl, $tr, $ktr){
-        $data = COA::all();
         $prod = kreditPenyesuaian::find($id);
-        foreach($data as $d){
-            if($d->Nama_akun == $prod->akunK){
-                $akunkredit = $d;
-            }
-        } 
-        if($akunkredit->keterangan == "Akun, Kredit"){
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
-        }else{
-            $akunkredit->jumlah_saldo = $akunkredit->jumlah_saldo + $prod->rpK; 
-        }
-
-        $akunkredit->save();
         kreditPenyesuaian::destroy($id);
         return Redirect::route('pTambahData', [
             'penyesuaianid' => $penyesuaianid,
