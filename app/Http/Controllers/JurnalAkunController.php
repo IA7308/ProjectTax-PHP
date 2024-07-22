@@ -385,9 +385,9 @@ class JurnalAkunController extends Controller
         session(['jumlahDebit' => $jumlahDebit]);
         session(['jumlahKredit' => $jumlahKredit]);
 
-        $datapilihan = JurnalAkun::find($id);
+        $datapilihan = JurnalAkunKredit::find($id);
         if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
-            $datapilihan = JurnalAkunKredit::find($id);
+            $datapilihan = JurnalAkun::find($id);
         }
 
         return view('Tambah_Input_Jurnal', [
