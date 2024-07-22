@@ -207,7 +207,7 @@
                                 <td>{{$MD->akunD}} 
                                     <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                        <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                        <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editDebit">Select</a>
                                     @else
                                         <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editDebit">Select</a>
                                     @endif
@@ -245,9 +245,9 @@
                                 <td>{{$MK->akunK}} 
                                     <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                    <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                    <a href="/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
                                     @else
-                                        <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
+                                        <a href="/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
                                     @endif
                                 </td>
                                 

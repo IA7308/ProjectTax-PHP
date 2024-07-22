@@ -222,9 +222,6 @@ class JurnalAkunController extends Controller
         session(['jumlahKredit' => $jumlahKredit]);
 
         $datapilihan = JurnalAkun::find($id);
-        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
-            $datapilihan = JurnalAkunKredit::find($id);
-        }
 
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
@@ -386,9 +383,6 @@ class JurnalAkunController extends Controller
         session(['jumlahKredit' => $jumlahKredit]);
 
         $datapilihan = JurnalAkunKredit::find($id);
-        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
-            $datapilihan = JurnalAkun::find($id);
-        }
 
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
