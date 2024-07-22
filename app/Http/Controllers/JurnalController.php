@@ -286,7 +286,7 @@ class JurnalController extends Controller
 
         $prod->save();
 
-        session(['editMode' => false]);
+        session(['editMode' => true]);
         return redirect('/jurnal')->with('msg', 'Akun Berhasil dibuat');
     }
 

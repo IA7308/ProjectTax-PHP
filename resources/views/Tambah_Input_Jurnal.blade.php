@@ -209,7 +209,7 @@
                                     @if(session('editMode'))
                                         <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
                                     @else
-                                        <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editDebit">Select</a>
                                     @endif
                                 </td>
                                 <td class="text-end">{{$MD->rpD}}</td>
@@ -247,7 +247,7 @@
                                     @if(session('editMode'))
                                     <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
                                     @else
-                                        <a href="/jTambahData/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
                                     @endif
                                 </td>
                                 
@@ -270,69 +270,6 @@
                 </div>
             </div>
             <input type="hidden" id="jurnalid" name="jurnalid" value="{{ session('jurnalid') }}" readonly/>
-            <!-- nama akun debit -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Nama_akun_debit" class="form-label">NAMA AKUN Debit</label>
-                </div>
-                <div class="col">
-                  <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
-                    <option selected>Choose...</option>
-                    @foreach($dataDebit as $dd)
-                    <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->akunD == $dd->Nama_akun ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
-                    @endforeach
-                  </select>
-                </div>
-            </div> -->
-            <!-- Debet -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="akunD" class="form-label">DEBET</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="Debet" name="akunD" value="{{ isset($dataJ)?$dataJ->akunD:'' }}">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="rpD" class="form-label">Rp</label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" id="rpD" name="rpD" value="{{ isset($dataJ)?$dataJ->rpD:'' }}" required>
-                </div>
-            </div> -->
-            <!-- nama akun kredit -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Nama_akun_kredit" class="form-label">NAMA AKUN KREDIT</label>
-                </div>
-                <div class="col">
-                  <select class="form-select" id="Nama_akun_kredit" name="Nama_akun_kredit">
-                    <option selected>Choose...</option>
-                    @foreach($dataKredit as $dk)
-                    <option value="{{$dk->id}}" {{ isset($dataJ) && $dataJ->akunK == $dk->Nama_akun ? 'selected' : '' }}>{{$dk->Nama_akun}}</option>
-                    @endforeach
-                  </select>
-                </div>
-            </div> -->
-            <!-- KREDIT -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="akunK" class="form-label">KREDIT</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="akunK" name="akunK" value="{{ isset($dataJ)?$dataJ->akunK:'' }}">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <div class="col-2">
-                    <label for="rpK" class="form-label">Rp</label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" id="rpK" name="rpK" value="{{ isset($dataJ)?$dataJ->rpK:'' }}" required>
-                </div>
-            </div> -->
-            <!-- btn -->
             <div class="row mb-3">
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
@@ -499,10 +436,10 @@
 
         $('#submitJurnal').click(function() {
             var jumlah = $('#jumlah').val();
-            // var tanggal = $('#Tanggal').val();
-            // var bukti = $('#Bukti').val();
-            // var transaksi = $('#Transaksi').val();
-            // var keterangan = $('#keterangan').val();
+            var tanggal = $('#Tanggal').val();
+            var bukti = $('#Bukti').val();
+            var transaksi = $('#Transaksi').val();
+            var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
 
             var pathArray = window.location.pathname.split('/');
@@ -510,25 +447,37 @@
             var idakun = pathArray[3];
             var editj =pathArray[7];
 
-            var url = editj ? '/'+ id + '/' + jurnalid + '/' + idakun +'/updateJ' : "{{ route('tambahJurnal') }}";
-
+            var url;
+            if (editj === 'editJ') {
+                url = '/' + id + '/' + jurnalid + '/' + idakun + '/updateJ';
+            } else if (editj === 'editDebit') {
+                url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateD'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else if (editj === 'editKredit') {
+                url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateK'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else {
+                url = "{{ route('tambahJurnal') }}";
+            }
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: url, // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
-                type: editj ? "GET" : "GET",
+                url: url,
+                type: "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    // transaksi: "",
-                    // keterangan: "",
-                    // tanggal: "01-20-2024",
+                    transaksi: transaksi,
+                    keterangan: keterangan,
+                    tanggal: tanggal,
                     jumlah: jumlah,
-                    // bukti: ""
+                    bukti: bukti
                 },
                 success: function(response) {
                     // Handle response jika diperlukan
                     console.log(response);
-                    window.location.href = '/jurnal';
+                    if (editj === 'editDebit' || editj === 'editKredit') {
+                        window.location.href = '/jTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + keterangan + '/' + transaksi;
+                    } else {
+                        window.location.href = '/jurnal';
+                    }       
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi

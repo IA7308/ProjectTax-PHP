@@ -263,17 +263,17 @@ class NeracaController extends Controller
             $LULBn = 0;
         }
         //$totalLUN = $totalND - ($totalNK*-1);
-        if(($totalNK*-1) > $totalND){
-            $LUNp = 0;;
-            $LUNn = $totalND - ($totalNK*-1);;
+        if(($totalNK*-1) < $totalND ){
+            $LUNp = 0;
+            $LUNn = ($totalNK*-1) - $totalND;
         }else{
-            $LUNp = $totalND - ($totalNK*-1);;
+            $LUNp = $totalND - ($totalNK*-1);
             $LUNn = 0;
         }
         $balanceLBp = $totalLRD + ($LULBp*-1);
         $balanceLBn = $totalLRK + $LULBn;
         $balanceNp = $totalND + $LUNp;
-        $balanceNn = ($totalNK*-1) + $LUNn;
+        $balanceNn = ($totalNK*-1) + ($LUNn*-1);
 
         $kesusaianLB = $balanceLBp - $balanceLBn; 
         $kesuaianLK = $balanceNp - $balanceNn;

@@ -167,6 +167,100 @@ class JurnalAkunController extends Controller
 
     }
 
+    public function editDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+        session(['Multiple' => true]);
+        
+        session(['namaBkt' => $bukti]);
+        session(['namaKtr' => $ktr]);
+        session(['namaTgl' => $tgl]);
+        session(['namaTr' => $tr]);
+        session(['jurnalid' => $jurnalid]);
+        
+        $data = COA::orderBy('kode', 'asc')->get();
+        $dataDebit = [];
+        $dataKredit= [];
+        $dataMultipleD = JurnalAkun::all();
+        $dataMultipleK = JurnalAkunKredit::all();
+        $dataMultipleDebit = [];
+        $dataMultipleKredit = [];
+        $jumlahDebit = 0;
+        $jumlahKredit = 0;
+        $jumlahJurnal = 0;
+        // $bukti = [];
+        $jurnal = Jurnal::all();
+        
+        // foreach($jurnal as $d){
+        //     $bukti[] = $d->bukti;
+        // }
+
+        foreach($data as $d){
+            if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
+                $dataDebit[] = $d;
+                $dataKredit[] = $d;
+            }
+        }
+        foreach($dataMultipleD as $MD){
+            if($MD->JurnalId == $jurnalid){
+                $dataMultipleDebit[] = $MD;
+                $jumlahDebit += $MD->rpD;
+            }
+        }
+        foreach($dataMultipleK as $MK){
+            if($MK->JurnalId == $jurnalid){
+                $dataMultipleKredit[] = $MK;
+                $jumlahKredit += $MK->rpK;
+            }
+        }
+        if($jumlahDebit > $jumlahKredit){
+            $jumlahJurnal = $jumlahDebit;
+        }else{
+            $jumlahJurnal = $jumlahKredit;
+        }
+
+        session(['jumlahJurnal' => $jumlahJurnal]);
+        session(['jumlahDebit' => $jumlahDebit]);
+        session(['jumlahKredit' => $jumlahKredit]);
+
+        $datapilihan = JurnalAkun::find($id);
+        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
+            $datapilihan = JurnalAkunKredit::find($id);
+        }
+
+        return view('Tambah_Input_Jurnal', [
+            'title' => 'TAMBAH',
+            'method' => 'POST',
+            'methodModal' => 'POST',
+            'action' => "/$id/$jurnalid/$bukti/$tgl/$ktr/$tr/updateD",
+            'actionModalKredit' => '/jTambahDataKredit',
+            'dataDebit' => $dataDebit,
+            'dataKredit' => $dataKredit,
+            'datapilihan' => $datapilihan,
+            'dataMultipleDebit' => $dataMultipleDebit,
+            'dataMultipleKredit' => $dataMultipleKredit,
+            'dataKode' => $bukti
+        ]);
+    }
+
+    public function UpdateDebit(Request $request, $id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+
+        $prod = JurnalAkun::find($id);
+
+        $prod->tanggal = $request->tanggal;
+        $prod->transaksi = $request->transaksi;
+        $prod->keterangan = $request->keterangan;
+        $prod->bukti = $request->bukti;
+        $prod->save();
+
+        return Redirect::route('jTambahData', [
+            'jurnalid' => $jurnalid,
+            'bukti' => $bukti,
+            'tgl' => $tgl,
+            'ktr' => $ktr,
+            'tr' => $tr
+        ])->with('msg', 'Akun Berhasil dibuat');
+        
+    }
+
     public function storeKredit(Request $request)
     {
         // $akunCOA = COA::all();
@@ -236,5 +330,98 @@ class JurnalAkunController extends Controller
             'tr' => $tr
         ])->with('msg', 'Akun Berhasil dibuat');
 
+    }
+    public function editKredit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+        session(['Multiple' => true]);
+        
+        session(['namaBkt' => $bukti]);
+        session(['namaKtr' => $ktr]);
+        session(['namaTgl' => $tgl]);
+        session(['namaTr' => $tr]);
+        session(['jurnalid' => $jurnalid]);
+        
+        $data = COA::orderBy('kode', 'asc')->get();
+        $dataDebit = [];
+        $dataKredit= [];
+        $dataMultipleD = JurnalAkun::all();
+        $dataMultipleK = JurnalAkunKredit::all();
+        $dataMultipleDebit = [];
+        $dataMultipleKredit = [];
+        $jumlahDebit = 0;
+        $jumlahKredit = 0;
+        $jumlahJurnal = 0;
+        // $bukti = [];
+        $jurnal = Jurnal::all();
+        
+        // foreach($jurnal as $d){
+        //     $bukti[] = $d->bukti;
+        // }
+
+        foreach($data as $d){
+            if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
+                $dataDebit[] = $d;
+                $dataKredit[] = $d;
+            }
+        }
+        foreach($dataMultipleD as $MD){
+            if($MD->JurnalId == $jurnalid){
+                $dataMultipleDebit[] = $MD;
+                $jumlahDebit += $MD->rpD;
+            }
+        }
+        foreach($dataMultipleK as $MK){
+            if($MK->JurnalId == $jurnalid){
+                $dataMultipleKredit[] = $MK;
+                $jumlahKredit += $MK->rpK;
+            }
+        }
+        if($jumlahDebit > $jumlahKredit){
+            $jumlahJurnal = $jumlahDebit;
+        }else{
+            $jumlahJurnal = $jumlahKredit;
+        }
+
+        session(['jumlahJurnal' => $jumlahJurnal]);
+        session(['jumlahDebit' => $jumlahDebit]);
+        session(['jumlahKredit' => $jumlahKredit]);
+
+        $datapilihan = JurnalAkun::find($id);
+        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
+            $datapilihan = JurnalAkunKredit::find($id);
+        }
+
+        return view('Tambah_Input_Jurnal', [
+            'title' => 'TAMBAH',
+            'method' => 'POST',
+            'methodModal' => 'POST',
+            'action' => "/$id/$jurnalid/$bukti/$tgl/$ktr/$tr/updateK",
+            'actionModalKredit' => '/jTambahDataKredit',
+            'dataDebit' => $dataDebit,
+            'dataKredit' => $dataKredit,
+            'datapilihan' => $datapilihan,
+            'dataMultipleDebit' => $dataMultipleDebit,
+            'dataMultipleKredit' => $dataMultipleKredit,
+            'dataKode' => $bukti
+        ]);
+    }
+
+    public function UpdateKredit(Request $request, $id, $jurnalid, $bukti, $tgl, $ktr, $tr){
+
+        $prod = JurnalAkunKredit::find($id);
+
+        $prod->tanggal = $request->tanggal;
+        $prod->transaksi = $request->transaksi;
+        $prod->keterangan = $request->keterangan;
+        $prod->bukti = $request->bukti;
+        $prod->save();
+
+        return Redirect::route('jTambahData', [
+            'jurnalid' => $jurnalid,
+            'bukti' => $bukti,
+            'tgl' => $tgl,
+            'ktr' => $ktr,
+            'tr' => $tr
+        ])->with('msg', 'Akun Berhasil dibuat');
+        
     }
 }

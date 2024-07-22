@@ -46,6 +46,10 @@ Route::get('/jTambahDataKredit', [JurnalAkunController::class, 'storeKredit'])->
 Route::get('/jTambahData/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'create'])->name('jTambahData');
 Route::get('/jD/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteDebit']);
 Route::get('/jK/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteKredit']);
+Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/editDebit', [JurnalAkunController::class, 'editDebit']);
+Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/editKredit', [JurnalAkunController::class, 'editKredit']);
+Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/updateD', [JurnalAkunController::class, 'UpdateDebit']);
+Route::get('/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}/updateK', [JurnalAkunController::class, 'UpdateKredit']);
 
 Route::post('/reset-jurnal/{jurnalid}', [JurnalController::class, 'resetJurnal'])->name('resetJurnal');
 Route::post('/kembali-jurnal/{jurnalid}', [JurnalController::class, 'kembaliJurnal'])->name('kembaliJurnal');
