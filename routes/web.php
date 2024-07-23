@@ -9,6 +9,7 @@ use App\Http\Controllers\labarugiController;
 use App\Http\Controllers\lapNeracController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NeracaController;
+use App\Http\Controllers\penyesuaianAkunController;
 use App\Http\Controllers\penyesuaianController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,17 +72,25 @@ Route::get('/neracalajur', [NeracaController::class, 'index']);
 //PENYESUAIAN
 Route::get('/penyesuaian', [penyesuaianController::class, 'index']);
 Route::get('/pTambahData', [penyesuaianController::class, 'create']);
-Route::get('/pStore', [penyesuaianController::class, 'store']);
-Route::get('/{id}/editP', [penyesuaianController::class, 'edit']);
-Route::get('/{id}/updateP', [penyesuaianController::class, 'update']);
+Route::get('/pStore', [penyesuaianController::class, 'store'])->name('tambahPenyesuaian');
+Route::get('/{id}/{penyesuaianid}/{idakun}/{bukti}/{tgl}/{tr}/editP', [penyesuaianController::class, 'edit']);
+Route::get('/{id}/{penyesuaianid}/{idakun}/updateJ', [penyesuaianController::class, 'update']);
 Route::delete('/p/{id}', [penyesuaianController::class, 'destroy']);
 
 //Update Penyesuaian
-Route::get('/pTambahDataDebit', [JurnalAkunController::class, 'storeDebit'])->name('jTambahDebit');
-Route::get('/pTambahDataKredit', [JurnalAkunController::class, 'storeKredit'])->name('jTambahKredit');
-Route::get('/pTambahData/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'create'])->name('jTambahData');
-Route::get('/pD/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteDebit']);
-Route::get('/pK/{id}/{jurnalid}/{bukti}/{tgl}/{ktr}/{tr}', [JurnalAkunController::class, 'DeleteKredit']);
+Route::get('/pTambahDataDebit', [penyesuaianAkunController::class, 'storeDebit'])->name('pTambahDebit');
+Route::get('/pTambahDataKredit', [penyesuaianAkunController::class, 'storeKredit'])->name('pTambahKredit');
+Route::get('/pTambahData/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunController::class, 'create'])->name('pTambahData');
+Route::get('/pD/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunController::class, 'DeleteDebit']);
+Route::get('/pK/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunController::class, 'DeleteKredit']);
+Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/editDebitP', [penyesuaianAkunController::class, 'editDebit']);
+http://127.0.0.1:8000/1/1/20202/2020-02-02/10202/editKreditP
+Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/editKreditP', [penyesuaianAkunController::class, 'editKredit']);
+Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/updateDP', [penyesuaianAkunController::class, 'UpdateDebit']);
+Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/updateKP', [penyesuaianAkunController::class, 'UpdateKredit']);
+
+Route::post('/reset-penyesuaian/{penyesuaianid}', [penyesuaianController::class, 'resetPenyesuaian'])->name('resetPenyesuaian');
+Route::post('/kembali-penyesuaian/{penyesuaianid}', [penyesuaianController::class, 'kembaliPenyesuaian'])->name('kembaliPenyesuaian');
 
 
 //KONSEP

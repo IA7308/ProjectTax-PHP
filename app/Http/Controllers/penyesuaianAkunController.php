@@ -330,7 +330,7 @@ class penyesuaianAkunController extends Controller
             'title' => 'TAMBAH',
             'method' => 'POST',
             'methodModal' => 'POST',
-            'action' => "/$id/$jumlahpenyesuaian/$bukti/$tgl/$tr/updateDP",
+            'action' => "/$id/$jumlahpenyesuaian/$bukti/$tgl/$tr/updateKP",
             'actionModalKredit' => '/pTambahDataKredit',
             'dataDebit' => $dataDebit,
             'dataKredit' => $dataKredit,

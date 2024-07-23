@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\COA;
+use App\Models\debitPenyesuaian;
+use App\Models\kreditPenyesuaian;
 use App\Models\Neraca;
 use App\Models\penyesuaian;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,8 +17,8 @@ class NeracaController extends Controller
         session(['paginate' => false]);
         $dataCOA = COA::all();
         $dataPenyesuaian = penyesuaian::all();
-        $dataPenyesuaianDebit = penyesuaian::all()->keyBy('akunD');
-        $dataPenyesuaianKredit = penyesuaian::all()->keyBy('akunK');
+        $dataPenyesuaianDebit = debitPenyesuaian::all()->keyBy('akunD');
+        $dataPenyesuaianKredit = kreditPenyesuaian::all()->keyBy('akunK');
         $data = [];
         foreach($dataCOA as $dc){
             $neraca = new Neraca;
@@ -114,11 +116,23 @@ class NeracaController extends Controller
                 $neraca->rpPD = 0;
                 $neraca->rpPK = 0;
                 foreach($dataPenyesuaian as $dp){
-                    if($dp->akunD == $neraca->nama_akun){
-                        $totalsaldoPenyesuaian+=$dp->rpD;
-                    }elseif($dp->akunK == $neraca->nama_akun){
-                        $totalsaldoPenyesuaian-=$dp->rpK;
+                    $dataPdebit = json_decode($dp->debit);
+                    $dataPkredit = json_decode($dp->kredit);
+                    foreach($dataPdebit as $dpd){
+                        if($dpd->akunD == $neraca->nama_akun){
+                            $totalsaldoPenyesuaian+=$dpd->rpD;
+                        }
                     }
+                    foreach($dataPkredit as $dpk){
+                        if($dpk->akunK == $neraca->nama_akun){
+                            $totalsaldoPenyesuaian-=$dpk->rpK;
+                        }
+                    }
+                    // if($dp->akunD == $neraca->nama_akun){
+                    //     $totalsaldoPenyesuaian+=$dp->rpD;
+                    // }elseif($dp->akunK == $neraca->nama_akun){
+                    //     $totalsaldoPenyesuaian-=$dp->rpK;
+                    // }
                 }
                 if($dataPenyesuaianDebit->has($neraca->nama_akun)){
                     $penyesuaian = $dataPenyesuaianDebit[$neraca->nama_akun];
@@ -182,11 +196,23 @@ class NeracaController extends Controller
                 $neraca->rpPD = 0;
                 $neraca->rpPK = 0;
                 foreach($dataPenyesuaian as $dp){
-                    if($dp->akunD == $neraca->nama_akun){
-                        $totalsaldoPenyesuaian+=$dp->rpD;
-                    }elseif($dp->akunK == $neraca->nama_akun){
-                        $totalsaldoPenyesuaian-=$dp->rpK;
+                    $dataPdebit = json_decode($dp->debit);
+                    $dataPkredit = json_decode($dp->kredit);
+                    foreach($dataPdebit as $dpd){
+                        if($dpd->akunD == $neraca->nama_akun){
+                            $totalsaldoPenyesuaian+=$dpd->rpD;
+                        }
                     }
+                    foreach($dataPkredit as $dpk){
+                        if($dpk->akunK == $neraca->nama_akun){
+                            $totalsaldoPenyesuaian-=$dpk->rpK;
+                        }
+                    }
+                    // if($dp->akunD == $neraca->nama_akun){
+                    //     $totalsaldoPenyesuaian+=$dp->rpD;
+                    // }elseif($dp->akunK == $neraca->nama_akun){
+                    //     $totalsaldoPenyesuaian-=$dp->rpK;
+                    // }
                 }
                 if($dataPenyesuaianDebit->has($neraca->nama_akun)){
                     $penyesuaian = $dataPenyesuaianDebit[$neraca->nama_akun];
