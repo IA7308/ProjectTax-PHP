@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('penyesuaians', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal');
-            $table->string('transaksi');
-            $table->string('bukti');
+            // $table->date('tanggal');
+            // $table->string('transaksi');
+            // $table->string('bukti');
             $table->bigInteger('jumlah');
             // $table->string('akunD');
             // $table->bigInteger('rpD');

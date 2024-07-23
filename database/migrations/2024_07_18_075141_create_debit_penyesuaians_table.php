@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('debit_penyesuaians', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
+            $table->string('transaksi');
+            $table->string('bukti');
+            $table->string('akunD');
+            $table->bigInteger('rpD');
+            $table->integer('penyesuaianid');
             $table->timestamps();
         });
     }

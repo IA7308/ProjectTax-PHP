@@ -13,7 +13,6 @@ class debitPenyesuaian extends Model
         'tanggal',
         'transaksi',
         'bukti',
-        'jumlah',
         'akunD',
         'rpD',
         'penyesuaianid',

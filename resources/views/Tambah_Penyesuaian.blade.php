@@ -1,10 +1,10 @@
 @extends('main')
-@section('title', $title.'INPUT JURNAL PENYESUAIAN')
+@section('title', $title.' INPUT PENYESUAIAN')
 <body>
     @section('content')
     <div class="container-fluid">
         <div class="card mt-3 p-3">
-            <h3 class="card-title mt-2">{{$title}} INPUT JURNAL PENYESUAIAN</h3>
+            <h3 class="card-title mt-2">{{$title}} INPUT PENYESUAIAN</h3>
         <hr>
         <form class="text-end" action="{{ $action }}">
             @csrf
@@ -16,15 +16,14 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ session('namaTgl') }}" required>
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($dataJ)?$dataJ->tanggal:'' }}" required>
+                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
                 </div>
                 @endif                
             </div>
-            <!-- KETERANGAN -->
             <!-- TRANSAKSI -->
             <div class="row mb-3">
                 <div class="col-2">
@@ -32,11 +31,11 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ session('namaTr') }}"  required>
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($dataJ)?$dataJ->transaksi:'' }}" required>
+                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
                 </div>
                 @endif                
             </div>
@@ -47,11 +46,11 @@
                 </div>
                 @if(session('Multiple'))
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ session('namaBkt') }}" required>
+                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
                 </div>
                 @else
                 <div class="col">
-                    <input type="text" class="form-control" id="Bukti" name="bukti" value="{{ isset($dataJ)?$dataJ->bukti:'' }}" required>
+                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
                 </div>
                 @endif
             </div>
@@ -61,7 +60,7 @@
                     <label for="jumlah" class="form-label">JUMLAH</label>
                 </div>
                 <div class="col">
-                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
+                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahpenyesuaian') }}" disabled required>
                 </div>
             </div>
             <div class="row mb-3">
@@ -190,11 +189,11 @@
                             @foreach($dataMultipleDebit as $MD)
                             <tr>
                                 <td>{{$MD->akunD}} 
-                                    <a href="/pD/{{$MD->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
+                                    <a href="/pD/{{$MD->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                        <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                        <a href="/{{$MD->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}/editDebitP">Select</a>
                                     @else
-                                        <a href="/pTambahData/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/{{$MD->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}/editDebitP">Select</a>
                                     @endif
                                 </td>
                                 <td class="text-end">{{$MD->rpD}}</td>
@@ -207,9 +206,9 @@
                             <tr>
                                 <th>JUMLAH</th>
                                 @if(session('Multiple'))
-                                    <th class="text-end">{{number_format(session('jumlahDebit'), 2, ',', '.')}}</th>
+                                <th class="text-end">{{number_format(session('jumlahDebit'), 2, ',', '.')}}</th>
                                 @else
-                                    <th class="text-end">0</th>
+                                <th class="text-end">0</th>
                                 @endif
                             </tr>
                         </tfoot>
@@ -228,11 +227,11 @@
                             @foreach($dataMultipleKredit as $MK)
                             <tr>
                                 <td>{{$MK->akunK}} 
-                                    <a href="/pK/{{$MK->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
+                                    <a href="/pK/{{$MK->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                    <a href="/{{session('idjurnal')}}/{{$MD->JurnalId}}/{{$MD->id}}/{{$MD->bukti}}/{{$MD->tanggal}}/{{$MD->keterangan}}/{{$MD->transaksi}}/editJ">Select</a>
+                                    <a href="/{{$MK->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}/editKreditP">Select</a>
                                     @else
-                                        <a href="/pTambahData/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">Select</a>
+                                        <a href="/{{$MK->id}}/{{session('penyesuaianid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaTr')}}/editKreditP">Select</a>
                                     @endif
                                 </td>
                                 
@@ -254,20 +253,26 @@
                     </table>
                 </div>
             </div>
-            <input type="hidden" id="penyesuaianid" name="penyesuaianid" value="{{ session('penyesuaianid') }}" disabled/>
+            <input type="hidden" id="penyesuaianid" name="penyesuaianid" value="{{ session('penyesuaianid') }}" readonly/>
             <div class="row mb-3">
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
-                        @if(!session('Multiple') || session('editMode'))
-                            <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
-                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
-                         @else
-                            <form action="{{ route('resetJurnal', ['penyesuaianid' => session('penyesuaianid')]) }}" method="POST">
+                        @if(!session('Multiple'))
+                            <a href="/pTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
+                            <a href="/penyesuaian"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                         @elseif (session('editMode'))
+                            <form action="{{ route('resetPenyesuaian', ['penyesuaianid' => session('penyesuaianid')]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-danger mx-1">Reset</button>
                             </form>
-                            <form action="{{ route('kembaliJurnal', ['penyesuaianid' => session('penyesuaianid')]) }}" method="POST">
+                            <a href="/penyesuaian"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                         @else
+                            <form action="{{ route('resetPenyesuaian', ['penyesuaianid' => session('penyesuaianid')]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger mx-1">Reset</button>
+                            </form>
+                            <form action="{{ route('kembaliPenyesuaian', ['penyesuaianid' => session('penyesuaianid')]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-warning mx-1">Kembali</button>
                             </form>
@@ -322,6 +327,29 @@
             }
         }
 
+        // $('#Jumlah').on('input', function () {
+        //     var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
+        //     var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+        //     var selisihJumlah = jumlahDebit - jumlahKredit;
+
+        //     var notif = $('#Alert');
+        //     if (selisihJumlah != 0) {
+        //         notif.show();
+        //     }else {
+        //         notif.hide();
+        //     }
+        // });
+
+        // function isDuplicateKode(kodeValue) {
+        //     var dataKode = @json($dataKode);
+
+        //     return dataKode.includes(kodeValue.toString());
+        // }
+        // var dataKode = @json($dataKode);
+        // console.log(dataKode);
+        // var notif = $('#Alert');
+        // notif.hide();
+
         $('#submitDebit').click(function() {
             var tanggal = $('#Tanggal').val();
             var bukti = $('#Bukti').val();
@@ -332,7 +360,7 @@
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: "{{ route('jTambahDebit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
+                url: "{{ route('pTambahDebit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
                 type: "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
@@ -348,7 +376,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/pTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -367,7 +395,7 @@
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: "{{ route('jTambahKredit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
+                url: "{{ route('pTambahKredit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
                 type: "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
@@ -383,7 +411,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/pTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -402,15 +430,24 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
             var idakun = pathArray[3];
-            var editj =pathArray[7];
+            var editp =pathArray[7];
+            var update =pathArray[6];
 
-            var url = editj ? '/'+ id + '/' + penyesuaianid + '/' + idakun +'/updateP' : "{{ route('tambahJurnal') }}";
-
+            var url;
+            if (editp=== 'editP') {
+                url = '/' + id + '/' + penyesuaianid + '/' + idakun + '/updateP';
+            } else if (update === 'editDebitP') {
+                url = '/' + id + '/' + penyesuaianid + '/' +bukti+'/'+tanggal+'/'+transaksi+'/updateDP'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else if (update === 'editKreditP') {
+                url = '/' + id + '/' + penyesuaianid + '/' +bukti+'/'+tanggal+'/'+transaksi+'/updateKP'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else {
+                url = "{{ route('tambahPenyesuaian') }}";
+            }
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: url, // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
-                type: editj ? "GET" : "GET",
+                url: url,
+                type: editp ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
                     transaksi: transaksi,
@@ -421,7 +458,11 @@
                 success: function(response) {
                     // Handle response jika diperlukan
                     console.log(response);
-                    window.location.href = '/penyesuaian';
+                    if (update === 'editDebitP' || update === 'editKreditP') {
+                        window.location.href = '/pTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + transaksi;
+                    } else {
+                        window.location.href = '/penyesuaian';
+                    }       
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi

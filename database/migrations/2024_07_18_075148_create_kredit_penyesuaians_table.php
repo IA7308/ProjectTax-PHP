@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('kredit_penyesuaians', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
+            $table->string('transaksi');
+            $table->string('bukti');
+            $table->string('akunK');
+            $table->bigInteger('rpK');
+            $table->integer('penyesuaianid');
             $table->timestamps();
         });
     }

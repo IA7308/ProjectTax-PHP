@@ -13,7 +13,6 @@ class kreditPenyesuaian extends Model
         'tanggal',
         'transaksi',
         'bukti',
-        'jumlah',
         'akunK',
         'rpK',
         'penyesuaianid',
