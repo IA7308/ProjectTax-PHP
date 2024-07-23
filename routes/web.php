@@ -84,7 +84,6 @@ Route::get('/pTambahData/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunCo
 Route::get('/pD/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunController::class, 'DeleteDebit']);
 Route::get('/pK/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}', [penyesuaianAkunController::class, 'DeleteKredit']);
 Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/editDebitP', [penyesuaianAkunController::class, 'editDebit']);
-http://127.0.0.1:8000/1/1/20202/2020-02-02/10202/editKreditP
 Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/editKreditP', [penyesuaianAkunController::class, 'editKredit']);
 Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/updateDP', [penyesuaianAkunController::class, 'UpdateDebit']);
 Route::get('/{id}/{penyesuaianid}/{bukti}/{tgl}/{tr}/updateKP', [penyesuaianAkunController::class, 'UpdateKredit']);
