@@ -274,8 +274,14 @@
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
-                        @if(!session('Multiple') || session('editMode'))
+                        @if(!session('Multiple'))
                             <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
+                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                         @elseif (session('editMode'))
+                            <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger mx-1">Reset</button>
+                            </form>
                             <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                          @else
                             <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">

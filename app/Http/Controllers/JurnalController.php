@@ -431,6 +431,10 @@ class JurnalController extends Controller
         // Hapus semua entri debit yang terkait dengan jurnal ID
         JurnalAkun::where('jurnalid', $jurnalid)->delete();
 
+        if(session('editMode')){
+            Jurnal::where('id', $jurnalid)->delete();
+        }
+
         $allJurnals = Jurnal::all();
 
         foreach ($allJurnals as $jurnal) {
