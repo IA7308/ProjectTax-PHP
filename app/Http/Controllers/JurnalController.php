@@ -217,11 +217,19 @@ class JurnalController extends Controller
         session(['jumlahDebit' => $jumlahDebit]);
         session(['jumlahKredit' => $jumlahKredit]);
 
-        $datapilihan = JurnalAkun::find($idakun);
-        if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
-            $datapilihan = JurnalAkunKredit::find($idakun);
-        }
+        if($idakun != 0){
+            $datapilihan = JurnalAkun::find($idakun);
+            if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
+                $datapilihan = JurnalAkunKredit::find($idakun);
+            }
+        }else{
+            $datapilihan = new JurnalAkun();
+            $datapilihan->tanggal = '';
+            $datapilihan->keterangan = '';
+            $datapilihan->bukti = '';
+            $datapilihan->transaksi = '';
 
+        }
         
         return view('Tambah_Input_Jurnal', [
             'title' => 'EDIT',

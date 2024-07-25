@@ -375,6 +375,11 @@
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
 
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var idakun = pathArray[3];
+            var editj =pathArray[8];
+
             // Kirim data menggunakan AJAX
             $.ajax({
                 url: "{{ route('jTambahDebit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
@@ -394,7 +399,11 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    if(editj === 'editJ'){
+                        window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
+                    }else{
+                        window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    }
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -411,6 +420,12 @@
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
+
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var idakun = pathArray[3];
+            var editj =pathArray[8];
+            
 
             // Kirim data menggunakan AJAX
             $.ajax({
@@ -430,8 +445,12 @@
                     // Handle response jika diperlukan
                     console.log(response);
                     // Tutup modal
-                    $('#ModalDebit').modal('hide');
-                    window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    $('#ModalKredit').modal('hide');
+                    if(editj === 'editJ'){
+                        window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
+                    }else{
+                        window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
+                    }
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -481,7 +500,12 @@
                     // Handle response jika diperlukan
                     console.log(response);
                     if (update === 'editDebit' || update === 'editKredit') {
-                        window.location.href = '/jTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + keterangan + '/' + transaksi;
+                        if(session('editMode')){
+                            window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
+                        }else{
+                            window.location.href = '/jTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + keterangan + '/' + transaksi;
+                        }
+                        
                     } else {
                         window.location.href = '/jurnal';
                     }       

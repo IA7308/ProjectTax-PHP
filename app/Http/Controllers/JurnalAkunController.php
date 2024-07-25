@@ -15,6 +15,7 @@ class JurnalAkunController extends Controller
     public function create($jurnalid, $bukti, $tgl, $ktr, $tr)
     {
         session(['Multiple' => true]);
+        session(['editMode' => false]);
         session(['namaBkt' => $bukti]);
         session(['namaKtr' => $ktr]);
         session(['namaTgl' => $tgl]);
@@ -133,6 +134,7 @@ class JurnalAkunController extends Controller
         $akunD->save();
         $prod->save();
         
+    
         return Redirect::route('jTambahData', [
             'jurnalid' => $prod->JurnalId,
             'bukti' => $prod->bukti,
@@ -140,6 +142,8 @@ class JurnalAkunController extends Controller
             'ktr' => $keterangan,
             'tr' => $transaksi
         ])->with('msg', 'Akun Berhasil dibuat');
+    
+        
 
     }
     public function DeleteDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
@@ -157,14 +161,27 @@ class JurnalAkunController extends Controller
         }
         $akundebit->save();
         JurnalAkun::destroy($id);
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $jurnalid,
-            'bukti' => $bukti,
-            'tgl' => $tgl,
-            'ktr' => $ktr,
-            'tr' => $tr
-        ])->with('msg', 'Akun Berhasil dibuat');
-
+        
+        if(session('editMode')){
+            return Redirect::route('jEdit', [
+                'id' => $prod->JurnalId,
+                'jurnalid' => $prod->JurnalId,
+                'idakun' => 0,
+                'bukti' => $prod->bukti,
+                'tgl' => $prod->tanggal,
+                'ktr' => $prod->keterangan,
+                'tr' => $prod->transaksi
+            ])->with('msg', 'Akun Berhasil dibuat');
+        }else{
+            return Redirect::route('jTambahData', [
+                'jurnalid' => $jurnalid,
+                'bukti' => $bukti,
+                'tgl' => $tgl,
+                'ktr' => $ktr,
+                'tr' => $tr
+            ])->with('msg', 'Akun Berhasil dibuat');
+    
+        }
     }
 
     public function editDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
@@ -222,6 +239,12 @@ class JurnalAkunController extends Controller
         session(['jumlahKredit' => $jumlahKredit]);
 
         $datapilihan = JurnalAkun::find($id);
+        
+        if($id != 0){
+            session(['editMode'=>false]);
+        }else{
+            session(['editMode'=>true]);
+        }
 
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
@@ -294,7 +317,7 @@ class JurnalAkunController extends Controller
         $prod->histori_saldo_kredit = $akunK->jumlah_saldo;
         $akunK->save();
         $prod->save();
-
+        
         return Redirect::route('jTambahData', [
             'jurnalid' => $prod->JurnalId,
             'bukti' => $prod->bukti,
@@ -319,14 +342,28 @@ class JurnalAkunController extends Controller
 
         $akunkredit->save();
         JurnalAkunKredit::destroy($id);
-        return Redirect::route('jTambahData', [
-            'jurnalid' => $jurnalid,
-            'bukti' => $bukti,
-            'tgl' => $tgl,
-            'ktr' => $ktr,
-            'tr' => $tr
-        ])->with('msg', 'Akun Berhasil dibuat');
 
+        if(session('editMode')){
+            return Redirect::route('jEdit', [
+                'id' => $prod->JurnalId,
+                'jurnalid' => $prod->JurnalId,
+                'idakun' => 0,
+                'bukti' => $prod->bukti,
+                'tgl' => $prod->tanggal,
+                'ktr' => $prod->keterangan,
+                'tr' => $prod->transaksi
+            ])->with('msg', 'Akun Berhasil dibuat');
+        }else{
+            return Redirect::route('jTambahData', [
+                'jurnalid' => $jurnalid,
+                'bukti' => $bukti,
+                'tgl' => $tgl,
+                'ktr' => $ktr,
+                'tr' => $tr
+            ])->with('msg', 'Akun Berhasil dibuat');
+    
+        }
+        
     }
     public function editKredit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
         session(['Multiple' => true]);
@@ -383,6 +420,11 @@ class JurnalAkunController extends Controller
         session(['jumlahKredit' => $jumlahKredit]);
 
         $datapilihan = JurnalAkunKredit::find($id);
+        if($id != 0){
+            session(['editMode'=>false]);
+        }else{
+            session(['editMode'=>true]);
+        }
 
         return view('Tambah_Input_Jurnal', [
             'title' => 'TAMBAH',
