@@ -161,7 +161,7 @@ class JurnalAkunController extends Controller
         }
         $akundebit->save();
         JurnalAkun::destroy($id);
-        
+
         if(session('editMode')){
             return Redirect::route('jEdit', [
                 'id' => $prod->JurnalId,

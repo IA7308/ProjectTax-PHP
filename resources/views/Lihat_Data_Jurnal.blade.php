@@ -22,7 +22,27 @@
                             </select> entries
                         </p>
                     </form>
-                </div>                
+                </div>
+                <div class="col text-end">
+                    <div class="row">
+                        @if (session('saldoDebit') == session('saldoKredit'))
+                            <div class="col">
+                                <p>Jumlah Debit : {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
+                            </div>
+                            <div class="col">
+                                <p>Jumlah Kredit : {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
+                            </div>
+                        @else
+                            <div class="col">
+                                <p>Cek Ulang {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
+                            </div>
+                            <div class="col">
+                                <p>TDK Balance {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
+                            </div>
+                        @endif
+                        
+                    </div>        
+                </div>                 
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
@@ -122,6 +142,8 @@
 
 
             </table>
+           
+
             @if(session('paginate'))
             <div class="row-fluid d-flex justify-content-end pagination mt-4">
                 {{ $data->links() }}
@@ -183,30 +205,44 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-            
+
             $('#myTable').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: 'Print PDF',
-                    className: 'btn rounded-pill btn-warning p-2 mx-2 mb-2 justify-content-start',
-                    extend: 'pdf',
-                    download: 'open'
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "/jurnal", // Ganti dengan rute Anda
+                    data: function(d) {
+                        d.page = d.page || 1;
+                    }
                 },
-                {
-                    text: 'Print Excel',
-                    className: 'btn rounded-pill btn-light p-2 mx-2 mb-2 justify-content-start',
-                    extend: 'excel',
-                    download: 'open'
-                }
-            ],
-            columnDefs: [
-                { targets: [0, 1, 2, 3, 5, 7, 9], orderable: false }
-            ]
-        });
+                columns: [
+                    { data: 'tanggal', name: 'tanggal' },
+                    { data: 'keterangan', name: 'keterangan' },
+                    { data: 'transaksi', name: 'transaksi' },
+                    { data: 'bukti', name: 'bukti' },
+                    { data: 'jumlah', name: 'jumlah' },
+                    { data: 'akunD', name: 'akunD' },
+                    { data: 'rpD', name: 'rpD' },
+                    { data: 'akunK', name: 'akunK' },
+                    { data: 'rpK', name: 'rpK' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export Excel',
+                        title: 'DataTable Export',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Export PDF',
+                        title: 'DataTable Export',
+                        className: 'btn btn-danger'
+                    },
+                ]
+            });
 
         });
     </script>

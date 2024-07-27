@@ -100,3 +100,7 @@ Route::get('/laporanneraca', [lapNeracController::class, 'index']);
 
 //LABARUGI
 Route::get('/labarugi', [labarugiController::class, 'index']);
+
+
+//Ekspor Impor
+Route::get('/export-jurnal', [JurnalController::class, 'export']);

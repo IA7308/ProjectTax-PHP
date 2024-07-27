@@ -8,11 +8,15 @@ use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\JurnalExport;
 
 class JurnalController extends Controller
 {
     public function index(){
         $perPage = strtolower(request('pagination', 'all'));
+        $saldoDebit = 0;
+        $saldoKredit = 0;
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
@@ -20,14 +24,28 @@ class JurnalController extends Controller
             foreach ($data as $entry) {
                 $entry->debit = json_decode($entry->debit); // true untuk mengembalikan array asosiatif
                 $entry->kredit = json_decode($entry->kredit);
+                foreach($entry->debit as $d){
+                    $saldoDebit += $d['rpD'];
+                }
+                foreach($entry->kredit as $k){
+                    $saldoKredit += $k['rpK'];
+                }
             }
         }else{
             $data = (new JurnalController)->getData($perPage);
             foreach ($data as $entry) {
                 $entry->debit = json_decode($entry->debit); // true untuk mengembalikan array asosiatif
                 $entry->kredit = json_decode($entry->kredit);
+                foreach($entry->debit as $d){
+                    $saldoDebit += $d['rpD'];
+                }
+                foreach($entry->kredit as $k){
+                    $saldoKredit += $k['rpK'];
+                }
             }
         }
+        session(['saldoDebit' => $saldoDebit]);
+        session(['saldoKredit' => $saldoKredit]);
         return view("Lihat_Data_Jurnal", compact('data'));
     }
 
@@ -219,7 +237,7 @@ class JurnalController extends Controller
 
         if($idakun != 0){
             $datapilihan = JurnalAkun::find($idakun);
-            if($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr){
+            if($datapilihan == null || ($datapilihan->keterangan != $ktr && $datapilihan->bukti != $bukti && $datapilihan->transaksi != $tr)){
                 $datapilihan = JurnalAkunKredit::find($idakun);
             }
         }else{
@@ -552,6 +570,11 @@ class JurnalController extends Controller
     public function getData($perPage)
     {
         return Jurnal::paginate($perPage);
+    }
+
+    public function export()
+    {
+        return Excel::download(new JurnalExport, 'jurnals.xlsx');
     }
 
 }

@@ -60,7 +60,11 @@
                         <h5 class="text-start mx-2">Saldo awal : {{number_format(intval(abs($dataPilih->Saldo_awal)), 2, ',', '.')}}</h5>
                     </div>
                     <div class="row d-flex justify-content-start">
-                        <h5 class="text-start mx-2">Saldo Akhir : {{number_format(intval(abs($dataPilih->jumlah_saldo)), 2, ',', '.')}}</h5>
+                        @if($dataPilih->jumlah_saldo > 0)
+                            <h5 class="text-start mx-2">Saldo Akhir : {{number_format(intval(abs($dataPilih->jumlah_saldo)), 2, ',', '.')}}</h5>
+                        @else
+                            <h5 class="text-start mx-2">Saldo Akhir : ({{number_format(intval(abs($dataPilih->jumlah_saldo)), 2, ',', '.')}})</h5>
+                        @endif    
                     </div>
                 @endif
             <!-- DATA TABEL -->

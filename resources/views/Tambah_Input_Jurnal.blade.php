@@ -72,11 +72,11 @@
             </div>
             <!-- Jumlah -->
             <div class="row mb-3">
-                <div class="col-2">
+                <!-- <div class="col-2">
                     <label for="jumlah" class="form-label">JUMLAH</label>
-                </div>
+                </div> -->
                 <div class="col">
-                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
+                    <input type="hidden" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
                 </div>
             </div>
             <div class="row mb-3">
@@ -207,7 +207,7 @@
                                 <td>{{$MD->akunD}} 
                                     <a href="/jD/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                        <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editDebit">Select</a>
+                                        <a href="/{{session('jurnalid')}}/{{session('jurnalid')}}/{{$MD->id}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editJ">Select</a>
                                     @else
                                         <a href="/{{$MD->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editDebit">Select</a>
                                     @endif
@@ -245,7 +245,7 @@
                                 <td>{{$MK->akunK}} 
                                     <a href="/jK/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}">X</a>
                                     @if(session('editMode'))
-                                    <a href="/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
+                                    <a href="/{{session('jurnalid')}}/{{session('jurnalid')}}/{{$MK->id}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editJ">Select</a>
                                     @else
                                         <a href="/{{$MK->id}}/{{session('jurnalid')}}/{{session('namaBkt')}}/{{session('namaTgl')}}/{{session('namaKtr')}}/{{session('namaTr')}}/editKredit">Select</a>
                                     @endif

@@ -153,19 +153,31 @@ class COAController extends Controller
         $dataJ = Jurnal::all();
         $data = [];
         foreach($dataJ as $d){
-            if($d->akunD == $request->Nama_akun || $d->akunK == $request->Nama_akun){
-                $data[] = $d;
+            $d->debit = json_decode($d->debit, true); 
+            $d->kredit = json_decode($d->kredit, true);
+            
+            foreach($d->debit as $dd){
+                if($dd['akunD'] == $request->Nama_akun){
+                    $data[] = $dd;
+                }
+            }
+            
+            foreach($d->kredit as $kk){
+                if($kk['akunK'] == $request->Nama_akun){
+                    $data[] = $kk;
+                }
             }
         }
-        if($data == []){
+        
+        if(empty($data)){
             $prod->jumlah_saldo = $request->Saldo_awal;
         }else{
             $totalSaldoJurnal = 0;
             foreach($data as $d){
-                if($d->akunD == $request->Nama_akun){
-                    $totalSaldoJurnal = $totalSaldoJurnal + $d->rpD;
-                }elseif($d->akunK == $request->Nama_akun){
-                    $totalSaldoJurnal = $totalSaldoJurnal - $d->rpK;
+                if(isset($d['akunD']) && $d['akunD'] == $request->Nama_akun){
+                    $totalSaldoJurnal += $d['rpD'];
+                }elseif(isset($d['akunK']) && $d['akunK'] == $request->Nama_akun){
+                    $totalSaldoJurnal -= $d['rpK'];
                 }
             }
             $prod->jumlah_saldo = $request->Saldo_awal + $totalSaldoJurnal;
