@@ -5,42 +5,48 @@ namespace App\Exports;
 use App\Models\Jurnal;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class JurnalExport implements FromCollection, WithHeadings
+class ExportJurnal implements FromCollection, WithHeadings, WithStyles
 {
+    /**
+    * @return \Illuminate\Support\Collection
+    */
     public function collection()
     {
         $jurnals = Jurnal::all();
 
         $exportData = [];
         foreach ($jurnals as $jurnal) {
-            // Extract debit and kredit entries
+            $jurnal->debit = json_decode($jurnal->debit);
+            $jurnal->kredit = json_decode($jurnal->kredit);           // Extract debit and kredit entries
             foreach ($jurnal->debit as $debit) {
                 $exportData[] = [
-                    'tanggal' => $jurnal->tanggal,
-                    'transaksi' => $jurnal->transaksi,
+                    'tanggal' => $debit['tanggal'],
+                    'transaksi' => $debit['transaksi'],
                     'keterangan' => $debit['keterangan'],
                     'bukti' => $debit['bukti'],
+                    'jumlah' => $jurnal->jumlah,
                     'akunD' => $debit['akunD'],
                     'rpD' => $debit['rpD'],
-                    'histori_saldo_debit' => $debit['histori_saldo_debit'],
                     'akunK' => null,
                     'rpK' => null,
-                    'histori_saldo_kredit' => null
                 ];
             }
             foreach ($jurnal->kredit as $kredit) {
                 $exportData[] = [
-                    'tanggal' => $jurnal->tanggal,
-                    'transaksi' => $jurnal->transaksi,
+                    'tanggal' => $kredit['tanggal'],
+                    'transaksi' => $kredit['transaksi'],
                     'keterangan' => $kredit['keterangan'],
                     'bukti' => $kredit['bukti'],
+                    'jumlah' => $jurnal->jumlah,
                     'akunD' => null,
                     'rpD' => null,
-                    'histori_saldo_debit' => null,
                     'akunK' => $kredit['akunK'],
                     'rpK' => $kredit['rpK'],
-                    'histori_saldo_kredit' => $kredit['histroi_saldo_kredit']
                 ];
             }
         }
@@ -55,12 +61,31 @@ class JurnalExport implements FromCollection, WithHeadings
             'Transaksi',
             'Keterangan',
             'Bukti',
+            'Jumlah',
             'Akun Debit',
             'Jumlah Debit',
-            'Histori Saldo Debit',
             'Akun Kredit',
             'Jumlah Kredit',
-            'Histori Saldo Kredit'
+        ];
+    }
+    public function styles(Worksheet $sheet)
+    {
+        // Style header row
+        $headerRow = 1; // Header row index
+
+        return [
+            // Apply styles to header row
+            $headerRow => [
+                'font' => [
+                    'bold' => true,
+                ],
+                'fill' => [
+                    'fillType' => Fill::FILL_SOLID,
+                    'color' => ['argb' => Color::COLOR_YELLOW], // Background color (yellow)
+                ],
+            ],
         ];
     }
 }
+
+

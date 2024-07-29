@@ -8,10 +8,7 @@
         <div class="card p-3">
             <!-- Pagination -->
             <div class ="row sticky-top" style="background-color: white;">
-                <div class="col-12 text-center">
-                    <h2>TABEL JURNAL</h2>
-                </div>
-                <div class="col-4 text-start">
+                <div class="col-3 text-start">
                     <form action="/jurnal" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
@@ -23,26 +20,38 @@
                         </p>
                     </form>
                 </div>
-                <div class="col text-end">
+                <div class="col-6 text-start">
+                    <h2 class="text-center">TABEL JURNAL</h2>
+                </div>
+                <div class="col-3">
+
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <form action="/import-jurnal" method="post" enctype="multipart/form-data" class="d-flex align-items-center">
+                        @csrf
+                        <div class="input-group">
+                            <input type="file" name="file" id="file" class="form-control">
+                            <button type="submit" class="btn btn-primary ms-2">Import</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <a href="/export-jurnal" class="btn btn-outline-primary">Export (.XLSX)</a>
+                </div>
+                <div class="col-md-5 text-end">
                     <div class="row">
                         @if (session('saldoDebit') == session('saldoKredit'))
-                            <div class="col">
-                                <p>Jumlah Debit : {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
-                            </div>
-                            <div class="col">
-                                <p>Jumlah Kredit : {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
-                            </div>
+                            <p>Jumlah Debit : {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
+                            <p>Jumlah Kredit : {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
                         @else
-                            <div class="col">
-                                <p>Cek Ulang {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
-                            </div>
-                            <div class="col">
-                                <p>TDK Balance {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
-                            </div>
+                            <p>Cek Ulang {{ number_format(session('saldoDebit'), 2, ',', '.') }}</p>
+                            <p>TDK Balance {{ number_format(session('saldoKredit'), 2, ',', '.') }}</p>
                         @endif
-                        
-                    </div>        
-                </div>                 
+                    </div>
+                </div>
+            </div>                 
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">
                 <thead>
@@ -206,43 +215,40 @@
                 });
             });
 
-            $('#myTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "/jurnal", // Ganti dengan rute Anda
-                    data: function(d) {
-                        d.page = d.page || 1;
-                    }
-                },
-                columns: [
-                    { data: 'tanggal', name: 'tanggal' },
-                    { data: 'keterangan', name: 'keterangan' },
-                    { data: 'transaksi', name: 'transaksi' },
-                    { data: 'bukti', name: 'bukti' },
-                    { data: 'jumlah', name: 'jumlah' },
-                    { data: 'akunD', name: 'akunD' },
-                    { data: 'rpD', name: 'rpD' },
-                    { data: 'akunK', name: 'akunK' },
-                    { data: 'rpK', name: 'rpK' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ],
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: 'Export Excel',
-                        title: 'DataTable Export',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: 'Export PDF',
-                        title: 'DataTable Export',
-                        className: 'btn btn-danger'
-                    },
-                ]
-            });
+            // $('#myTable').DataTable({
+            //     processing: true,
+            //     serverSide: true,
+            //     ajax: {
+            //         url: "/jurnal", // Ganti dengan rute Anda
+            //     },
+            //     columns: [
+            //         { data: 'tanggal', name: 'tanggal' },
+            //         { data: 'keterangan', name: 'keterangan' },
+            //         { data: 'transaksi', name: 'transaksi' },
+            //         { data: 'bukti', name: 'bukti' },
+            //         { data: 'jumlah', name: 'jumlah' },
+            //         { data: 'akunD', name: 'akunD' },
+            //         { data: 'rpD', name: 'rpD' },
+            //         { data: 'akunK', name: 'akunK' },
+            //         { data: 'rpK', name: 'rpK' },
+            //         { data: 'action', name: 'action', orderable: false, searchable: false }
+            //     ],
+            //     // dom: 'Bfrtip',
+            //     // buttons: [
+            //     //     {
+            //     //         extend: 'excelHtml5',
+            //     //         text: 'Export Excel',
+            //     //         title: 'DataTable Export',
+            //     //         className: 'btn btn-success'
+            //     //     },
+            //     //     {
+            //     //         extend: 'pdfHtml5',
+            //     //         text: 'Export PDF',
+            //     //         title: 'DataTable Export',
+            //     //         className: 'btn btn-danger'
+            //     //     },
+            //     // ]
+            // });
 
         });
     </script>

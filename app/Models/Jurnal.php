@@ -15,8 +15,10 @@ class Jurnal extends Model
         // 'bukti',
         'jumlah',
         'histori_saldo_debit',
-        'histroi_saldo_kredit'
+        'histori_saldo_kredit',
+        'JurnalId'
     ];
+    public $timestamps = false;
     protected $casts = [
         'debit' => 'json', // Tentukan bahwa debit adalah tipe data JSON
         'kredit' => 'json' // Tentukan bahwa kredit adalah tipe data JSON

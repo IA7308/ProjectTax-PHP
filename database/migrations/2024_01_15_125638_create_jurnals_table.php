@@ -17,8 +17,9 @@ return new class extends Migration
             // $table->string('keterangan');
             // $table->string('bukti');
             $table->bigInteger('jumlah');
-            $table->json('debit'); 
-            $table->json('kredit'); 
+            $table->json('debit')->default(json_encode([]));
+            $table->json('kredit')->default(json_encode([]));
+            $table->integer('JurnalId');
             // $table->string('akunD');
             // $table->bigInteger('rpD');
             // $table->string('akunK');

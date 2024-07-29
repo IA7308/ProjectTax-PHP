@@ -104,3 +104,4 @@ Route::get('/labarugi', [labarugiController::class, 'index']);
 
 //Ekspor Impor
 Route::get('/export-jurnal', [JurnalController::class, 'export']);
+Route::post('/import-jurnal', [JurnalController::class, 'import']);

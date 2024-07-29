@@ -19,4 +19,5 @@ class JurnalAkun extends Model
         'histori_saldo_debit',
         'JurnalId'
     ];
+    public $timestamps = false;
 }

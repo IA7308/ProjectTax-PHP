@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportJurnal;
+use App\Imports\JurnalsImport;
 use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
@@ -142,6 +145,7 @@ class JurnalController extends Controller
         $prod->jumlah = $request->jumlah;
         $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
         $prod->kredit = json_encode($akunkredit);
+        $prod->JurnalId = session('jurnalid');
         $prod->histori_saldo_debit = 0;
         $prod->histori_saldo_kredit = 0;
         
@@ -574,7 +578,18 @@ class JurnalController extends Controller
 
     public function export()
     {
-        return Excel::download(new JurnalExport, 'jurnals.xlsx');
+        return Excel::download(new ExportJurnal, 'jurnals'.Carbon::now()->timestamp.'.xlsx');
     }
 
+    public function import(Request $request)
+    {
+        // dd($request->file('file'));
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        Excel::import(new JurnalsImport, $request->file('file'));
+
+        return back()->with('success', 'File Excel berhasil diimpor.');
+    }
 }
