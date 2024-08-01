@@ -7,11 +7,12 @@ use App\Models\COA;
 use App\Models\Jurnal;
 use Carbon\Exceptions\EndLessPeriodException;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BukBesController extends Controller
 {
     public function index(){
-        $perPage = request('pagination', 5);
+        $perPage = request('pagination', 1000);
         $temp = COA::all();
             $dataC = [];
             foreach($temp as $t){
@@ -52,75 +53,99 @@ class BukBesController extends Controller
 
     public function show($id){
         session(['pilihC' => true]);
-        session(['paginate' => false]);
+        session(['paginate' => true]);
+
+        $perPage = request('pagination', 1000); // Default to 10 items per page
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
         $temp = COA::all();
-            $dataC = [];
-            foreach($temp as $t){
-                if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
-                    $dataC[] = $t;
-                }
+        $dataC = [];
+        foreach($temp as $t) {
+            if ($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit") {
+                $dataC[] = $t;
             }
+        }
+
         $akunCOA = COA::find($id);
         $data = [];
-        $jurnal = Jurnal::all();
-        foreach($jurnal as $item){
-            $item->debit = json_decode($item->debit); 
-            $item->kredit = json_decode($item->kredit);
-            foreach($item->debit as $j){
-                if($j['akunD'] == $akunCOA->Nama_akun){
-                    $bukudata = new bukubesar;
-                    $bukudata->tanggal = $j['tanggal'];
-                    $bukudata->transaksi = $j['transaksi'];
-                    $bukudata->keterangan = $j['keterangan'];
-                    $bukudata->bukti = $j['bukti'];
-                    $bukudata->rpD = $j['rpD'];
-                    $bukudata->rpK = 0;
-                    // $bukudata->histori_saldo = $j->histori_saldo_debit;
-                    $data[] = $bukudata;
-                }
-            }
-            foreach($item->kredit as $j){
-                if($j['akunK'] == $akunCOA->Nama_akun){
-                    $bukudata = new bukubesar;
-                    $bukudata->tanggal = $j['tanggal'];
-                    $bukudata->transaksi = $j['transaksi'];
-                    $bukudata->keterangan = $j['keterangan'];
-                    $bukudata->bukti = $j['bukti'];
-                    $bukudata->rpD = 0;
-                    $bukudata->rpK = $j['rpK'];
-                    // $bukudata->histori_saldo = $j->histori_saldo_kredit;
-                    $data[] = $bukudata;    
-                }
-            }    
-            usort($data, function ($a, $b) {
-                return strtotime($a['tanggal']) - strtotime($b['tanggal']);
-            });
-            for($i = 0; $i<count($data); $i++){
-                if($i == 0){
-                    if($akunCOA->keterangan == "Akun, Debit"){
-                        $data[$i]->histori_saldo = $akunCOA->Saldo_awal + $data[$i]->rpD - $data[$i]->rpK;
-                    }else{
-                        if($akunCOA->Saldo_awal<0){
-                            $akunCOA->Saldo_awal = $akunCOA->Saldo_awal *-1;
-                        }if($akunCOA->jumlah_saldo<0){
-                            $akunCOA->jumlah_saldo = $akunCOA->jumlah_saldo*-1;
-                        }
-                        $data[$i]->histori_saldo = $akunCOA->Saldo_awal - $data[$i]->rpD + $data[$i]->rpK;
+
+        // Only get journal entries related to the specific COA account
+        Jurnal::chunk(100, function($jurnal) use (&$data, $akunCOA) {
+            foreach ($jurnal as $item) {
+                $item->debit = json_decode($item->debit); 
+                $item->kredit = json_decode($item->kredit);
+
+                foreach ($item->debit as $j) {
+                    if ($j['akunD'] == $akunCOA->Nama_akun) {
+                        $bukudata = new bukubesar;
+                        $bukudata->tanggal = $j['tanggal'];
+                        $bukudata->transaksi = $j['transaksi'];
+                        $bukudata->keterangan = $j['keterangan'];
+                        $bukudata->bukti = $j['bukti'];
+                        $bukudata->rpD = $j['rpD'];
+                        $bukudata->rpK = 0;
+                        $data[] = $bukudata;
                     }
-                }else{
-                    if($akunCOA->keterangan == "Akun, Debit"){
-                        $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo + $data[$i]->rpD - $data[$i]->rpK;
-                    }else{
-                        $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo - $data[$i]->rpD + $data[$i]->rpK;
+                }
+
+                foreach ($item->kredit as $j) {
+                    if ($j['akunK'] == $akunCOA->Nama_akun) {
+                        $bukudata = new bukubesar;
+                        $bukudata->tanggal = $j['tanggal'];
+                        $bukudata->transaksi = $j['transaksi'];
+                        $bukudata->keterangan = $j['keterangan'];
+                        $bukudata->bukti = $j['bukti'];
+                        $bukudata->rpD = 0;
+                        $bukudata->rpK = $j['rpK'];
+                        $data[] = $bukudata;
                     }
                 }
             }
-        }   
-        return view("BukuBesar", 
-        [
+        });
+
+        usort($data, function ($a, $b) {
+            return strtotime($a->tanggal) - strtotime($b->tanggal);
+        });
+
+        for ($i = 0; $i < count($data); $i++) {
+            if ($i == 0) {
+                if ($akunCOA->keterangan == "Akun, Debit") {
+                    $data[$i]->histori_saldo = $akunCOA->Saldo_awal + $data[$i]->rpD - $data[$i]->rpK;
+                } else {
+                    if ($akunCOA->Saldo_awal < 0) {
+                        $akunCOA->Saldo_awal *= -1;
+                    }
+                    if ($akunCOA->jumlah_saldo < 0) {
+                        $akunCOA->jumlah_saldo *= -1;
+                    }
+                    $data[$i]->histori_saldo = $akunCOA->Saldo_awal - $data[$i]->rpD + $data[$i]->rpK;
+                }
+            } else {
+                if ($akunCOA->keterangan == "Akun, Debit") {
+                    $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo + $data[$i]->rpD - $data[$i]->rpK;
+                } else {
+                    $data[$i]->histori_saldo = $data[$i - 1]->histori_saldo - $data[$i]->rpD + $data[$i]->rpK;
+                }
+            }
+        }
+
+        // Convert $
+        $dataCollection = collect($data);
+        $currentPageData = $dataCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        // Create LengthAwarePaginator instance
+        $paginatedData = new LengthAwarePaginator(
+            $currentPageData,
+            $dataCollection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+
+        return view("BukuBesar", [
             'dataC' => $dataC,
             'dataPilih' => $akunCOA,
-            'data' => $data
+            'data' => $paginatedData,
         ]);
     }
 }
