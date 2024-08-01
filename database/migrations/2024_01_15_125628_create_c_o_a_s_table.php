@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('c_o_a_s', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis_akun')->nullable();
-            $table->string('kelompok_akun')->nullable();
-            $table->string('keterangan')->nullable();
-            $table->integer('kode')->nullable();
-            $table->string('Nama_akun')->nullable();
-            $table->bigInteger('Saldo_awal')->nullable();
-            $table->bigInteger('jumlah_saldo')->nullable();
+            $table->string('jenis_akun');
+            $table->string('kelompok_akun');
+            $table->string('keterangan');
+            $table->decimal('kode', 20, 3);
+            $table->string('Nama_akun');
+            $table->bigInteger('Saldo_awal');
+            $table->bigInteger('jumlah_saldo');
             $table->timestamps();
         });
     }

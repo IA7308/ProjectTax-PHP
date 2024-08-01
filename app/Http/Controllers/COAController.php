@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CoasImport;
 use App\Models\Jurnal;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use \App\Models\COA;
+use Maatwebsite\Excel\Facades\Excel;
 
 class COAController extends Controller
 {
@@ -197,6 +199,17 @@ class COAController extends Controller
     public function getData($perPage)
     {
         return COA::paginate($perPage);
+    }
+
+    public function import(Request $request) 
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        Excel::import(new CoasImport, $request->file('file')->store('temp'));
+
+        return back()->with('success', 'Data COA berhasil diimport!');
     }
 
     

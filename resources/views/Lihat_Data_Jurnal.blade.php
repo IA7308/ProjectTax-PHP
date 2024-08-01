@@ -12,9 +12,9 @@
                     <form action="/jurnal" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
-                                <option value="5" {{ request('pagination', 10) == 5 ? 'selected' : '' }}>5</option>
                                 <option value="10" {{ request('pagination', 10) == 10 ? 'selected' : '' }}>10</option>
-                                <option value="15" {{ request('pagination', 10) == 15 ? 'selected' : '' }}>15</option>
+                                <option value="50" {{ request('pagination', 50) == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ request('pagination', 100) == 100 ? 'selected' : '' }}>100</option>
                                 <option value="all" {{ strtolower(request('pagination')) == 'all' ? 'selected' : '' }}>ALL</option>
                             </select> entries
                         </p>
@@ -87,6 +87,11 @@
                         <td> </td>
                     </tr>
                 </thead>
+                <?php
+                    function wrapText($text, $length = 20) {
+                        return wordwrap($text, $length, "\n", true);
+                    }
+                ?>
                 <tbody>
                     <tr></tr>
                     @foreach($data as $index => $d)
@@ -98,16 +103,16 @@
                            
                             <tr>
                                 @if($i == 0)
-                                    <td>{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
-                                    <td>{{ $d->debit[$i]['keterangan'] ?? '' }}</td>
-                                    <td class="text-start">{{ $d->debit[$i]['transaksi'] ?? '' }}</td>
-                                    <td>{{ $d->debit[$i]['bukti'] ?? '' }}</td>
+                                    <td class="fixed-width-date">{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td>{{ wrapText($d->debit[$i]['keterangan'] ?? '') }}</td>
+                                    <td class="text-start">{{ wrapText($d->debit[$i]['transaksi'] ?? '') }}</td>
+                                    <td>{{ wrapText($d->debit[$i]['bukti'] ?? '') }}</td>
                                     <td class="text-end" rowspan="{{ $maxRows }}">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
                                 @else
-                                    <td>{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
-                                    <td>{{ $d->debit[$i]['keterangan'] ?? '' }}</td>
-                                    <td class="text-start">{{ $d->debit[$i]['transaksi'] ?? '' }}</td>
-                                    <td>{{ $d->debit[$i]['bukti'] ?? '' }}</td>
+                                    <td class="fixed-width-date">{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td>{{ wrapText($d->debit[$i]['keterangan'] ?? '') }}</td>
+                                    <td class="text-start">{{ wrapText($d->debit[$i]['transaksi'] ?? '') }}</td>
+                                    <td>{{ wrapText($d->debit[$i]['bukti'] ?? '') }}</td>
                                 @endif
                                     
                                 @if(isset($d->debit[$i]))
@@ -154,9 +159,9 @@
            
 
             @if(session('paginate'))
-            <div class="row-fluid d-flex justify-content-end pagination mt-4">
-                {{ $data->links() }}
-            </div>
+                <div class="row-fluid d-flex justify-content-end pagination mt-4">
+                    {{ $data->appends(['pagination' => request('pagination')])->links() }}
+                </div>
             @endif
         </div>
         <p class="text-start mt-3">@2024 <b>CV.SOLUSIKITA</b></p>

@@ -17,7 +17,7 @@ use App\Exports\JurnalExport;
 class JurnalController extends Controller
 {
     public function index(){
-        $perPage = strtolower(request('pagination', 'all'));
+        $perPage = strtolower(request('pagination', '100'));;
         $saldoDebit = 0;
         $saldoKredit = 0;
         session(['paginate' => true]);

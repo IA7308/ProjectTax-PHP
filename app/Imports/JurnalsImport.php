@@ -8,6 +8,7 @@ use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use phpoffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -24,7 +25,7 @@ class JurnalsImport implements ToModel, WithHeadingRow
         // Check if Jurnal already exists or create a new one
         $jurnal = Jurnal::firstOrCreate(
             // Assuming you have a unique identifier for Jurnal, e.g., 'tanggal' and 'transaksi'
-            ['JurnalId' => $row['id'],],
+            ['JurnalId' => $row['jurnalid'] ?? 1,],
             [
                 'debit' => json_encode([]),
                 'kredit' => json_encode([]),
@@ -52,8 +53,10 @@ class JurnalsImport implements ToModel, WithHeadingRow
             'akunD' => $row['akundebit'],
             'rpD' => $row['saldodebit'],
             'histori_saldo_debit' => 0,
-            'JurnalId' => $row['id']
+            'JurnalId' => $row['jurnalid']
         ]);
+        Log::info('Debit Entry:', ['akunD' => $debitEntry->akunD]);
+
         $akunD = COA::where('Nama_akun', $debitEntry->akunD)->first();
         if($akunD->keterangan == "Akun, Kredit"){
             $akunD->jumlah_saldo = $akunD->jumlah_saldo + $debitEntry->rpD;
@@ -74,8 +77,9 @@ class JurnalsImport implements ToModel, WithHeadingRow
             'akunK' => $row['akunkredit'],
             'rpK' => $row['saldokredit'],
             'histori_saldo_kredit' => 0,
-            'JurnalId' => $row['id']
+            'JurnalId' => $row['jurnalid']
         ]);
+        Log::info('Kredit Entry:', ['akunK' => $kreditEntry->akunK]);
         $akunK = COA::where('Nama_akun', $kreditEntry->akunK)->first();
         if($akunK->keterangan == "Akun, Kredit"){
             $akunK->jumlah_saldo = $akunK->jumlah_saldo - $kreditEntry->rpK; 
@@ -100,7 +104,7 @@ class JurnalsImport implements ToModel, WithHeadingRow
         }else{
             $jurnal->jumlah = $totalrpk;
         }
-        $jurnal->JurnalId = $row['id'];
+        $jurnal->JurnalId = $row['jurnalid'];
         $jurnal->histori_saldo_debit = 0;
         $jurnal->histori_saldo_kredit = 0;
 
