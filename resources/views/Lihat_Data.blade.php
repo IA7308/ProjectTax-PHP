@@ -22,16 +22,18 @@
                             </select> entries
                         </p>
                     </form>
+                    <div class="col">
+                        <form action="{{ route('import.coa') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div  class="input-group">
+                                <input type="file" name="file"  class="form-control" required>
+                                <button type="submit" class="btn btn-primary ms-2">Import</button>
+                            </div>  
+                        </form>
+                    </div>
                 </div>
                 <div class="col text-center">
                     <h2>TABEL COA</h2>
-                </div>
-                <div class="col">
-                    <form action="{{ route('import.coa') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="file" required>
-                        <button type="submit">Import</button>
-                    </form>
                 </div>
                 <div class="col">
                     <div class="text-end">

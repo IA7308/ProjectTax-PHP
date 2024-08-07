@@ -55,7 +55,8 @@ class BukBesController extends Controller
         session(['pilihC' => true]);
         session(['paginate' => true]);
 
-        $perPage = request('pagination', 1000); // Default to 10 items per page
+        $requestedPerPage = request('pagination', 1000); // Default to 10 items per page
+        $perPage = is_numeric($requestedPerPage) ? intval($requestedPerPage) : $requestedPerPage;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         $temp = COA::all();
@@ -131,6 +132,12 @@ class BukBesController extends Controller
 
         // Convert $
         $dataCollection = collect($data);
+
+        // Determine the number of items per page
+        if (strtolower($perPage) == 'all') {
+            $perPage = $dataCollection->count();
+        }
+
         $currentPageData = $dataCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
         // Create LengthAwarePaginator instance

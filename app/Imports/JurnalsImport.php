@@ -9,11 +9,12 @@ use App\Models\JurnalAkunKredit;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use phpoffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class JurnalsImport implements ToModel, WithHeadingRow
+class JurnalsImport implements ToModel, WithHeadingRow, WithChunkReading
 {
     /**
     * @param array $row
@@ -110,4 +111,9 @@ class JurnalsImport implements ToModel, WithHeadingRow
 
         $jurnal->save();
     }
+    public function chunkSize(): int
+    {
+        return 5000; // Set chunk size according to your need
+    }
+
 }

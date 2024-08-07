@@ -588,7 +588,22 @@ class JurnalController extends Controller
             'file' => 'required|mimes:xls,xlsx'
         ]);
 
+        $startTime = microtime(true);
+
         Excel::import(new JurnalsImport, $request->file('file'));
+
+        // Assuming this function will trigger the import
+
+        $endTime = microtime(true);
+        $chunkTime = $endTime - $startTime;
+
+        echo "Time taken for one chunk: " . $chunkTime . " seconds";
+
+        // Extrapolate for entire data set
+        $totalChunks = 160000 / 5000;
+        $totalTime = $totalChunks * $chunkTime;
+
+        echo "Estimated total time: " . $totalTime . " seconds";
 
         return back()->with('success', 'File Excel berhasil diimpor.');
     }
