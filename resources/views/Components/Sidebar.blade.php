@@ -69,6 +69,12 @@
                         <li class="nav-item" id="labarugi">
                             <a href="/labarugi" class="nav-link"><b>RUGILABA</b></a>
                         </li>
+                        <li class="nav-item" id="barangmasuk">
+                            <a href="/stock" class="nav-link"><b>BARANG MASUK</b></a>
+                        </li>
+                        <li class="nav-item" id="barangmasuk">
+                            <a href="/stock-out" class="nav-link"><b>BARANG KELUAR</b></a>
+                        </li>
                     </ul>
                 </div>
             </div>

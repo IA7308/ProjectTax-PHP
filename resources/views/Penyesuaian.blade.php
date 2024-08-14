@@ -22,6 +22,15 @@
                             </select> entries
                         </p>
                     </form>
+                </div>
+                <div class="col-md-4">
+                    <form action="/import-penye" method="post" enctype="multipart/form-data" class="d-flex align-items-center"  id="import-form">
+                        @csrf
+                        <div class="input-group">
+                            <input type="file" name="file" id="file" class="form-control">
+                            <button type="submit" class="btn btn-primary ms-2">Import</button>
+                        </div>
+                    </form>
                 </div>                
             <!-- DATA TABEL -->
             <table class="table table-fluid table-bordered" id="myTable">

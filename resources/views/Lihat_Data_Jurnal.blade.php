@@ -3,6 +3,9 @@
 @section('title', 'LIHAT DATA JURNAL')
 <body>
     @section('content')
+    <div class="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+    </div>
     <div class="container-fluid text-center">
         <hr>
         <div class="card p-3">
@@ -29,7 +32,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <form action="/import-jurnal" method="post" enctype="multipart/form-data" class="d-flex align-items-center">
+                    <form action="/import-jurnal" method="post" enctype="multipart/form-data" class="d-flex align-items-center"  id="import-form">
                         @csrf
                         <div class="input-group">
                             <input type="file" name="file" id="file" class="form-control">
@@ -181,7 +184,22 @@
     @endpush
     @push('scripts')
     <script>
+        $(window).on("load", function(){
+            $(".loader-wrapper").fadeOut("slow");
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('import-form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    document.getElementById('loader-wrapper').style.display = 'flex';
+                });
+            }
+        });
+        
         $(document).ready(function(){
+
+            
 
             $("#searchInputtgl").on("input", function() {
                 var value = $(this).val().toLowerCase();
@@ -219,41 +237,6 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-
-            // $('#myTable').DataTable({
-            //     processing: true,
-            //     serverSide: true,
-            //     ajax: {
-            //         url: "/jurnal", // Ganti dengan rute Anda
-            //     },
-            //     columns: [
-            //         { data: 'tanggal', name: 'tanggal' },
-            //         { data: 'keterangan', name: 'keterangan' },
-            //         { data: 'transaksi', name: 'transaksi' },
-            //         { data: 'bukti', name: 'bukti' },
-            //         { data: 'jumlah', name: 'jumlah' },
-            //         { data: 'akunD', name: 'akunD' },
-            //         { data: 'rpD', name: 'rpD' },
-            //         { data: 'akunK', name: 'akunK' },
-            //         { data: 'rpK', name: 'rpK' },
-            //         { data: 'action', name: 'action', orderable: false, searchable: false }
-            //     ],
-            //     // dom: 'Bfrtip',
-            //     // buttons: [
-            //     //     {
-            //     //         extend: 'excelHtml5',
-            //     //         text: 'Export Excel',
-            //     //         title: 'DataTable Export',
-            //     //         className: 'btn btn-success'
-            //     //     },
-            //     //     {
-            //     //         extend: 'pdfHtml5',
-            //     //         text: 'Export PDF',
-            //     //         title: 'DataTable Export',
-            //     //         className: 'btn btn-danger'
-            //     //     },
-            //     // ]
-            // });
 
         });
     </script>

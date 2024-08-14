@@ -103,12 +103,12 @@
                                             <label for="Label_akun_debit" class="form-label">NAMA AKUN Debit</label>
                                         </div>
                                         <div class="col">
-                                        <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
-                                            <option selected>Choose...</option>
-                                            @foreach($dataDebit as $dd)
-                                            <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->akunD == $dd->Nama_akun ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
-                                            @endforeach
-                                        </select>
+                                            <select class="form-select" id="Nama_akun_debit" name="Nama_akun_debit">
+                                                <option selected>Choose...</option>
+                                                @foreach($dataDebit as $dd)
+                                                <option value="{{$dd->id}}" {{ isset($dataJ) && $dataJ->akunD == $dd->Nama_akun ? 'selected' : '' }}>{{$dd->Nama_akun}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row mb-3">

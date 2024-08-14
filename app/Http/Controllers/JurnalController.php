@@ -10,6 +10,7 @@ use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\JurnalExport;
@@ -308,7 +309,11 @@ class JurnalController extends Controller
         // $prod->transaksi = $request->transaksi;
         // $prod->keterangan = $request->keterangan;
         // $prod->bukti = $request->bukti;
-        $prod->jumlah = $request->jumlah;
+        if(session('jumlahDebit') > session('jumlahKredit')){
+            $prod->jumlah = session('jumlahDebit');
+        }else{
+            $prod->jumlah = session('jumlahKredit');
+        }
         $prod->debit = json_encode($akundebit); // Ubah menjadi JSON sebelum menyimpan
         $prod->kredit = json_encode($akunkredit);
         $prod->histori_saldo_debit = 0;
@@ -587,23 +592,16 @@ class JurnalController extends Controller
         $request->validate([
             'file' => 'required|mimes:xls,xlsx'
         ]);
-
-        $startTime = microtime(true);
+        DB::statement('ALTER TABLE jurnals DISABLE KEYS');
+        DB::statement('ALTER TABLE jurnal_akuns DISABLE KEYS');
+        DB::statement('ALTER TABLE jurnal_akun_kredits DISABLE KEYS');
 
         Excel::import(new JurnalsImport, $request->file('file'));
 
-        // Assuming this function will trigger the import
+        DB::statement('ALTER TABLE jurnals ENABLE KEYS');
+        DB::statement('ALTER TABLE jurnal_akuns ENABLE KEYS');
+        DB::statement('ALTER TABLE jurnal_akun_kredits ENABLE KEYS');
 
-        $endTime = microtime(true);
-        $chunkTime = $endTime - $startTime;
-
-        echo "Time taken for one chunk: " . $chunkTime . " seconds";
-
-        // Extrapolate for entire data set
-        $totalChunks = 160000 / 5000;
-        $totalTime = $totalChunks * $chunkTime;
-
-        echo "Estimated total time: " . $totalTime . " seconds";
 
         return back()->with('success', 'File Excel berhasil diimpor.');
     }

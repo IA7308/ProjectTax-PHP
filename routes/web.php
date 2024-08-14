@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NeracaController;
 use App\Http\Controllers\penyesuaianAkunController;
 use App\Http\Controllers\penyesuaianController;
+use App\Http\Controllers\stockController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -106,3 +107,10 @@ Route::get('/labarugi', [labarugiController::class, 'index']);
 Route::get('/export-jurnal', [JurnalController::class, 'export']);
 Route::post('/import-jurnal', [JurnalController::class, 'import']);
 Route::post('import-coa', [COAController::class, 'import'])->name('import.coa');
+Route::post('/import-penye', [penyesuaianController::class, 'import'])->name('import.penye');
+
+
+//BARANG
+Route::get('/stock', [stockController::class, 'index']);
+Route::get('/bStore', [stockController::class, 'store']);
+Route::get('/stock-out', [stockController::class, 'indexBarangKeluar']);

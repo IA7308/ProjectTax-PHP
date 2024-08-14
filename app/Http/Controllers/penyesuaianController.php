@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\penyesuaianImport;
 use App\Models\COA;
 use App\Models\debitPenyesuaian;
 use App\Models\kreditPenyesuaian;
 use App\Models\penyesuaian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class penyesuaianController extends Controller
 {
@@ -343,6 +346,26 @@ class penyesuaianController extends Controller
         session(['jumlahKredit' => 0]);
         
         return redirect('/penyesuaian')->with('msg', 'Data Jurnal Telah di Reset');
+    }
+
+    public function import(Request $request)
+    {
+        // dd($request->file('file'));
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+        DB::statement('ALTER TABLE penyesuaians DISABLE KEYS');
+        DB::statement('ALTER TABLE debit_penyesuaians DISABLE KEYS');
+        DB::statement('ALTER TABLE kredit_penyesuaians DISABLE KEYS');
+
+        Excel::import(new penyesuaianImport, $request->file('file'));
+
+        DB::statement('ALTER TABLE penyesuaians ENABLE KEYS');
+        DB::statement('ALTER TABLE debit_penyesuaians ENABLE KEYS');
+        DB::statement('ALTER TABLE kredit_penyesuaians ENABLE KEYS');
+
+
+        return back()->with('success', 'File Excel berhasil diimpor.');
     }
 
 }
