@@ -4,7 +4,7 @@
     @section('content')
     <div class="container-fluid">
         <div class="card mt-3 p-3">
-            <h3 class="card-title mt-2">{{$title}} INPUT JURNAL</h3>
+            <h3 class="card-title mt-2">{{$title}} INPUT BARANG MASUK</h3>
         <hr>
         <form class="text-end" action="{{ $action }}">
             @csrf
@@ -68,81 +68,108 @@
                     </div>                
                 </div> -->
             @endif
+            <!-- Tanggal -->
             <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Tanggal" class="form-label">TANGGAL</label>
-                </div>
-                @if(session('Multiple'))
-                <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
-                </div>
-                @else
-                <div class="col">
-                    <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($datapilihan)?$datapilihan->tanggal:'' }}" required>
-                </div>
-                @endif                
-            </div>
-            <!-- KETERANGAN -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="KeteranganInputJurnal" class="form-label">KETERANGAN</label>
-                </div>                
-                @if(session('Multiple'))
-                <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($datapilihan)?$datapilihan->keterangan:'' }}" required>
-                </div>
-                @else
-                <div class="col">
-                    <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($datapilihan)?$datapilihan->keterangan:'' }}" required>
-                    <!-- <select class="form-select" id="keteranganbarang" name="keterangan_barang">
-                        <option selected>Choose...</option>
-                        @foreach ($dataBarang as $dbarang)
-                            <option value="{{$dbarang->id}}" data-jenis="Penjualan">{{$dbarang->nama_barang}}</option>
-                        @endforeach
-                      </select> -->
-                </div>
-                @endif
-                
-            </div>
-            <!-- TRANSAKSI -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Transaksi" class="form-label">TRANSAKSI</label>
-                </div>
-                @if(session('Multiple'))
-                <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
-                </div>
-                @else
-                <div class="col">
-                    <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
-                </div>
-                @endif                
-            </div>
-            <!-- Bukti -->
-            <div class="row mb-3">
-                <div class="col-2">
-                    <label for="Bukti" class="form-label">BUKTI</label>
-                </div>
-                @if(session('Multiple'))
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
-                </div>
-                @else
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
-                </div>
-                @endif
-            </div>
-            <!-- Jumlah -->
-            <div class="row mb-3">
-                <!-- <div class="col-2">
-                    <label for="jumlah" class="form-label">JUMLAH</label>
-                </div> -->
-                <div class="col">
-                    <input type="hidden" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
-                </div>
-            </div>
+                            <div class="col-2">
+                                <label for="Tanggal" class="form-label">Tanggal</label>
+                            </div>
+                            <div class="col">                                
+                                <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($data)?$data->tanggal:'' }}">
+                            </div>
+                        </div>
+                        <!-- nama_penjual -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="nama_penjual" class="form-label">Nama Penjual</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" name="nama_penjual" id="nama_penjual" value="{{ isset($data)?$data->nama_penjual:'' }}">
+                            </div>
+                        </div>
+                        <!-- KODE BARANG -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="kode_barang" class="form-label">KODE BARANG</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}">
+                            </div>
+                        </div>
+                        <!-- NAMA BARANG -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="nama_barang" class="form-label">NAMA BARANG</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="{{ isset($data)?$data->nama_barang:'' }}">
+                            </div>
+                        </div>
+                        <!-- KETERANGAN -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="keterangan" class="form-label">KETERANGAN</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($data)?$data->keterangan:'' }}">
+                            </div>
+                        </div>
+                        <!-- TRANSAKSI -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="Transaksi" class="form-label">TRANSAKSI</label>
+                            </div>
+                            @if(session('Multiple'))
+                            <div class="col">
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                            </div>
+                            @else
+                            <div class="col">
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                            </div>
+                            @endif                
+                        </div>
+                        <!-- Bukti -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="Bukti" class="form-label">BUKTI</label>
+                            </div>
+                            @if(session('Multiple'))
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                            </div>
+                            @else
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                            </div>
+                            @endif
+                        </div>
+                        <!-- UNIT KELUAR -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="unit_masuk" class="form-label">UNIT MASUK</label>
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control" id="unit_masuk" name="unit_masuk" value="" placeholder="0">
+                            </div>
+                        </div>
+                        <!-- harga -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="harga" class="form-label">HARGA BELI /UNIT</label>
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control" id="harga" name="harga" value="" placeholder="0">
+                            </div>
+                        </div>
+                        <!-- Jumlah -->
+                        <div class="row mb-3">
+                            <!-- <div class="col-2">
+                                <label for="jumlah" class="form-label">JUMLAH</label>
+                            </div> -->
+                            <div class="col">
+                                <input type="hidden" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
+                            </div>
+                        </div>
             <div class="row mb-3">
                 <div class="col text-start">
                     <h6>DEBIT</h6>
@@ -255,6 +282,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row mb-3">
                 <div class="col">
                     <table class="table table-hover table-info">
@@ -339,20 +367,20 @@
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
                         @if(!session('Multiple'))
-                            <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
-                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                            <a href="#"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
+                            <a href="#"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                          @elseif (session('editMode'))
                             <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-danger mx-1">Reset</button>
                             </form>
-                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                            <a href="#"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                          @else
-                            <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
+                            <form action="#" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-danger mx-1">Reset</button>
                             </form>
-                            <form action="{{ route('kembaliJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
+                            <form action="#" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-warning mx-1">Kembali</button>
                             </form>
@@ -381,72 +409,34 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#keteranganbarang').hide();
-        $('#JenisAkun').change(function() {
-            var selectedJenis = $(this).val();
-            if(selectedJenis == 'Penjualan'){
-                $('#keterangan').hide();
-                $('#keteranganbarang').show();
-                $('#keteranganbarang option').show();
-                $('#keteranganbarang option[data-jenis="' + selectedJenis + '"]').show();
-                $('#keteranganbarang option[data-jenis="' + selectedJenis + '"]:visible').first().prop('selected', true);
-            }else{
-                $('#keterangan').show();
-                $('#keteranganbarang').hide();
-                $('#keteranganbarang option').hide();
-            }
-            
-        });
-        $('#JenisAkun').change();
         
-        // Hitung selisih jumlah debit dan jumlah kredit saat halaman dimuat
-        var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
-        var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
-        var selisihJumlah = jumlahDebit - jumlahKredit;
-
-        var notif = $('#Alert');
-        updateAlert(selisihJumlah);
-
-        // Fungsi untuk mengupdate notifikasi saat input berubah
-        $('#jumlah').on('input', function () {
-            var jumlahDebit = parseFloat($('#JumlahDebit').val());
-            var jumlahKredit = parseFloat($('#JumlahKredit').val());
-            var selisihJumlah = jumlahDebit - jumlahKredit;
-
-            updateAlert(number_format(selisihJumlah, 2, ',', '.'));
-        });
-
         function updateAlert(selisih) {
-            if (selisih != 0) {
+            if (parseFloat(selisih) != 0) {
                 notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').show();
             } else {
                 notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').hide();
             }
         }
 
-        // $('#Jumlah').on('input', function () {
-        //     var jumlahDebit = parseFloat('{{ session('jumlahDebit') }}');
-        //     var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
-        //     var selisihJumlah = jumlahDebit - jumlahKredit;
+        // Hitung selisih jumlah debit dan jumlah kredit saat halaman dimuat
+        var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+        var JumlahHarga = parseFloat($('#harga').val() * $('#unit_masuk').val());
+        var selisihJumlah = jumlahKredit - JumlahHarga;
 
-        //     var notif = $('#Alert');
-        //     if (selisihJumlah != 0) {
-        //         notif.show();
-        //     }else {
-        //         notif.hide();
-        //     }
-        // });
+        var notif = $('#Alert');
+        updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
-        // function isDuplicateKode(kodeValue) {
-        //     var dataKode = @json($dataKode);
+        // Fungsi untuk mengupdate notifikasi saat input berubah
+        $('#harga').on('input', function () {
+            var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+            var JumlahHarga = (parseFloat($('#harga').val()) * parseFloat($('#unit_masuk').val()));
+            var selisihJumlah = jumlahKredit - JumlahHarga;
 
-        //     return dataKode.includes(kodeValue.toString());
-        // }
-        // var dataKode = @json($dataKode);
-        // console.log(dataKode);
-        // var notif = $('#Alert');
-        // notif.hide();
 
+            updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        });
+            
+        
         $('#submitDebit').click(function() {
             var tanggal = $('#Tanggal').val();
             var bukti = $('#Bukti').val();
@@ -480,11 +470,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    if(editj === 'editJ'){
-                        window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
-                    }else{
-                        window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
-                    }
+                    window.location.href = '/'+jurnalid + '/inputstock';
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -527,11 +513,7 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalKredit').modal('hide');
-                    if(editj === 'editJ'){
-                        window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
-                    }else{
-                        window.location.href = '/jTambahData/'+jurnalid+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi;
-                    }
+                    window.location.href = '/'+ jurnalid + '/inputstock';
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -547,6 +529,11 @@
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
+            var nama_penjual = $('#nama_penjual').val();
+            var kode_barang = $('#kode_barang').val();
+            var nama_barang = $('#nama_barang').val();
+            var unit_keluar = $('#unit_masuk').val();
+            var harga = $('#harga').val();
 
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
@@ -567,7 +554,7 @@
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: url,
+                url: '/bStore',
                 type: editj ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",
@@ -575,7 +562,13 @@
                     keterangan: keterangan,
                     tanggal: tanggal,
                     jumlah: jumlah,
-                    bukti: bukti
+                    bukti: bukti,
+                    nama_penjual:nama_penjual,
+                    nama_barang:nama_barang,
+                    kode_barang:kode_barang,
+                    unit_masuk: unit_keluar,
+                    harga: harga,
+                    jurnalid:jurnalid
                 },
                 success: function(response) {
                     // Handle response jika diperlukan
@@ -588,7 +581,7 @@
                         }
                         
                     } else {
-                        window.location.href = '/jurnal';
+                        window.location.href = '/stock';
                     }       
                 },
                 error: function(xhr, status, error) {

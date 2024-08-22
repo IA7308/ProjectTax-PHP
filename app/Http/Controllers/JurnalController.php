@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ExportJurnal;
 use App\Imports\JurnalsImport;
+use App\Models\Barang;
 use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
@@ -70,6 +71,7 @@ class JurnalController extends Controller
         $idjurnal = 0;
         $bukti = [];
         $jurnal = Jurnal::all();
+        $dataBarang = Barang::all();
         
         foreach($jurnal as $d){
             $bukti[] = $d->bukti;
@@ -104,7 +106,8 @@ class JurnalController extends Controller
             'dataKredit' => $dataKredit,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataKode' => $bukti
+            'dataKode' => $bukti,
+            'dataBarang' => $dataBarang,
         ]);
     }
     public function store(Request $request)
@@ -194,6 +197,7 @@ class JurnalController extends Controller
         $jumlahJurnal = 0;
         // $bukti = [];
         $jurnal = Jurnal::all();
+        $dataBarang = Barang::all();
         // $jurnalpilihan = Jurnal::find($id);
         // $debitjurnal = json_decode($jurnalpilihan->debit);
         // $kreditjurnal = json_decode($jurnalpilihan->kredit);
@@ -266,7 +270,8 @@ class JurnalController extends Controller
             'dataJ' => Jurnal::find($id),
             'datapilihan' => $datapilihan,
             'dataDebit' => $dataDebit,
-            'dataKredit' => $dataKredit
+            'dataKredit' => $dataKredit,
+            'dataBarang' => $dataBarang,
         ]);
     }
     public function update(Request $request, $id, $jurnalid, $idakun)
@@ -394,11 +399,11 @@ class JurnalController extends Controller
             $jurnal->kredit = json_decode($jurnal->kredit);
             foreach($jurnal->debit as $d){
                 $akunDebit = COA::where('Nama_akun', $d['akunD'])->first();
-                $d['histori_saldo_debit'] = $akunDebit->jumlah_saldo;
+                // $d['histori_saldo_debit'] = $akunDebit->jumlah_saldo;
             }
             foreach($jurnal->kredit as $k){
                 $akunKredit = COA::where('Nama_akun', $k['akunK'])->first();                
-                $k['histori_saldo_kredit'] = $akunKredit->jumlah_saldo;
+                // $k['histori_saldo_kredit'] = $akunKredit->jumlah_saldo;
             }
             $jurnal->debit = json_encode($jurnal->debit);
             $jurnal->kredit = json_encode($jurnal->kredit);        

@@ -123,15 +123,19 @@
     </style>
 
     <script>
-        window.addEventListener("load", ()=>{
-            const loaders = document.querySelector(".loader-wrapper");
 
-            loaders.classList.add("loader-hidden");
+        
+            window.addEventListener("load", ()=>{
+                const loaders = document.querySelector(".loader-wrapper");
 
-            loaders.addEventListener("transitioned", () => {
-                document.body.removeChild("loader");
-            })
-        })
+                loaders.classList.add("loader-hidden");
+
+                loaders.addEventListener("transitioned", () => {
+                    document.body.removeChild("loader");
+                });
+            });
+        
+        
 
 
     </script>

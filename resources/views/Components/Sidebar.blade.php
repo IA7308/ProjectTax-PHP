@@ -18,64 +18,52 @@
         <div class="container-fluid justify-content-start">
             <!-- Menu Utama -->
             <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" data-bs-backdrop="false">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- isi Menu -->
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="true">
-                <div class="offcanvas-header"> 
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">AKT VERSION 1.0</h5>
-                    <button type="button" class="btn navbar-toggler-icon" data-bs-dismiss="offcanvas" data-bs-backdrop="false"
-                        aria-label="Close"></button>
-                </div>
+    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" data-bs-backdrop="false">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasNavbar"
+    aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="true">
+    <div class="offcanvas-header"> 
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">AKT VERSION 1.0</h5>
+        <button type="button" class="btn navbar-toggler-icon" data-bs-dismiss="offcanvas" data-bs-backdrop="false"
+            aria-label="Close"></button>
+        </div>
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item" id="beranda">
-                            <a class="nav-link active" aria-current="page" href="/beranda"><b>COA</b></a>
-                        </li>
-
-                        <li class="nav-item" id="ctambahdata">
-                            <a href="/cTambahData" class="nav-link"><b>TAMBAH DATA COA</b></a>
-                        </li>
-
-                        <!-- DATA KARYAWAN -->
-                        <li class="nav-item" id="jurnal">
-                            <a class="nav-link" href="/jurnal"><b>JURNAL</b></a>
-                        </li>
-                        <li class="nav-item" id="jtambahdata">
-                            <a href="/jTambahData" class="nav-link"><b>TAMBAH DATA JURNAL</b></a>
-                        </li>
-
-                        <li class="nav-item" id="penyesuaian">
-                            <a href="/penyesuaian" class="nav-link"><b>PENYESUAIAN</b></a>
-                        </li>
-                        <li class="nav-item" id="neracalajur">
-                            <a href="/pTambahData" class="nav-link"><b>TAMBAH DATA PENYESUAIAN</b></a>
-                        </li>
-
-                        <li class="nav-item" id="bukubesar">
-                            <a href="/bukubesar/{{session('idDataterpilih')}}" class="nav-link"><b>BUKU BESAR</b></a>
-                        </li>
-                        <li class="nav-item" id="neracalajur">
-                            <a href="/neracalajur" class="nav-link"><b>NERACA LAJUR</b></a>
-                        </li>
-                        <li class="nav-item" id="konsep">
-                            <a href="/konsep" class="nav-link"><b>KONSEP</b></a>
-                        </li>
-                        <li class="nav-item" id="neraca">
-                            <a href="/laporanneraca" class="nav-link"><b>NERACA</b></a>
-                        </li>
-                        <li class="nav-item" id="labarugi">
-                            <a href="/labarugi" class="nav-link"><b>RUGILABA</b></a>
-                        </li>
-                        <li class="nav-item" id="barangmasuk">
-                            <a href="/stock" class="nav-link"><b>BARANG MASUK</b></a>
-                        </li>
-                        <li class="nav-item" id="barangmasuk">
-                            <a href="/stock-out" class="nav-link"><b>BARANG KELUAR</b></a>
-                        </li>
-                    </ul>
+                        <ul class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <b>AKUNTANSI</b>
+                            </a>
+                                <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                                    <li><a class="dropdown-item" href="/beranda"><b>COA</b></a></li>
+                                    <li><a class="dropdown-item" href="/cTambahData"><b>TAMBAH DATA COA</b></a></li>
+                                    <li><a class="dropdown-item" href="/jurnal"><b>JURNAL</b></a></li>
+                                    <li><a class="dropdown-item" href="/jTambahData"><b>TAMBAH DATA JURNAL</b></a></li>
+                                    <li><a class="dropdown-item" href="/penyesuaian"><b>PENYESUAIAN</b></a></li>
+                                    <li><a class="dropdown-item" href="/pTambahData"><b>TAMBAH DATA PENYESUAIAN</b></a></li>
+                                    <li><a class="dropdown-item" href="/bukubesar/{{session('idDataterpilih')}}"><b>BUKU BESAR</b></a></li>
+                                    <li><a class="dropdown-item" href="/neracalajur"><b>NERACA LAJUR</b></a></li>
+                                    <li><a class="dropdown-item" href="/konsep"><b>KONSEP</b></a></li>
+                                    <li><a class="dropdown-item" href="/laporanneraca"><b>NERACA</b></a></li>
+                                    <li><a class="dropdown-item" href="/labarugi"><b>RUGILABA</b></a></li>
+                                </ul>
+                        </ul>
+                        <ul class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <b>STOCK BARANG</b>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                                <li><a class="dropdown-item" href="/stock"><b>BARANG MASUK</b></a></li>
+                                <li><a class="dropdown-item" href="/inputstock"><b>INPUT BARANG MASUK</b></a></li>
+                                <li><a class="dropdown-item" href="/stock-out"><b>BARANG KELUAR</b></a></li>
+                                <li><a class="dropdown-item" href="/inputstockkeluar"><b>INPUT BARANG KELUAR</b></a></li>
+                                <li><a class="dropdown-item" href="/resume"><b>RESUME</b></a></li>
+                            </ul>
+                        </ul>
+                    </li>
                 </div>
             </div>
         </div>

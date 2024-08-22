@@ -4,6 +4,9 @@
 
 <body>
     @section('content')
+    <div class="loader-wrapper" id="loader-wrapper" style="display: none;">
+        <span class="loader"><span class="loader-inner"></span></span>
+    </div>
     <div class="container-fluid text-center" id="container">
         <hr>
         <div class="card p-3">
@@ -23,7 +26,7 @@
                         </p>
                     </form>
                     <div class="col">
-                        <form action="{{ route('import.coa') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('import.coa') }}" method="POST" enctype="multipart/form-data" id="import-form">
                             @csrf
                             <div  class="input-group">
                                 <input type="file" name="file"  class="form-control" required>
@@ -117,11 +120,104 @@
     svg {
         width: 20px;
     }
+
+    .loader-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #242f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Menempatkan loader di atas konten lainnya */
+        }
+
+        .loader-hidden{
+            opacity: 20;
+            visibility: hidden;
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            border: 4px solid #Fff;
+            animation: loader 2s infinite ease;
+        }
+
+        .loader-inner {
+            vertical-align: top;
+            display: inline-block;
+            width: 100%;
+            background-color: #fff;
+            animation: loader-inner 2s infinite ease-in;
+        }
+
+        @keyframes loader {
+            0% {
+                transform: rotate(0deg);
+            }
+            
+            25% {
+                transform: rotate(180deg);
+            }
+            
+            50% {
+                transform: rotate(180deg);
+            }
+            
+            75% {
+                transform: rotate(360deg);
+            }
+            
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes loader-inner {
+            0% {
+                height: 0%;
+            }
+            
+            25% {
+                height: 0%;
+            }
+            
+            50% {
+                height: 100%;
+            }
+            
+            75% {
+                height: 100%;
+            }
+            
+            100% {
+                height: 0%;
+            }
+        }
     
 </style>
 @endpush
 @push('scripts')
 <script>
+    $(window).on("load", function() {
+            $(".loader-wrapper").fadeOut("slow");
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('import-form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    // Menampilkan loader-wrapper saat form di-submit
+                    document.getElementById('loader-wrapper').style.display = 'flex';
+                });
+            }
+        });
+        
     document.addEventListener("DOMContentLoaded", function () {
         // var tableRowsSaldo = document.querySelectorAll("tr[data-jumlah-saldo]");
         // var kalkulasiJumlahInput = document.getElementById("kalkulasiJumlah");

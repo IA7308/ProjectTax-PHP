@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
@@ -34,6 +35,7 @@ class JurnalAkunController extends Controller
         $jumlahJurnal = 0;
         // $bukti = [];
         $jurnal = Jurnal::all();
+        $dataBarang = Barang::all();
         
         // foreach($jurnal as $d){
         //     $bukti[] = $d->bukti;
@@ -77,7 +79,8 @@ class JurnalAkunController extends Controller
             'dataKredit' => $dataKredit,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataKode' => $bukti
+            'dataKode' => $bukti,
+            'dataBarang' => $dataBarang,
         ]);
     }
     public function storeDebit(Request $request)
@@ -205,6 +208,7 @@ class JurnalAkunController extends Controller
         $jumlahJurnal = 0;
         // $bukti = [];
         $jurnal = Jurnal::all();
+        $dataBarang = Barang::all();
         
         // foreach($jurnal as $d){
         //     $bukti[] = $d->bukti;
@@ -257,7 +261,8 @@ class JurnalAkunController extends Controller
             'datapilihan' => $datapilihan,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataKode' => $bukti
+            'dataKode' => $bukti,
+            'dataBarang' => $dataBarang,
         ]);
     }
 
@@ -386,6 +391,7 @@ class JurnalAkunController extends Controller
         $jumlahJurnal = 0;
         // $bukti = [];
         $jurnal = Jurnal::all();
+        $dataBarang = Barang::all();
         
         // foreach($jurnal as $d){
         //     $bukti[] = $d->bukti;
@@ -437,7 +443,8 @@ class JurnalAkunController extends Controller
             'datapilihan' => $datapilihan,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataKode' => $bukti
+            'dataKode' => $bukti,
+            'dataBarang' => $dataBarang,
         ]);
     }
 

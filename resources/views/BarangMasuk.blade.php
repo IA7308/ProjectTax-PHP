@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="col text-center">
-                    <h2>TABEL {{$title}}</h2>
+                    <h2>TABEL BARANG {{$title}}</h2>
                 </div>
                 <div class="col">
                     <div class="text-end">
@@ -56,7 +56,7 @@
                         <th>NAMA PENJUAL</th>
                         <th>KODE BARANG</th>
                         <th>NAMA BARANG</th>
-                        <th>UNIT KELUAR</th>
+                        <th>UNIT {{$title}}</th>
                         <th>HARGA BELI/UNIT</th>
                         <th>DPP</th>
                         <th>PPN</th>
@@ -79,8 +79,8 @@
                         <td class="text-end {{ $d->backgroundCell }}">{{number_format((($d->harga*$d->unit_keluar)-(($d->harga*$d->unit_keluar)*0.1)), 2, ',', '.')}}</td>
                         <td>{{$d->keterangan}}</td>
                         <td class="text-center">
-                            <a href="#" class="btn btn-primary">Edit</a>
-                            <form method="post" action="#" style="display:inline"
+                            <a href="{{$d->id}}{{$editAction}}" class="btn btn-primary">Edit</a>
+                            <form method="post" action="{{$d->id}}{{$actionDelete}}" style="display:inline"
                                 onsubmit="return confirm('Yakin hapus?')">
                                 @csrf
                                 @method('DELETE')

@@ -13,8 +13,10 @@ class Barang extends Model
         'tanggal',
         'nama_penjual',
         'kode_barang',
+        'keterangan',
         'nama_barang',
         'unit_keluar',
-        'harga'
+        'harga',
+        'JurnalId'
     ];
 }

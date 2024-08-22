@@ -112,13 +112,20 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#JenisAkun').change(function() {
-            var selectedJenis = $(this).val();
-            $('#KelompokAkun option').hide();
-            $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]').show();
-            $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]:visible').first().prop('selected', true);
-        });
-        $('#JenisAkun').change();
+        
+        function isDuplicateKode(kodeValue) {
+            var dataKode = @json($dataKode);
+
+            return dataKode.includes(kodeValue);
+        }
+
+        // $('#JenisAkun').change(function() {
+        //     var selectedJenis = $(this).val();
+        //     $('#KelompokAkun option').hide();
+        //     $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]').show();
+        //     $('#KelompokAkun option[data-jenis="' + selectedJenis + '"]:visible').first().prop('selected', true);
+        // });
+        // $('#JenisAkun').change();
 
         $('#Kode').on('input', function () {
             var kodeValue = $(this).val();
@@ -130,11 +137,7 @@
             }
         });
 
-        function isDuplicateKode(kodeValue) {
-            var dataKode = @json($dataKode);
-
-            return dataKode.includes(parseInt(kodeValue));
-        }
+        
         // var dataKode = @json($dataKode);
         // console.log(dataKode);
         var notif = $('#Alert');

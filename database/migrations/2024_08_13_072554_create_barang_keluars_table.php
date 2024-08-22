@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('unit_keluar');
             $table->bigInteger('harga');
             $table->string('keterangan');
+            $table->integer('JurnalId');
             $table->timestamps();
         });
     }

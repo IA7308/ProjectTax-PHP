@@ -3,7 +3,7 @@
 @section('title', 'LIHAT DATA JURNAL')
 <body>
     @section('content')
-    <div class="loader-wrapper">
+    <div class="loader-wrapper" id="loader-wrapper" style="display: none;">
         <span class="loader"><span class="loader-inner"></span></span>
     </div>
     <div class="container-fluid text-center">
@@ -60,6 +60,7 @@
                 <thead>
                     <tr class="table table-primary">
                         <th>TANGGAL</th>
+                        <th>NO. REFF</th>
                         <th>KETERANGAN</th>
                         <th>TRANSAKSI</th>
                         <th>BUKTI</th>
@@ -107,12 +108,14 @@
                             <tr>
                                 @if($i == 0)
                                     <td class="fixed-width-date">{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td class="fixed-width-date">NOREFF{{ $d->JurnalId ?? '' }}</td>
                                     <td>{{ wrapText($d->debit[$i]['keterangan'] ?? '') }}</td>
                                     <td class="text-start">{{ wrapText($d->debit[$i]['transaksi'] ?? '') }}</td>
                                     <td>{{ wrapText($d->debit[$i]['bukti'] ?? '') }}</td>
                                     <td class="text-end" rowspan="{{ $maxRows }}">{{ number_format($d->jumlah, 2, ',', '.') }}</td>
                                 @else
                                     <td class="fixed-width-date">{{ $d->debit[$i]['tanggal'] ?? '' }}</td>
+                                    <td class="fixed-width-date">NOREFF{{ $d->JurnalId ?? '' }}</td>
                                     <td>{{ wrapText($d->debit[$i]['keterangan'] ?? '') }}</td>
                                     <td class="text-start">{{ wrapText($d->debit[$i]['transaksi'] ?? '') }}</td>
                                     <td>{{ wrapText($d->debit[$i]['bukti'] ?? '') }}</td>
@@ -180,11 +183,90 @@
         svg {
             width: 20px;
         }
+
+        .loader-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #242f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Menempatkan loader di atas konten lainnya */
+        }
+
+        .loader-hidden{
+            opacity: 20;
+            visibility: hidden;
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            border: 4px solid #Fff;
+            animation: loader 2s infinite ease;
+        }
+
+        .loader-inner {
+            vertical-align: top;
+            display: inline-block;
+            width: 100%;
+            background-color: #fff;
+            animation: loader-inner 2s infinite ease-in;
+        }
+
+        @keyframes loader {
+            0% {
+                transform: rotate(0deg);
+            }
+            
+            25% {
+                transform: rotate(180deg);
+            }
+            
+            50% {
+                transform: rotate(180deg);
+            }
+            
+            75% {
+                transform: rotate(360deg);
+            }
+            
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes loader-inner {
+            0% {
+                height: 0%;
+            }
+            
+            25% {
+                height: 0%;
+            }
+            
+            50% {
+                height: 100%;
+            }
+            
+            75% {
+                height: 100%;
+            }
+            
+            100% {
+                height: 0%;
+            }
+        }
     </style>
     @endpush
     @push('scripts')
     <script>
-        $(window).on("load", function(){
+        $(window).on("load", function() {
             $(".loader-wrapper").fadeOut("slow");
         });
 
@@ -192,6 +274,7 @@
             const form = document.getElementById('import-form');
             if (form) {
                 form.addEventListener('submit', function(event) {
+                    // Menampilkan loader-wrapper saat form di-submit
                     document.getElementById('loader-wrapper').style.display = 'flex';
                 });
             }
