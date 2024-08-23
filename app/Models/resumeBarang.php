@@ -13,6 +13,7 @@ class resumeBarang extends Model
         'nama_barang',
         'stock_awal',
         'harga_masuk',
-        'harga_keluar'
+        'harga_keluar',
+        'stock_akhir'
     ];
 }

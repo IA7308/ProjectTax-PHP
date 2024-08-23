@@ -92,7 +92,7 @@
                                 <label for="kode_barang" class="form-label">KODE BARANG</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}">
+                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}" readonly>
                             </div>
                         </div>
                         <!-- NAMA BARANG -->
@@ -101,7 +101,12 @@
                                 <label for="nama_barang" class="form-label">NAMA BARANG</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="{{ isset($data)?$data->nama_barang:'' }}">
+                                <select class="form-select" id="nama_barang" name="nama_barang">
+                                    <option selected>Choose...</option>
+                                    @foreach($dataResume as $db)
+                                        <option value="{{$db->id}}" {{ isset($namaBarang) && $namaBarang->nama_barang == $data->nama_barang ? 'selected' : '' }} data-kode_barang="{{$db->kode_barang}}" data-harga="{{$db->harga_masuk}}">{{$db->nama_barang}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <!-- KETERANGAN -->
@@ -149,7 +154,7 @@
                                 <label for="unit_masuk" class="form-label">UNIT MASUK</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="unit_masuk" name="unit_masuk" value="" placeholder="0">
+                                <input type="number" class="form-control" id="unit_masuk" name="unit_masuk"  value="{{ isset($data)?$data->unit_keluar:'' }}" placeholder="0">
                             </div>
                         </div>
                         <!-- harga -->
@@ -158,7 +163,7 @@
                                 <label for="harga" class="form-label">HARGA BELI /UNIT</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="harga" name="harga" value="" placeholder="0">
+                                <input type="number" class="form-control" id="harga" name="harga" value="{{ isset($data)?$data->harga:'' }}" placeholder="0" readonly>
                             </div>
                         </div>
                         <!-- Jumlah -->
@@ -427,13 +432,29 @@
         updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
         // Fungsi untuk mengupdate notifikasi saat input berubah
-        $('#harga').on('input', function () {
+        $('#unit_masuk').on('input', function () {
             var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
             var JumlahHarga = (parseFloat($('#harga').val()) * parseFloat($('#unit_masuk').val()));
             var selisihJumlah = jumlahKredit - JumlahHarga;
 
 
             updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        });
+
+        $('#nama_barang').on('change', function() {
+            // Ambil data dari option yang dipilih
+            var selectedOption = $(this).find('option:selected');
+            var kodeBarang = selectedOption.data('kode_barang');
+            var keterangan = selectedOption.data('keterangan');
+            var namapenjual = selectedOption.data('nama_penjual');
+            var harga =selectedOption.data('harga');
+
+            // Isi input dengan nilai yang sesuai
+            $('#kode_barang').val(kodeBarang);
+            $('#keterangan').val(keterangan);
+            $('#namapenjual').val(namapenjual);
+            $('#harga').val(harga);
+
         });
             
         
@@ -538,23 +559,23 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
             var idakun = pathArray[3];
-            var editj =pathArray[8];
+            var editj =pathArray[2];
             var update =pathArray[7];
 
             var url;
-            if (editj === 'editJ') {
-                url = '/' + id + '/' + jurnalid + '/' + idakun + '/updateJ';
+            if (editj === 'bEdit') {
+                url = '/' + id + '/bUpdate';
             } else if (update === 'editDebit') {
                 url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateD'; // Gantilah dengan rute yang benar untuk 'editDebit'
             } else if (update === 'editKredit') {
                 url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateK'; // Gantilah dengan rute yang benar untuk 'editDebit'
             } else {
-                url = "{{ route('tambahJurnal') }}";
+                url = "/bStore";
             }
 
             // Kirim data menggunakan AJAX
             $.ajax({
-                url: '/bStore',
+                url: url,
                 type: editj ? "GET" : "GET",
                 data: {
                     _token: "{{ csrf_token() }}",

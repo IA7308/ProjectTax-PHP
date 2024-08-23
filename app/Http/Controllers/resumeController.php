@@ -30,7 +30,7 @@ class resumeController extends Controller
                 $countout=0;
                 foreach($barang_masuk as $bm){
                     if ($d->kode_barang == $bm->kode_barang){
-                        $countin=+1;
+                        $countin=+$bm->unit_keluar;
                     }
                 }
                 $arrayBarangMasuk[]=$countin;
@@ -95,6 +95,7 @@ class resumeController extends Controller
         $prod->stock_awal = $request->stock_awal;
         $prod->harga_masuk = $request->harga_masuk;
         $prod->harga_keluar = $request->harga_keluar;
+        $prod->stock_akhir = $request->stock_awal;
         $prod->save();
         return back();
     }

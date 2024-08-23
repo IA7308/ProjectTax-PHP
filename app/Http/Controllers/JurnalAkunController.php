@@ -152,6 +152,7 @@ class JurnalAkunController extends Controller
     public function DeleteDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
         $data = COA::all();
         $prod = JurnalAkun::find($id);
+        $barang = Barang::where('JurnalId', $jurnalid)->first();
         foreach($data as $d){
             if($d->Nama_akun == $prod->akunD){
                 $akundebit = $d;
@@ -175,6 +176,8 @@ class JurnalAkunController extends Controller
                 'ktr' => $prod->keterangan,
                 'tr' => $prod->transaksi
             ])->with('msg', 'Akun Berhasil dibuat');
+        }elseif(session('editBarang')){
+            return Redirect::route('bEdit', ['id' => $barang->id]);
         }else{
             return Redirect::route('jTambahData', [
                 'jurnalid' => $jurnalid,
@@ -334,6 +337,7 @@ class JurnalAkunController extends Controller
     public function DeleteKredit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
         $data = COA::all();
         $prod = JurnalAkunKredit::find($id);
+        $barang = Barang::where('JurnalId', $jurnalid)->first();
         foreach($data as $d){
             if($d->Nama_akun == $prod->akunK){
                 $akunkredit = $d;
@@ -358,6 +362,8 @@ class JurnalAkunController extends Controller
                 'ktr' => $prod->keterangan,
                 'tr' => $prod->transaksi
             ])->with('msg', 'Akun Berhasil dibuat');
+        }elseif(session('editBarang')){
+            return Redirect::route('bEdit', ['id' => $barang->id]);
         }else{
             return Redirect::route('jTambahData', [
                 'jurnalid' => $jurnalid,

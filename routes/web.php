@@ -116,7 +116,7 @@ Route::get('/stock', [stockController::class, 'index']);
 Route::get('/bStore', [stockController::class, 'store']);
 Route::get('/{jurnalid}/inputstock', [stockController::class, 'createBM']);
 Route::delete('/{id}/bDelete', [stockController::class, 'delete']);
-Route::get('/{id}/bEdit', [stockController::class, 'edit']);
+Route::get('/{id}/bEdit', [stockController::class, 'edit'])->name('bEdit');
 Route::get('/{id}/bUpdate', [stockController::class, 'updateBM']);
 
 Route::get('/stock-out', [stockController::class, 'indexBarangKeluar']);

@@ -8,6 +8,7 @@ use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
+use App\Models\resumeBarang;
 use Illuminate\Http\Request;
 
 class stockController extends Controller
@@ -167,20 +168,22 @@ class stockController extends Controller
         // Barang
 
         // $nama_penjual = COA::find($request->akunD);
-        
-
+        $barang = resumeBarang::find($request->nama_barang);
 
         $prod = new Barang;
         $prod->tanggal = $request->tanggal;
         $prod->nama_penjual = $request->nama_penjual;
         $prod->keterangan = $request->keterangan;
         $prod->kode_barang = $request->kode_barang;
-        $prod->nama_barang = $request->nama_barang;
-        $prod->unit_keluar =+ $request->unit_masuk;
+        $prod->nama_barang = $barang->nama_barang;
+        $prod->unit_keluar = $request->unit_masuk;
         $prod->harga = $request->harga;
         $prod->JurnalId = session('jurnalid');
 
         $prod->save();
+
+        $barang->stock_akhir =+ $request->unit_masuk;
+        $barang->save();
         return redirect('/stock');
     }
 
@@ -260,6 +263,7 @@ class stockController extends Controller
         $dataMultipleKredit = [];
         $dataCOA = COA::orderBy('kode', 'asc')->get();
         $dataBarang = Barang::all();
+        $dataResume = resumeBarang::all();
 
         foreach($dataCOA as $d){
             if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
@@ -308,7 +312,9 @@ class stockController extends Controller
             'dataKredit' => $dataKredit,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataBarang' => $dataBarang,]);
+            'dataBarang' => $dataBarang,
+            'dataResume' => $dataResume
+        ]);
     }
 
     public function createbarangkeluar(){
@@ -382,6 +388,7 @@ class stockController extends Controller
         $dataMultipleKredit = [];
         $dataCOA = COA::orderBy('kode', 'asc')->get();
         $dataBarang = Barang::all();
+        $dataResume = resumeBarang::all();
         $jumlahDebit = 0;
         $jumlahJurnal = 0;
         $jumlahKredit = 0;
@@ -429,7 +436,9 @@ class stockController extends Controller
             'dataKredit' => $dataKredit,
             'dataMultipleDebit' => $dataMultipleDebit,
             'dataMultipleKredit' => $dataMultipleKredit,
-            'dataBarang' => $dataBarang,]);
+            'dataBarang' => $dataBarang,
+            'dataResume' => $dataResume
+        ]);
     }
 
     public function edit($id){
@@ -445,8 +454,10 @@ class stockController extends Controller
         $jumlahJurnal = 0;
         $jumlahKredit = 0;
         $data = Barang::find($id);
-        $datapilihan = Jurnal::find($data->JurnalId);
+        $dataResume = resumeBarang::all();
+        $datapilihan = JurnalAkun::find($data->JurnalId);
         $jurnalid = $data->JurnalId;
+        $namaBarang = resumeBarang::where('nama_barang', $data->nama_barang)->first();
 
         foreach($dataCOA as $d){
             if($d->keterangan == "Akun, Debit" || $d->keterangan == "Akun, Kredit"){
@@ -479,12 +490,13 @@ class stockController extends Controller
 
         session(['jumlahJurnal' => $jumlahJurnal]);
         session(['jumlahDebit' => $jumlahDebit]);
+        session(['editBarang' => true]);
 
         return view('halamanJurnalBaru', [
             'title' => 'EDIT',
             'method' => 'POST',
             'methodModal' => 'POST',
-            'action' => '/bStore',
+            'action' => '/'.$id.'/bUpdate',
             'actionModalKredit' => '/jTambahDataKredit',
             'dataDebit' => $dataDebit,
             'dataKredit' => $dataKredit,
@@ -492,29 +504,36 @@ class stockController extends Controller
             'dataMultipleKredit' => $dataMultipleKredit,
             'dataBarang' => $dataBarang,
             'data' => $data,
-            'datapilihan' => $datapilihan
+            'datapilihan' => $datapilihan,
+            'dataResume' => $dataResume,
+            'namaBarang' => $namaBarang
         ]);
     }
 
     public function updateBM(Request $request, $id){
-        $debit = [];
+        
         $items = Barang::find($id);
         $jurnal = Jurnal::find($items->JurnalId);
         $jurnalController = new JurnalController();
-        $debit = json_decode($jurnal->debit);
+        $debit = JurnalAkun::find($items->JurnalId);
+        $barangResume = resumeBarang::where('nama_barang', $items->nama_barang)->first();
+        $itemsTemp = resumeBarang::find($request->nama_barang);
         
         $items->tanggal = $request->tanggal;
         $items->nama_penjual = $request->nama_penjual;
         $items->keterangan = $request->keterangan;
         $items->kode_barang = $request->kode_barang;
-        $items->nama_barang = $request->nama_barang;
+        $items->nama_barang = $itemsTemp->nama_barang;
+        $barangResume->stock_akhir -= $items->unit_keluar;
         $items->unit_keluar = $request->unit_masuk;
+        $barangResume->stock_akhir += $request->unit_masuk;
         $items->harga = $request->harga;
         $items->JurnalId = session('jurnalid');
 
         $items->save();
+        $barangResume->save();
 
-        $jurnalController->update($request, $jurnal->id, $items->JurnalId, $debit[0]->id);
+        $jurnalController->update($request, $jurnal->id, $items->JurnalId, $debit->id);
 
         return redirect('/stock');
     }

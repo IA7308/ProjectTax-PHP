@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('stock_awal');
             $table->bigInteger('harga_masuk');
             $table->bigInteger('harga_keluar');
+            $table->bigInteger('stock_akhir');
         });
     }
 
