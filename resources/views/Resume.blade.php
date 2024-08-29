@@ -76,12 +76,19 @@
                             <td>{{ $dstock->nama_barang }}</td>
                             <td>{{ $dstock->stock_awal }}</td>
                             <td>{{ $barang_masuk[$index] }}</td>
-                            <td>{{ $barang_keluar[$index] }}</td>
-                            <td>{{$dstock->stock_awal+$barang_masuk[$index]-$barang_keluar[$index]}}</td>
-                            <td>{{$dstock->harga_masuk}}</td>
-                            <td>{{$dstock->harga_keluar}}</td>
-                            <td>{{$dstock->stock_awal*$dstock->harga_masuk}}</td>
-                            <td></td>
+                            <td>{{ $barang_keluar[$index]*-1 }}</td>
+                            <td>{{$dstock->stock_akhir}}</td>
+                            <td>Rp{{number_format(($dstock->harga_masuk), 2, ',', '.')}}</td>
+                            <td>Rp{{number_format(($dstock->harga_keluar), 2, ',', '.')}}</td>
+                            <td>Rp{{number_format(($dstock->stock_awal*$dstock->harga_masuk), 2, ',', '.')}}</td>
+                            <td>
+                                <form method="post" action="/{{$dstock->id}}/itemsdelete" style="display:inline"
+                                    onsubmit="return confirm('Yakin hapus?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Hapus</button>
+                                </form>
+                            </td>
                             <!-- <td class="text-end">{{number_format($dstock->harga, 2, ',', '.')}}</td> -->
                             <!-- <td><button type="button" class="btn btn-success">Select</button></td> -->
                         </tr>

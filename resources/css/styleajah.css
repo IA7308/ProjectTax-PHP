@@ -1,0 +1,110 @@
+/* CSS untuk animasi dropdown */
+.dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(-10px);
+}
+
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Menghilangkan backdrop */
+.offcanvas-backdrop {
+    display: none !important;
+}
+
+/* Menghilangkan efek fade */
+.offcanvas.fade.show {
+    opacity: 1;
+    transform: translateX(0);
+    transition: none;
+}
+
+/* Menghilangkan backdrop pada offcanvas */
+.offcanvas-backdrop {
+    display: none !important;
+}
+
+/* Menghilangkan efek fade pada offcanvas */
+.offcanvas.fade.show {
+    opacity: 1;
+    transform: translateX(0);
+    transition: none;
+}
+
+/* Menghilangkan backdrop dan efek fade pada offcanvas */
+.no-backdrop .offcanvas-backdrop {
+    display: none !important;
+}
+
+.no-fade.offcanvas {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+    transition: none !important;
+}
+
+.offcanvas-body {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+.offcanvas {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item .dropdown-item:hover {
+    background-color: #333;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+}
+
+.dropdown-menu.show {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.offcanvas, .dropdown-menu {
+    border-radius: 8px;
+}
+
+.offcanvas-body ul {
+    margin-bottom: 15px;
+}
+
+.offcanvas-title {
+    padding-bottom: 10px;
+}
+
+.offcanvas {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.offcanvas-body {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.navbar-toggler-icon {
+    background-image: url('https://www.w3schools.com/w3images/flower.jpg'); /* Ganti dengan URL gambar yang diinginkan */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 15px;  /* Sesuaikan ukuran lebar */
+    height: 15px; /* Sesuaikan ukuran tinggi */
+}
+
+

@@ -36,7 +36,7 @@ class resumeController extends Controller
                 $arrayBarangMasuk[]=$countin;
                 foreach($barang_keluar as $bk){
                     if ($d->kode_barang == $bk->kode_barang){
-                        $countout=+1;
+                        $countout=-$bk->unit_keluar;
                     }
                 }
                 $arrayBarangKeluar[]=$countout;
@@ -98,5 +98,10 @@ class resumeController extends Controller
         $prod->stock_akhir = $request->stock_awal;
         $prod->save();
         return back();
+    }
+
+    public function destroy($id){
+        resumeBarang::destroy($id);
+        return redirect('/resume');
     }
 }

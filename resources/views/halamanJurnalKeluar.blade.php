@@ -1,5 +1,5 @@
 @extends('main')
-@section('title', $title.'INPUT JURNAL')
+@section('title', $title.' INPUT BARANG KELUAR')
 <body>
     @section('content')
     <div class="container-fluid">
@@ -26,7 +26,7 @@
                                     <thead class="table table-dark">
                                         <tr>
                                             <th>Nama Barang</th>
-                                            <th>Keterangan</th>
+                                            <th>Kode Barang</th>
                                             <th>Stock</th>
                                             <th>Harga Barang /unit</th>
                                             <!-- <th>Aksi</th> -->
@@ -36,9 +36,9 @@
                                         @foreach ($dataBarang as $dbarang)
                                             <tr>
                                                 <td>{{$dbarang->nama_barang}}</td>
-                                                <td>{{$dbarang->keterangan}}</td>
-                                                <td>{{$dbarang->unit_keluar}}</td>
-                                                <td class="text-end">{{number_format($dbarang->harga, 2, ',', '.')}}</td>
+                                                <td>{{$dbarang->kode_barang}}</td>
+                                                <td>{{$dbarang->stock_akhir}}</td>
+                                                <td class="text-end">{{number_format($dbarang->harga_keluar, 2, ',', '.')}}</td>
                                                 <!-- <td><button type="button" class="btn btn-success">Select</button></td> -->
                                             </tr>
                                         @endforeach                                        
@@ -71,30 +71,22 @@
             <!-- Tanggal -->
             <div class="row mb-3">
                             <div class="col-2">
-                                <label for="tanggal" class="form-label">Tanggal</label>
+                                <label for="Tanggal" class="form-label">Tanggal</label>
                             </div>
                             <div class="col">                                
-                                <input type="date" class="form-control" id="tanggal" name="tanggal" value="">
+                                <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($data)?$data->tanggal:'' }}">
                             </div>
                         </div>
                         <!-- nama_penjual -->
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="nama_penjual" class="form-label">Nama Penjual</label>
+                                <label for="nama_pembeli" class="form-label">Nama Pembeli</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="namapenjual" id="namapenjual" readonly>
+                                <input type="text" class="form-control" name="namapembeli" id="namapembeli" value="{{ isset($data)?$data->nama_penjual:'' }}">
                             </div>
                         </div>
-                        <!-- KODE BARANG -->
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="kode_barang" class="form-label">KODE BARANG</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="" readonly>
-                            </div>
-                        </div>
+                        
                         <!-- NAMA BARANG -->
                         <div class="row mb-3">
                             <div class="col-2">
@@ -104,9 +96,18 @@
                                 <select class="form-select" id="nama_barang" name="nama_barang">
                                     <option selected>Choose...</option>
                                     @foreach($dataBarang as $db)
-                                        <option value="{{$db->id}}" data-kode_barang="{{$db->kode_barang}}" data-keterangan="{{$db->keterangan}}" data-nama_penjual="{{$db->nama_penjual}}" data-harga="{{$db->harga}}">{{$db->nama_barang}}</option>
+                                        <option value="{{$db->id}}" {{ isset($namaBarang) && $namaBarang->nama_barang == $data->nama_barang ? 'selected' : '' }} data-kode_barang="{{$db->kode_barang}}" data-nama_penjual="{{$db->nama_penjual}}" data-harga="{{$db->harga_keluar}}">{{$db->nama_barang}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <!-- KODE BARANG -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="kode_barang" class="form-label">KODE BARANG</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}" readonly>
                             </div>
                         </div>
                         <!-- KETERANGAN -->
@@ -115,8 +116,38 @@
                                 <label for="keterangan" class="form-label">KETERANGAN</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="" readonly>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($data)?$data->keterangan:'' }}">
                             </div>
+                        </div>
+                        <!-- TRANSAKSI -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="Transaksi" class="form-label">TRANSAKSI</label>
+                            </div>
+                            @if(session('Multiple'))
+                            <div class="col">
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                            </div>
+                            @else
+                            <div class="col">
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                            </div>
+                            @endif                
+                        </div>
+                        <!-- Bukti -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="Bukti" class="form-label">BUKTI</label>
+                            </div>
+                            @if(session('Multiple'))
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                            </div>
+                            @else
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                            </div>
+                            @endif
                         </div>
                         <!-- UNIT KELUAR -->
                         <div class="row mb-3">
@@ -124,18 +155,27 @@
                                 <label for="unit_keluar" class="form-label">UNIT KELUAR</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="unit_keluar" name="unit_keluar" value="">
+                                <input type="number" class="form-control" id="unit_keluar" name="unit_keluar" value="{{ isset($data)?$data->unit_keluar:'' }}" placeholder="0">
                             </div>
                         </div>
                         <!-- harga -->
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="harga" class="form-label">HARGA BELI /UNIT</label>
+                                <label for="harga" class="form-label">HARGA JUAL /UNIT</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="harga" name="harga" value="" readonly>
+                                <input type="number" class="form-control" id="harga" name="harga" value="{{ isset($data)?$data->harga:'' }}" placeholder="0" readonly>
                             </div>
                         </div>
+                        <div class="alert alert-warning text-center" id="Alert">
+                <p><b>KREDIT MASIH TERSEDIA</b></p>
+            </div>
+            <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
+            @if(session('error'))
+            <div class="alert alert-warning">
+                <b>{{ session('error') }}</b>
+            </div>
+            @endif
                         <div class="row mb-3">
                 <div class="col text-start">
                     <h6>DEBIT</h6>
@@ -356,15 +396,7 @@
             </div>           
           </form>
           <!-- NOTIF KODE DUPLIKAT -->
-          <div class="alert alert-warning" id="Alert">
-                <p><b>KREDIT MASIH TERSEDIA</b></p>
-            </div>
-            <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
-            @if(session('error'))
-            <div class="alert alert-warning">
-                <b>{{ session('error') }}</b>
-            </div>
-            @endif
+          
         </div>      
     </div>
     @endsection
@@ -375,6 +407,35 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+
+        function updateAlert(selisih) {
+            if (parseFloat(selisih) != 0) {
+                notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').show();
+            } else {
+                notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').hide();
+            }
+        }
+
+        // Hitung selisih jumlah debit dan jumlah kredit saat halaman dimuat
+        var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+        var JumlahHarga = parseFloat($('#harga').val() * $('#unit_keluar').val());
+        var selisihJumlah = jumlahKredit - JumlahHarga;
+        console.log(jumlahKredit);
+        console.log(JumlahHarga);
+        console.log(selisihJumlah);
+        var notif = $('#Alert');
+        updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+        // Fungsi untuk mengupdate notifikasi saat input berubah
+        $('#unit_keluar').on('input', function () {
+            var jumlahKredit = parseFloat('{{ session('jumlahKredit') }}');
+            var JumlahHarga = (parseFloat($('#harga').val()) * parseFloat($('#unit_keluar').val()));
+            var selisihJumlah = jumlahKredit - JumlahHarga;
+
+
+            updateAlert(selisihJumlah.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        });
+        
         $('#nama_barang').on('change', function() {
             // Ambil data dari option yang dipilih
             var selectedOption = $(this).find('option:selected');
@@ -386,9 +447,162 @@
             // Isi input dengan nilai yang sesuai
             $('#kode_barang').val(kodeBarang);
             $('#keterangan').val(keterangan);
-            $('#namapenjual').val(namapenjual);
             $('#harga').val(harga);
 
+        });
+
+        $('#submitDebit').click(function() {
+            var tanggal = $('#Tanggal').val();
+            var bukti = $('#Bukti').val();
+            var akunD = $('#Nama_akun_debit').val();
+            var rpD = $('#rpD').val();
+            var transaksi = $('#Transaksi').val();
+            var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
+
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var idakun = pathArray[3];
+            var editj =pathArray[8];
+
+            // Kirim data menggunakan AJAX
+            $.ajax({
+                url: "{{ route('jTambahDebit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
+                type: "GET",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    transaksi: transaksi,
+                    keterangan: keterangan,
+                    tanggal: tanggal,
+                    bukti: bukti,
+                    jurnalid :jurnalid,
+                    akunD: akunD,
+                    rpD: rpD
+                },
+                success: function(response) {
+                    // Handle response jika diperlukan
+                    console.log(response);
+                    // Tutup modal
+                    $('#ModalDebit').modal('hide');
+                    window.location.href = '/'+jurnalid + '/inputstock-out';
+                },
+                error: function(xhr, status, error) {
+                    // Handle error jika terjadi
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+        $('#submitKredit').click(function() {
+            var tanggal = $('#Tanggal').val();
+            var bukti = $('#Bukti').val();
+            var akunK = $('#Nama_akun_kredit').val();
+            var rpK = $('#rpK').val();
+            var transaksi = $('#Transaksi').val();
+            var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
+
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var idakun = pathArray[3];
+            var editj = pathArray[8];
+            
+
+            // Kirim data menggunakan AJAX
+            $.ajax({
+                url: "{{ route('jTambahKredit') }}", // Ganti 'nama.route.anda' dengan route Anda yang mengarah ke fungsi storeDebit
+                type: "GET",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    transaksi: transaksi,
+                    keterangan: keterangan,
+                    tanggal: tanggal,
+                    bukti: bukti,
+                    jurnalid :jurnalid,
+                    akunK: akunK,
+                    rpK: rpK
+                },
+                success: function(response) {
+                    // Handle response jika diperlukan
+                    console.log(response);
+                    // Tutup modal
+                    $('#ModalKredit').modal('hide');
+                    window.location.href = '/'+ jurnalid + '/inputstock-out';
+                },
+                error: function(xhr, status, error) {
+                    // Handle error jika terjadi
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+        $('#submitJurnal').click(function() {
+            var jumlah = $('#jumlah').val();
+            var tanggal = $('#Tanggal').val();
+            var bukti = $('#Bukti').val();
+            var transaksi = $('#Transaksi').val();
+            var keterangan = $('#keterangan').val();
+            var jurnalid = $('#jurnalid').val();
+            var namapembeli = $('#namapembeli').val();
+            var kode_barang = $('#kode_barang').val();
+            var nama_barang = $('#nama_barang').val();
+            var unit_keluar = $('#unit_keluar').val();
+            var harga = $('#harga').val();
+
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[1];
+            var idakun = pathArray[3];
+            var editj =pathArray[2];
+            var update =pathArray[7];
+
+            var url;
+            if (editj === 'bkEdit') {
+                url = '/' + id + '/bkUpdate';
+            } else if (update === 'editDebit') {
+                url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateD'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else if (update === 'editKredit') {
+                url = '/' + id + '/' + jurnalid + '/' +bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/updateK'; // Gantilah dengan rute yang benar untuk 'editDebit'
+            } else {
+                url = "/bOutStore";
+            }
+
+            // Kirim data menggunakan AJAX
+            $.ajax({
+                url: url,
+                type: editj ? "GET" : "GET",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    transaksi: transaksi,
+                    keterangan: keterangan,
+                    tanggal: tanggal,
+                    jumlah: jumlah,
+                    bukti: bukti,
+                    namapembeli:namapembeli,
+                    nama_barang:nama_barang,
+                    kode_barang:kode_barang,
+                    unit_keluar: unit_keluar,
+                    harga: harga,
+                    jurnalid:jurnalid
+                },
+                success: function(response) {
+                    // Handle response jika diperlukan
+                    console.log(response);
+                    if (update === 'editDebit' || update === 'editKredit') {
+                        if(session('editMode')){
+                            window.location.href = '/'+id+'/'+jurnalid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+keterangan+'/'+transaksi+'/editJ';
+                        }else{
+                            window.location.href = '/jTambahData/' + jurnalid + '/' + bukti + '/' + tanggal + '/' + keterangan + '/' + transaksi;
+                        }
+                        
+                    } else {
+                        window.location.href = '/stock-out';
+                    }       
+                },
+                error: function(xhr, status, error) {
+                    // Handle error jika terjadi
+                    console.error(xhr.responseText);
+                }
+            });
         });
     });
 

@@ -114,6 +114,7 @@ Route::post('/import-penye', [penyesuaianController::class, 'import'])->name('im
 //BARANG
 Route::get('/stock', [stockController::class, 'index']);
 Route::get('/bStore', [stockController::class, 'store']);
+Route::get('/inputstock', [stockController::class, 'createbarangmasuk']);
 Route::get('/{jurnalid}/inputstock', [stockController::class, 'createBM']);
 Route::delete('/{id}/bDelete', [stockController::class, 'delete']);
 Route::get('/{id}/bEdit', [stockController::class, 'edit'])->name('bEdit');
@@ -122,9 +123,12 @@ Route::get('/{id}/bUpdate', [stockController::class, 'updateBM']);
 Route::get('/stock-out', [stockController::class, 'indexBarangKeluar']);
 Route::get('/bOutStore', [stockController::class, 'storeBarangKeluar']);
 Route::delete('/{id}/bOutDelete', [stockController::class, 'deleteBarangKeluar']);
-Route::get('/inputstock', [stockController::class, 'createbarangmasuk']);
 Route::get('/inputstockkeluar', [stockController::class, 'createbarangkeluar']);
+Route::get('/{jurnalid}/inputstock-out', [stockController::class, 'createBK']);
+Route::get('/{id}/bkEdit', [stockController::class, 'editBK'])->name('bkEdit');
+Route::get('/{id}/bkUpdate', [stockController::class, 'updateBK']);
 
 //RESUME
 Route::get('/resume', [resumeController::class, 'index']);
 Route::get('/LaporanStockKeluar', [resumeController::class, 'store']);
+Route::delete('/{id}/itemsdelete', [resumeController::class, 'destroy']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\BarangKeluar;
 use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
@@ -152,6 +153,7 @@ class JurnalAkunController extends Controller
     public function DeleteDebit($id, $jurnalid, $bukti, $tgl, $ktr, $tr){
         $data = COA::all();
         $prod = JurnalAkun::find($id);
+        $bk = BarangKeluar::where('JurnalId', $jurnalid)->first();
         $barang = Barang::where('JurnalId', $jurnalid)->first();
         foreach($data as $d){
             if($d->Nama_akun == $prod->akunD){
@@ -178,6 +180,8 @@ class JurnalAkunController extends Controller
             ])->with('msg', 'Akun Berhasil dibuat');
         }elseif(session('editBarang')){
             return Redirect::route('bEdit', ['id' => $barang->id]);
+        }elseif(session('editBK')){
+            return Redirect::route('bEdit', ['id' => $bk->id]);
         }else{
             return Redirect::route('jTambahData', [
                 'jurnalid' => $jurnalid,

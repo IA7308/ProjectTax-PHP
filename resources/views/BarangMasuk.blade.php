@@ -53,7 +53,7 @@
                 <thead>
                     <tr class="table table-primary">
                         <th>TANGGAL</th>
-                        <th>NAMA PENJUAL</th>
+                        <th>{{$client}}</th>
                         <th>KODE BARANG</th>
                         <th>NAMA BARANG</th>
                         <th>UNIT {{$title}}</th>

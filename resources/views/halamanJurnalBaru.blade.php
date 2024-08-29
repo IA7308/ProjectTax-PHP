@@ -26,7 +26,7 @@
                                     <thead class="table table-dark">
                                         <tr>
                                             <th>Nama Barang</th>
-                                            <th>Keterangan</th>
+                                            <th>Kode Barang</th>
                                             <th>Stock</th>
                                             <th>Harga Barang /unit</th>
                                             <!-- <th>Aksi</th> -->
@@ -36,9 +36,9 @@
                                         @foreach ($dataBarang as $dbarang)
                                             <tr>
                                                 <td>{{$dbarang->nama_barang}}</td>
-                                                <td>{{$dbarang->keterangan}}</td>
-                                                <td>{{$dbarang->unit_keluar}}</td>
-                                                <td class="text-end">{{number_format($dbarang->harga, 2, ',', '.')}}</td>
+                                                <td>{{$dbarang->kode_barang}}</td>
+                                                <td>{{$dbarang->stock_akhir}}</td>
+                                                <td class="text-end">{{number_format($dbarang->harga_masuk, 2, ',', '.')}}</td>
                                                 <!-- <td><button type="button" class="btn btn-success">Select</button></td> -->
                                             </tr>
                                         @endforeach                                        
@@ -86,15 +86,7 @@
                                 <input type="text" class="form-control" name="nama_penjual" id="nama_penjual" value="{{ isset($data)?$data->nama_penjual:'' }}">
                             </div>
                         </div>
-                        <!-- KODE BARANG -->
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="kode_barang" class="form-label">KODE BARANG</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}" readonly>
-                            </div>
-                        </div>
+                        
                         <!-- NAMA BARANG -->
                         <div class="row mb-3">
                             <div class="col-2">
@@ -107,6 +99,15 @@
                                         <option value="{{$db->id}}" {{ isset($namaBarang) && $namaBarang->nama_barang == $data->nama_barang ? 'selected' : '' }} data-kode_barang="{{$db->kode_barang}}" data-harga="{{$db->harga_masuk}}">{{$db->nama_barang}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <!-- KODE BARANG -->
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="kode_barang" class="form-label">KODE BARANG</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}" readonly>
                             </div>
                         </div>
                         <!-- KETERANGAN -->
@@ -175,6 +176,16 @@
                                 <input type="hidden" class="form-control" id="jumlah" name="jumlah" value="{{ session('jumlahJurnal') }}" disabled required>
                             </div>
                         </div>
+                        <!-- NOTIF KODE DUPLIKAT -->
+          <div class="alert alert-warning text-center" id="Alert">
+                <p><b>KREDIT MASIH TERSEDIA</b></p>
+            </div>
+            <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
+            @if(session('error'))
+            <div class="alert alert-warning">
+                <b>{{ session('error') }}</b>
+            </div>
+            @endif
             <div class="row mb-3">
                 <div class="col text-start">
                     <h6>DEBIT</h6>
@@ -394,16 +405,7 @@
                 </div>
             </div>           
           </form>
-          <!-- NOTIF KODE DUPLIKAT -->
-          <div class="alert alert-warning" id="Alert">
-                <p><b>KREDIT MASIH TERSEDIA</b></p>
-            </div>
-            <!-- NOTIF KODE DUPLIKAT (SETELAH SUBMIT) -->
-            @if(session('error'))
-            <div class="alert alert-warning">
-                <b>{{ session('error') }}</b>
-            </div>
-            @endif
+          
         </div>      
     </div>
     @endsection
