@@ -350,6 +350,12 @@
         // var notif = $('#Alert');
         // notif.hide();
 
+        var pathArray = window.location.pathname.split('/');
+        var id = pathArray[1];
+        var idakun = pathArray[3];
+        var editP =pathArray[7];
+        var update =pathArray[6];
+
         $('#submitDebit').click(function() {
             var tanggal = $('#Tanggal').val();
             var bukti = $('#Bukti').val();
@@ -376,7 +382,12 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
+                    if(editP === 'editP'){
+                        window.location.href = '/'+id+'/'+penyesuaianid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+transaksi+'/editP';
+                    }else{
+                        window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
+                    }
+                    
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi
@@ -411,7 +422,12 @@
                     console.log(response);
                     // Tutup modal
                     $('#ModalDebit').modal('hide');
-                    window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
+                    if(editP === 'editP'){
+                        window.location.href = '/'+id+'/'+penyesuaianid+'/'+idakun+'/'+bukti+'/'+tanggal+'/'+transaksi+'/editP';
+                    }else{
+                        window.location.href = '/pTambahData/'+penyesuaianid+'/'+bukti+'/'+tanggal+'/'+transaksi;
+                    }
+                    
                 },
                 error: function(xhr, status, error) {
                     // Handle error jika terjadi

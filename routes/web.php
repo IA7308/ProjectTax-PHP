@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/beranda', [COAController::class, 'index']);
+Route::get('/beranda', [COAController::class, 'index'])->name('login');
 Route::get('/cTambahData', [COAController::class, 'create']);
 Route::get('/cStore', [COAController::class, 'store']);
 Route::get('/{id}/edit', [COAController::class, 'edit']);
@@ -62,6 +62,7 @@ Route::get('/', [LoginController::class, 'create']);
 Route::get('/check', [LoginController::class, 'lihat_data']);
 Route::get('/loginCheck', [LoginController::class, 'LoginCheck']);
 Route::get('/store', [LoginController::class, 'store']);
+Route::get('register/verify/{verify_key}', [LoginController::class, 'verify'])->name('verify')->middleware('auth');
 Route::get('/logout', [LoginController::class, 'logout']);
 
 //BUKU BESAR
@@ -76,7 +77,7 @@ Route::get('/penyesuaian', [penyesuaianController::class, 'index']);
 Route::get('/pTambahData', [penyesuaianController::class, 'create']);
 Route::get('/pStore', [penyesuaianController::class, 'store'])->name('tambahPenyesuaian');
 Route::get('/{id}/{penyesuaianid}/{idakun}/{bukti}/{tgl}/{tr}/editP', [penyesuaianController::class, 'edit']);
-Route::get('/{id}/{penyesuaianid}/{idakun}/updateJ', [penyesuaianController::class, 'update']);
+Route::get('/{id}/{penyesuaianid}/{idakun}/updateP', [penyesuaianController::class, 'update']);
 Route::delete('/p/{id}', [penyesuaianController::class, 'destroy']);
 
 //Update Penyesuaian

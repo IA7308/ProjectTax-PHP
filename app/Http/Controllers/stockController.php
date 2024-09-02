@@ -131,6 +131,10 @@ class stockController extends Controller
         $items = Barang::find($id);
         $jurnalController = new JurnalController();
         $jurnalController->destroy($items->JurnalId);
+        $barang = resumeBarang::find($items->nama_barang, ['nama_barang']);
+        if(!empty($barang)){
+            $barang->stock_akhir =- $items->unit_masuk;
+        }
         Barang::destroy($id);
         return redirect('/stock');
     }
@@ -699,7 +703,9 @@ class stockController extends Controller
         $jurnalController = new JurnalController();
         $jurnalController->destroy($items->JurnalId);
         $barang = resumeBarang::find($items->nama_barang, ['nama_barang']);
-        $barang->stock_akhir =+ $items->unit_keluar;
+        if(!empty($barang)){
+            $barang->stock_akhir =+ $items->unit_keluar;
+        }     
         BarangKeluar::destroy($id);
         return redirect('/stock-out');
     }

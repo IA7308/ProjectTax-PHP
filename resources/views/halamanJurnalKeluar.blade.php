@@ -368,13 +368,26 @@
                 </div>
             </div>
             <input type="hidden" id="jurnalid" name="jurnalid" value="{{ session('jurnalid') }}" readonly/>
+            <script>
+                function reset(){
+                    $('#Tanggal').val('');
+                    $('#nama_barang').val('Choose...');
+                    $('#kode_barang').val('');
+                    $('#keterangan').val('');
+                    $('#Transaksi').val('');
+                    $('#Bukti').val('');
+                    $('#unit_keluar').val('');
+                    $('#namapembeli').val('');
+                    $('#harga').val('');
+                }
+            </script>
             <div class="row mb-3">
                 <div class="col">
                     <div class="d-flex justify-content-end mt-3 ">
                         <button type="submit" class="btn btn-success" id="submitJurnal">Save</button>
                         @if(!session('Multiple'))
-                            <a href="/jTambahData"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
-                            <a href="/jurnal"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                            <a href="#"><button type="button" class="btn btn-danger mx-1" onclick="reset()">Reset</button></a>
+                            <a href="/stock-out"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
                          @elseif (session('editMode'))
                             <form action="{{ route('resetJurnal', ['jurnalid' => session('jurnalid')]) }}" method="POST">
                                 @csrf
