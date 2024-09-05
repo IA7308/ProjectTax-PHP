@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\COA;
+use App\Models\debitPenyesuaian;
+use App\Models\kreditPenyesuaian;
 use App\Models\labarugi;
 use App\Models\penyesuaian;
 use Illuminate\Http\Request;
@@ -16,6 +18,8 @@ class labarugiController extends Controller
         $data = [];
         $totalsaldo = 0;
         $datajumlah = [];
+        $datadebit = debitPenyesuaian::all();
+        $datakredit = kreditPenyesuaian::all();
         foreach($datacoa as $dc){
             if($dc->jenis_akun == 'A NOMINAL'){
                 if($dc->keterangan == 'Header'){
@@ -28,11 +32,13 @@ class labarugiController extends Controller
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
                     $labarugi->backgroundClass = 'table-info';
-                    foreach($dataPenyesuaian as $dj){
-                        if($dj->akunD == $labarugi->nama_akun){
-                            $sumDebit+=$dj->rpD;
-                        }elseif($dj->akunK == $labarugi->nama_akun){
-                            $sumKredit+=$dj->rpK;
+                    foreach ($datadebit as $dd){
+                        if($dd->akunD == $labarugi->nama_akun){
+                            $sumDebit+=$dd->rpD;
+                        }
+                    }foreach ($datakredit as $dk){
+                        if($dk->akunK == $labarugi->nama_akun){
+                            $sumKredit+=$dk->rpK;
                         }
                     }
                     $calc = $sumDebit - $sumKredit;
@@ -54,11 +60,13 @@ class labarugiController extends Controller
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
                     $labarugi->backgroundClass = 'table-secondary';
-                    foreach($dataPenyesuaian as $dj){
-                        if($dj->akunD == $labarugi->nama_akun){
-                            $sumDebit+=$dj->rpD;
-                        }elseif($dj->akunK == $labarugi->nama_akun){
-                            $sumKredit+=$dj->rpK;
+                    foreach ($datadebit as $dd){
+                        if($dd->akunD == $labarugi->nama_akun){
+                            $sumDebit+=$dd->rpD;
+                        }
+                    }foreach ($datakredit as $dk){
+                        if($dk->akunK == $labarugi->nama_akun){
+                            $sumKredit+=$dk->rpK;
                         }
                     }
                     $calc = $sumDebit - $sumKredit;
@@ -91,11 +99,13 @@ class labarugiController extends Controller
                     $labarugi->nama_akun = $dc->Nama_akun;
                     $labarugi->keterangan = $dc->keterangan;
                     $labarugi->Saldo_awal = $dc->Saldo_awal;
-                    foreach($dataPenyesuaian as $dj){
-                        if($dj->akunD == $labarugi->nama_akun){
-                            $sumDebit+=$dj->rpD;
-                        }elseif($dj->akunK == $labarugi->nama_akun){
-                            $sumKredit+=$dj->rpK;
+                    foreach ($datadebit as $dd){
+                        if($dd->akunD == $labarugi->nama_akun){
+                            $sumDebit+=$dd->rpD;
+                        }
+                    }foreach ($datakredit as $dk){
+                        if($dk->akunK == $labarugi->nama_akun){
+                            $sumKredit+=$dk->rpK;
                         }
                     }
                     $calc = $sumDebit - $sumKredit;

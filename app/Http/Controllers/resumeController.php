@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\resumeImport;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use App\Models\COA;
 use App\Models\resumeBarang;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class resumeController extends Controller
 {
@@ -103,5 +105,16 @@ class resumeController extends Controller
     public function destroy($id){
         resumeBarang::destroy($id);
         return redirect('/resume');
+    }
+
+    public function import(Request $request) 
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        Excel::import(new resumeImport, $request->file('file')->store('temp'));
+
+        return back()->with('success', 'Data STOCK berhasil diimport!');
     }
 }

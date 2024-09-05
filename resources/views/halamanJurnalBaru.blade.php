@@ -74,7 +74,7 @@
                                 <label for="Tanggal" class="form-label">Tanggal</label>
                             </div>
                             <div class="col">                                
-                                <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($data)?$data->tanggal:'' }}">
+                                <input type="date" class="form-control" id="Tanggal" name="tanggal" value="{{ isset($data) ? $data->tanggal : (session('namaTgl') ? session('namaTgl') : '') }}">
                             </div>
                         </div>
                         <!-- nama_penjual -->
@@ -83,7 +83,7 @@
                                 <label for="nama_penjual" class="form-label">Nama Penjual</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="nama_penjual" id="nama_penjual" value="{{ isset($data)?$data->nama_penjual:'' }}">
+                                <input type="text" class="form-control" name="nama_penjual" id="nama_penjual" value="{{ isset($data)?$data->nama_penjual: (session('nama') ? session('nama') : '') }}">
                             </div>
                         </div>
                         
@@ -96,7 +96,12 @@
                                 <select class="form-select" id="nama_barang" name="nama_barang">
                                     <option selected>Choose...</option>
                                     @foreach($dataResume as $db)
-                                        <option value="{{$db->id}}" {{ isset($namaBarang) && $namaBarang->nama_barang == $data->nama_barang ? 'selected' : '' }} data-kode_barang="{{$db->kode_barang}}" data-harga="{{$db->harga_masuk}}">{{$db->nama_barang}}</option>
+                                        <option value="{{$db->id}}" 
+                                        {{ 
+                                            (isset($namaBarang) && $namaBarang->nama_barang == $data->nama_barang) || 
+                                            (session('nama') && session('nama') == $db->id) ? 'selected' : '' 
+                                        }}  
+                                        data-kode_barang="{{$db->kode_barang}}" data-harga="{{$db->harga_masuk}}">{{$db->nama_barang}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -107,7 +112,7 @@
                                 <label for="kode_barang" class="form-label">KODE BARANG</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:'' }}" readonly>
+                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="{{ isset($data)?$data->kode_barang:(session('kode') ? session('kode') : '') }}" readonly>
                             </div>
                         </div>
                         <!-- KETERANGAN -->
@@ -116,7 +121,7 @@
                                 <label for="keterangan" class="form-label">KETERANGAN</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($data)?$data->keterangan:'' }}">
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="{{ isset($data) ? $data->keterangan : (session('namaKtr') ? session('namaKtr') : '') }}">
                             </div>
                         </div>
                         <!-- TRANSAKSI -->
@@ -126,11 +131,11 @@
                             </div>
                             @if(session('Multiple'))
                             <div class="col">
-                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi: (session('namaTr') ? session('namaTr') : '') }}" required>
                             </div>
                             @else
                             <div class="col">
-                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi:'' }}" required>
+                                <input type="text" class="form-control" id="Transaksi" name="transaksi" value="{{ isset($datapilihan)?$datapilihan->transaksi: (session('namaTr') ? session('namaTr') : '') }}" required>
                             </div>
                             @endif                
                         </div>
@@ -141,11 +146,11 @@
                             </div>
                             @if(session('Multiple'))
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti: (session('namaBkt') ? session('namaBkt') : '') }}" required>
                             </div>
                             @else
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti:'' }}" required>
+                                <input type="text" class="form-control" placeholder="Ganti / dengan - " id="Bukti" name="bukti" value="{{ isset($datapilihan)?$datapilihan->bukti: (session('namaBkt') ? session('namaBkt') : '') }}" required>
                             </div>
                             @endif
                         </div>
@@ -155,7 +160,7 @@
                                 <label for="unit_masuk" class="form-label">UNIT MASUK</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="unit_masuk" name="unit_masuk"  value="{{ isset($data)?$data->unit_keluar:'' }}" placeholder="0">
+                                <input type="number" class="form-control" id="unit_masuk" name="unit_masuk"  value="{{ isset($data)?$data->unit_keluar:(session('unit') ? session('unit') : '') }}" placeholder="0">
                             </div>
                         </div>
                         <!-- harga -->
@@ -164,7 +169,7 @@
                                 <label for="harga" class="form-label">HARGA BELI /UNIT</label>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="harga" name="harga" value="{{ isset($data)?$data->harga:'' }}" placeholder="0" readonly>
+                                <input type="number" class="form-control" id="harga" name="harga" value="{{ isset($data)?$data->harga:(session('harga') ? session('harga') : '') }}" placeholder="0" readonly>
                             </div>
                         </div>
                         <!-- Jumlah -->
@@ -429,7 +434,6 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        
         function updateAlert(selisih) {
             if (parseFloat(selisih) != 0) {
                 notif.html('<p><b>KREDIT MASIH TERSEDIA: ' + selisih + '</b></p>').show();
@@ -481,6 +485,11 @@
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
+            var nama_penjual = $('#nama_penjual').val();
+            var kode_barang = $('#kode_barang').val();
+            var nama_barang = $('#nama_barang').val();
+            var unit_keluar = $('#unit_masuk').val();
+            var harga = $('#harga').val();
 
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
@@ -499,7 +508,12 @@
                     bukti: bukti,
                     jurnalid :jurnalid,
                     akunD: akunD,
-                    rpD: rpD
+                    rpD: rpD,
+                    nama_penjual:nama_penjual,
+                    nama_barang:nama_barang,
+                    unit_keluar:unit_keluar,
+                    harga:harga,
+                    kode_barang: kode_barang
                 },
                 success: function(response) {
                     // Handle response jika diperlukan
@@ -523,6 +537,11 @@
             var transaksi = $('#Transaksi').val();
             var keterangan = $('#keterangan').val();
             var jurnalid = $('#jurnalid').val();
+            var nama_penjual = $('#nama_penjual').val();
+            var kode_barang = $('#kode_barang').val();
+            var nama_barang = $('#nama_barang').val();
+            var unit_keluar = $('#unit_masuk').val();
+            var harga = $('#harga').val();
 
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[1];
@@ -542,7 +561,12 @@
                     bukti: bukti,
                     jurnalid :jurnalid,
                     akunK: akunK,
-                    rpK: rpK
+                    rpK: rpK,
+                    nama_penjual:nama_penjual,
+                    nama_barang:nama_barang,
+                    unit_keluar:unit_keluar,
+                    harga:harga,
+                    kode_barang:kode_barang
                 },
                 success: function(response) {
                     // Handle response jika diperlukan

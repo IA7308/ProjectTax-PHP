@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\BukBesController;
 use App\Http\Controllers\COAController;
 use App\Http\Controllers\JurnalAkunController;
@@ -110,7 +111,7 @@ Route::get('/export-jurnal', [JurnalController::class, 'export']);
 Route::post('/import-jurnal', [JurnalController::class, 'import']);
 Route::post('import-coa', [COAController::class, 'import'])->name('import.coa');
 Route::post('/import-penye', [penyesuaianController::class, 'import'])->name('import.penye');
-
+Route::post('import-stock', [resumeController::class, 'import'])->name('import.stock');
 
 //BARANG
 Route::get('/stock', [stockController::class, 'index']);
@@ -133,3 +134,7 @@ Route::get('/{id}/bkUpdate', [stockController::class, 'updateBK']);
 Route::get('/resume', [resumeController::class, 'index']);
 Route::get('/LaporanStockKeluar', [resumeController::class, 'store']);
 Route::delete('/{id}/itemsdelete', [resumeController::class, 'destroy']);
+
+//LOGIN API
+Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider']);
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);

@@ -3,6 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <h2> Sign in/up Form</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
@@ -14,7 +15,13 @@
 			<input type="text" placeholder="Name" name="name" required/>
 			<input type="email" placeholder="Email" name="email" required/>
 			<input type="password" placeholder="Password" name="password" required/>
-			
+			<!-- <div class="row mt-4">
+				<a href="/auth/google" class="col d-flex justify-content-center align-items-center btn btn-danger btn-block mx-2">
+					<i class="fa-brands fa-google"></i>
+				<a href="/auth/github" class="col d-flex justify-content-center align-items-center btn btn-dark btn-block mx-2">
+					<i class="fa-brands fa-github"></i>
+				</a>
+			</div> -->
 			<button>Sign Up</button>
 		</form>
 	</div>
@@ -24,6 +31,9 @@
 			<input type="hidden" name="_method" value="{{ $methodSI }}" />
 			<h1>Sign in</h1>
 			<span>or use your account</span>
+			<span>
+				
+			</span>
 			<input type="email" placeholder="Email" name="email" required/>
 			<input type="password" placeholder="Password" name="password" required/>
 			<a href="#">Forgot your password?</a>

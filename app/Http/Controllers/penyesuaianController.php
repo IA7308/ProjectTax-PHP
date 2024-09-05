@@ -75,8 +75,8 @@ class penyesuaianController extends Controller
         
         foreach($penyesuaian as $d){
             $bukti[] = $d->bukti;
-            if($d->id > $idpenyesuaian){
-                $idjurnal = $d->id;
+            if($d->id >= $idpenyesuaian){
+                $idpenyesuaian = $d->id;
             }
         }
         session(['penyesuaianid' => $idpenyesuaian+1]);

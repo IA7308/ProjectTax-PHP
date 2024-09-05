@@ -140,6 +140,15 @@ class stockController extends Controller
     }
 
     public function createbarangmasuk(){
+        session(['namaBkt' => '']);
+        session(['namaKtr' => '']);
+        session(['namaTgl' => '']);
+        session(['namaTr' => '']);
+        session(['nama'=> '']);
+        session(['barang' => '']);
+        session(['unit' => '']);
+        session(['harga' => '']);
+
         $dataDebit = [];
         $dataKredit= [];
         $dataMultipleD = JurnalAkun::all();
@@ -523,7 +532,7 @@ class stockController extends Controller
 
         $prod = new BarangKeluar();
         $prod->tanggal = $request->tanggal;
-        $prod->nama_penjual = $request->namapembeli;
+        $prod->nama_penjual = $request->nama_penjual;
         $prod->keterangan = $request->keterangan;
         $prod->kode_barang = $request->kode_barang;
         $prod->nama_barang = $barangResume->nama_barang;
@@ -680,7 +689,7 @@ class stockController extends Controller
         $itemsTemp = resumeBarang::find($request->nama_barang);
         
         $items->tanggal = $request->tanggal;
-        $items->nama_penjual = $request->namapembeli;
+        $items->nama_penjual = $request->nama_penjual;
         $items->keterangan = $request->keterangan;
         $items->kode_barang = $request->kode_barang;
         $items->nama_barang = $itemsTemp->nama_barang;

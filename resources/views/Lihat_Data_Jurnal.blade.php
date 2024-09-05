@@ -35,7 +35,7 @@
                     <form action="/import-jurnal" method="post" enctype="multipart/form-data" class="d-flex align-items-center"  id="import-form">
                         @csrf
                         <div class="input-group">
-                            <input type="file" name="file" id="file" class="form-control">
+                            <input type="file" name="file" id="file" class="form-control" required>
                             <button type="submit" class="btn btn-primary ms-2">Import</button>
                         </div>
                     </form>

@@ -11,7 +11,7 @@
                 <div class="col-12 text-center">
                     <h2>TABEL PENYESUAIAN</h2>
                 </div>
-                <div class="col-4 text-start">
+                <div class="col-12 text-start">
                     <form action="/jurnal" method="GET">
                         <p>Show 
                             <select name="pagination" id="paginate" onchange="this.form.submit()">
@@ -23,7 +23,7 @@
                         </p>
                     </form>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-start">
                     <form action="/import-penye" method="post" enctype="multipart/form-data" class="d-flex align-items-center"  id="import-form">
                         @csrf
                         <div class="input-group">

@@ -98,7 +98,12 @@ class JurnalAkunController extends Controller
         session(['namaKtr' => $request->keterangan]);
         session(['namaTgl' => $request->tanggal]);
         session(['namaTr' => $request->transaksi]);
-        
+        session(['nama'=> $request->nama_penjual]);
+        session(['barang' => $request->nama_barang]);
+        session(['unit' => $request->unit_keluar]);
+        session(['harga' => $request->harga]);
+        session(['kode' => $request->kode_barang]);
+
         $akunD = COA::find($request->akunD);
         $keterangan = $request->keterangan;
         $transaksi = $request->transaksi;
@@ -306,6 +311,11 @@ class JurnalAkunController extends Controller
         session(['namaKtr' => $request->keterangan]);
         session(['namaTgl' => $request->tanggal]);
         session(['namaTr' => $request->transaksi]);
+        session(['nama'=> $request->nama_penjual]);
+        session(['barang' => $request->nama_barang]);
+        session(['unit' => $request->unit_keluar]);
+        session(['harga' => $request->harga]);
+        session(['kode' => $request->kode_barang]);
 
         $akunK = COA::find($request->akunK);
         $keterangan = $request->keterangan;

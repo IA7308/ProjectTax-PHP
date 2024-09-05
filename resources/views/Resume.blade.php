@@ -26,7 +26,7 @@
                         </p>
                     </form>
                     <div class="col">
-                        <form action="{{ route('import.coa') }}" method="POST" enctype="multipart/form-data"
+                        <form action="{{ route('import.stock') }}" method="POST" enctype="multipart/form-data"
                             id="import-form">
                             @csrf
                             <div class="input-group">
@@ -76,11 +76,11 @@
                             <td>{{ $dstock->nama_barang }}</td>
                             <td>{{ $dstock->stock_awal }}</td>
                             <td>{{ $barang_masuk[$index] }}</td>
-                            <td>{{ $barang_keluar[$index]*-1 }}</td>
+                            <td>{{ $barang_keluar[$index] * -1 }}</td>
                             <td>{{$dstock->stock_akhir}}</td>
                             <td>Rp{{number_format(($dstock->harga_masuk), 2, ',', '.')}}</td>
                             <td>Rp{{number_format(($dstock->harga_keluar), 2, ',', '.')}}</td>
-                            <td>Rp{{number_format(($dstock->stock_awal*$dstock->harga_masuk), 2, ',', '.')}}</td>
+                            <td>Rp{{number_format(($dstock->stock_awal * $dstock->harga_masuk), 2, ',', '.')}}</td>
                             <td>
                                 <form method="post" action="/{{$dstock->id}}/itemsdelete" style="display:inline"
                                     onsubmit="return confirm('Yakin hapus?')">
@@ -183,10 +183,20 @@
                                         value="">
                                 </div>
                             </div>
+                            <script>
+                                function reset() {
+
+                                    $('#nama_barang').val('Choose...');
+                                    $('#kode_barang').val('');
+                                    $('#stock_awal').val('');
+                                    $('#harga_masuk').val('');
+                                    $('#harga_keluar').val('');
+                                }
+                            </script>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success">Save</button>
-                                <a href="#"><button type="button" class="btn btn-danger mx-1">Reset</button></a>
-                                <a href="#"><button type="button" class="btn btn-warning mx-1">Kembali</button></a>
+                                <a href="#"><button type="button" class="btn btn-danger mx-1" onclick="reset()">Reset</button></a>
+                                <!-- <a href="#"><button type="button" class="btn btn-warning mx-1">Kembali</button></a> -->
                             </div>
                         </form>
                     </div>
