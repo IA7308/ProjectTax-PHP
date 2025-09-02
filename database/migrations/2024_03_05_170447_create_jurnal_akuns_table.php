@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('jurnal_akuns', function (Blueprint $table) {
             $table->id();
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')->references('id')->on('logins')->onDelete('cascade');
             $table->string('transaksi');
             $table->string('keterangan');
             $table->string('bukti');

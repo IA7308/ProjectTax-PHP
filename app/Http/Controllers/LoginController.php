@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function Login()
     {
-        $prods = Login::get();
+        // $prods = Login::get();
         if (Auth::check()) {
             session_start();
             return redirect('/beranda');
@@ -26,9 +26,10 @@ class LoginController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        $user = Login::where('email', $email)->first();
-        if ($user && password_verify($password, $user->password)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
             session(['name' => $user->name]);
+            session(['uid' => $user->id]);
             return redirect('/beranda');
         } else {
             return redirect('/')->with('error', 'Email atau password salah');
@@ -38,6 +39,9 @@ class LoginController extends Controller
 
     public function create()
     {
+        if (Auth::check()) {
+            return redirect()->route('COA');
+        }
         return view('Login', [
             'methodSI' => 'POST',
             'actionSI' => '/loginCheck',
@@ -70,8 +74,8 @@ class LoginController extends Controller
 
     public function logout()
     {
+        Auth::logout();
         session()->flush();
-        $prods = Login::get();
         return redirect('/');
     }
 }

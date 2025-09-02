@@ -9,6 +9,7 @@ class COA extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'jenis_akun',
         'kelompok_akun',
         'keterangan',

@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('jurnals', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('logins')->onDelete('cascade');
             // $table->string('transaksi');
             // $table->string('keterangan');
             // $table->string('bukti');
             $table->bigInteger('jumlah');
-            $table->json('debit')->default(json_encode([]));
-            $table->json('kredit')->default(json_encode([]));
+            $table->json('debit')->default(DB::raw('(JSON_ARRAY())'));
+            $table->json('kredit')->default(DB::raw('(JSON_ARRAY())'));
             $table->integer('JurnalId');
             // $table->string('akunD');
             // $table->bigInteger('rpD');

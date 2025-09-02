@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('c_o_a_s', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id'); // bikin kolomnya dulu
+            $table->foreign('user_id')->references('id')->on('logins')->onDelete('cascade');
             $table->string('jenis_akun');
             $table->string('kelompok_akun');
             $table->string('keterangan');

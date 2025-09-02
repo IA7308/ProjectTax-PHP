@@ -82,6 +82,13 @@
                         </li>
                     </ul>
                 </div>
+                <div class="offcanvas-footer text-end">
+                    <button class="btn btn-primary my-2 mx-2">
+                        <a class="dropdown-item" href="/logout" onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                Logout
+                        </a>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>

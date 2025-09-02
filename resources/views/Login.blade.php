@@ -3,6 +3,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
+<a href="https://cvsolusikita.com" class="fixed-top mx-2"><img src="https://cvsolusikita.com/wp-content/uploads/2025/08/LOGO-NO-BACKGROUND.png" alt="Logo CV" 
+style="width: 80px;  
+        height: 80px; 
+        border: none;"></a>
 <h2> Sign in/up Form</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
@@ -25,7 +30,10 @@
 			<h1>Sign in</h1>
 			<span>or use your account</span>
 			<input type="email" placeholder="Email" name="email" required/>
-			<input type="password" placeholder="Password" name="password" required/>
+			<div class="input-password">
+				<input type="password" placeholder="Password" name="password" id="password" required/>
+				<i class="fa-solid fa-eye" id="togglePassword" onclick="showHidePassword()"></i>
+			</div>			
 			<a href="#">Forgot your password?</a>
 			<button>Sign In</button>
 		</form>
@@ -38,8 +46,8 @@
 				<button class="ghost" id="signIn">Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Have a good day !!!</p>
+				<h3>Selamat Datang di Aplikasi Pajak CV Solusi Kita</h3>
+				<p>Dipercaya 50+ Perusahaan !!!</p>
 				<button class="ghost" id="signUp">Sign Up</button>
 			</div>
 		</div>
@@ -64,7 +72,7 @@
 		margin: -20px 0 50px;
 	}
 
-	h1 {
+	h3 {
 		font-weight: bold;
 		margin: 0;
 	}
@@ -75,7 +83,7 @@
 
 	p {
 		font-size: 14px;
-		font-weight: 100;
+		font-weight: bold;
 		line-height: 20px;
 		letter-spacing: 0.5px;
 		margin: 20px 0 30px;
@@ -135,6 +143,25 @@
 		padding: 12px 15px;
 		margin: 8px 0;
 		width: 100%;
+	}
+
+	.input-password {
+		position: relative;
+		width: 100%; /* sesuaikan */
+	}
+
+	.input-password input {
+		width: 100%;
+		padding-right: 35px; /* kasih space biar teks tidak menimpa icon */
+	}
+
+	.input-password i {
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: #666;
 	}
 
 	.container {
@@ -208,13 +235,13 @@
 	}
 
 	.overlay {
-		background: #FF416C;
-		background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-		background: linear-gradient(to right, #FF4B2B, #FF416C);
+		background: #7F8C8D;
+		background: -webkit-linear-gradient(to right, #ECF0F1, #7F8C8D);
+		background: linear-gradient(to right, #ECF0F1, #7F8C8D);
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: 0 0;
-		color: #FFFFFF;
+		color: #000000;
 		position: relative;
 		left: -100%;
 		height: 100%;
@@ -277,6 +304,14 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+	function showHidePassword() {
+		var inputan = document.getElementById("password");
+		if (inputan.type === "password") {
+			inputan.type = "text";
+		} else {
+			inputan.type = "password";
+		}
+	}
 	$(document).ready(function(){
 		const signUpButton = document.getElementById('signUp');
 		const signInButton = document.getElementById('signIn');

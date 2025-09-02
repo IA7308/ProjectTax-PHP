@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\CoasImport;
 use App\Models\Jurnal;
+use Auth;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use \App\Models\COA;
@@ -15,7 +16,8 @@ class COAController extends Controller
         $perPage = strtolower(request('pagination', 'all'));
         session(['paginate' => true]);
         $saldo = 0;
-        $temp = COA::all();
+        $user = Auth::user();
+        $temp = COA::where('user_id', $user->id)->get();
         $dataC = [];
             foreach($temp as $t){
                 if($t->keterangan == "Akun, Kredit" || $t->keterangan == "Akun, Debit"){
@@ -31,7 +33,8 @@ class COAController extends Controller
         
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
-            $data = COA::all();
+            $user = Auth::user();
+            $data = COA::where('user_id', $user->id)->get();
             foreach ($data as $d) {
                 $saldo += $d->Saldo_awal;
                 if ($d->keterangan == 'Header') {
@@ -93,6 +96,8 @@ class COAController extends Controller
     {
         $data = COA::all();
         $prod = new COA;
+        $user = Auth::user();
+        $prod->user_id = $user->id;
         $prod->jenis_akun = $request->jenis_akun;
         $prod->kelompok_akun = $request->kelompok_akun;
         $prod->keterangan = $request->keterangan;

@@ -6,6 +6,7 @@ use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
+use Auth;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -24,13 +25,15 @@ class JurnalsImport implements ToModel, WithHeadingRow, WithChunkReading
     */
     public function model(array $row)
     {
-        
+             
 
         DB::transaction(function () use ($row) {
             // Check if Jurnal already exists or create a new one
+            $user = Auth::user();
             $jurnal = Jurnal::firstOrCreate(
                 ['JurnalId' => $row['jurnalid'] ?? 1],
                 [
+                    'user_id' => $user->id,
                     'debit' => json_encode([]),
                     'kredit' => json_encode([]),
                     'jumlah' => 0, // Jumlah awal, akan diperbarui kemudian

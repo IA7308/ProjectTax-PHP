@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\COA;
+use Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -15,7 +16,9 @@ class CoasImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        $user = Auth::user();
         return new COA([
+            'user_id'       => $user->id,
             'jenis_akun'    => $row['jenis_akun'],
             'kelompok_akun' => $row['kelompok_akun'],
             'keterangan'    => $row['keterangan'],

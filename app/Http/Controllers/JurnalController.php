@@ -9,6 +9,7 @@ use App\Models\COA;
 use App\Models\Jurnal;
 use App\Models\JurnalAkun;
 use App\Models\JurnalAkunKredit;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,8 @@ class JurnalController extends Controller
         session(['paginate' => true]);
         if (strtolower($perPage) == 'all') {
             session(['paginate' => false]);
-            $data = Jurnal::all();
+            $user = Auth::user();
+            $data = Jurnal::where('user_id', $user->id)->get();
             foreach ($data as $entry) {
                 $entry->debit = json_decode($entry->debit); // true untuk mengembalikan array asosiatif
                 $entry->kredit = json_decode($entry->kredit);
@@ -61,7 +63,8 @@ class JurnalController extends Controller
         session(['jumlahJurnal' => 0]);
         session(['jumlahDebit' => 0]);
         session(['jumlahKredit' => 0]);
-        $data = COA::orderBy('kode', 'asc')->get();
+        $user = Auth::user();
+        $data = COA::where('user_id', $user->id)->orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
         $dataMultipleD = JurnalAkun::all();
@@ -112,7 +115,8 @@ class JurnalController extends Controller
     }
     public function store(Request $request)
     {
-        $data = Jurnal::all();
+        $user = Auth::user();
+        $data = Jurnal::where('user_id', $user->id)->get();
         $kodeDuplikat = false;
         // foreach ($data as $d) {
         //     if ($request->bukti == $d->bukti) {
@@ -139,9 +143,8 @@ class JurnalController extends Controller
                 $akunkredit[] = $ad;
             }
         };
-
         $prod = new Jurnal;
-
+        $prod->user_id = $user->id;
         // $prod->tanggal = $request->tanggal;
         // $prod->transaksi = $request->transaksi;
         // $prod->keterangan = $request->keterangan;
@@ -184,8 +187,8 @@ class JurnalController extends Controller
         session(['namaTr' => $tr]);
         session(['jurnalid' => $jurnalid]);
         session(['idjurnal' => $id]);
-        
-        $data = COA::orderBy('kode', 'asc')->get();
+        $user = Auth::user();
+        $data = COA::where('user_id', $user->id)->orderBy('kode', 'asc')->get();
         $dataDebit = [];
         $dataKredit= [];
         $dataMultipleD = JurnalAkun::all();
@@ -415,7 +418,8 @@ class JurnalController extends Controller
 
     public function resetJurnal($jurnalid)
     {
-        $data = COA::all();
+        $user = Auth::user();
+        $data = COA::where('user_id', $user->id)->get();
         $akundebit = [];
         $akunkredit = [];
         foreach($data as $d){
@@ -583,7 +587,8 @@ class JurnalController extends Controller
 
     public function getData($perPage)
     {
-        return Jurnal::paginate($perPage);
+        $user = Auth::user();
+        return Jurnal::where('user_id', $user->id)->paginate($perPage);
     }
 
     public function export()

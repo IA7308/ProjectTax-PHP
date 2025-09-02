@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('resume_barangs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('logins')->onDelete('cascade');
             $table->timestamps();
             $table->string('kode_barang');
             $table->string('nama_barang');

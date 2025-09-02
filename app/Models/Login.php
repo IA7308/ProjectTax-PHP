@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Login extends Model
+class Login extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
+
+    protected $table = 'logins'; 
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'name',

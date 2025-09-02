@@ -13,6 +13,7 @@ class Jurnal extends Model
         // 'transaksi',
         // 'keterangan',
         // 'bukti',
+        'user_id',
         'jumlah',
         'histori_saldo_debit',
         'histori_saldo_kredit',
