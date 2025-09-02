@@ -4,51 +4,51 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2d0d4e5044.js" crossorigin="anonymous"></script>
+	<title>Aplikasi Perpajakan - Login & Register</title>
 <a href="https://cvsolusikita.com" class="fixed-top mx-2"><img src="https://cvsolusikita.com/wp-content/uploads/2025/08/LOGO-NO-BACKGROUND.png" alt="Logo CV" 
 style="width: 80px;  
         height: 80px; 
         border: none;"></a>
-<h2> Sign in/up Form</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<form action="{{$actionSU}}">
 			@csrf
 			<input type="hidden" name="_method" value="{{ $methodSU }}" />
-			<h1>Create Account</h1>
-			<span>use your email for registration</span>
+			<h1>Daftar</h1>
 			<input type="text" placeholder="Name" name="name" required/>
 			<input type="email" placeholder="Email" name="email" required/>
 			<input type="password" placeholder="Password" name="password" required/>
 			
-			<button>Sign Up</button>
+			<button>Daftar</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
 		<form action="{{$actionSI}}">
 			@csrf
 			<input type="hidden" name="_method" value="{{ $methodSI }}" />
-			<h1>Sign in</h1>
-			<span>or use your account</span>
+			<h3>Masuk ke Akun</h3>
 			<input type="email" placeholder="Email" name="email" required/>
 			<div class="input-password">
 				<input type="password" placeholder="Password" name="password" id="password" required/>
 				<i class="fa-solid fa-eye" id="togglePassword" onclick="showHidePassword()"></i>
 			</div>			
 			<a href="#">Forgot your password?</a>
-			<button>Sign In</button>
+			<button>Login</button>
 		</form>
 	</div>
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost" id="signIn">Sign In</button>
+				
+				<h1>CV Solusi Kita!</h1>
+				<p>Mari berlangganan dengan CV Solusi Kita</p>
+				<button class="ghost" id="signIn">Masuk</button>
 			</div>
 			<div class="overlay-panel overlay-right">
+				<span><img src="./calculator.png" alt="kalkulatorPajak" style="width: 100%;  height: 90%;"></i></span>
 				<h3>Selamat Datang di Aplikasi Pajak CV Solusi Kita</h3>
 				<p>Dipercaya 50+ Perusahaan !!!</p>
-				<button class="ghost" id="signUp">Sign Up</button>
+				<button class="ghost" id="signUp">Daftar</button>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@ style="width: 80px;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Arial', sans-serif;
 		height: 100vh;
 		margin: -20px 0 50px;
 	}
@@ -89,10 +89,6 @@ style="width: 80px;
 		margin: 20px 0 30px;
 	}
 
-	span {
-		font-size: 12px;
-	}
-
 	a {
 		color: #333;
 		font-size: 14px;
@@ -102,8 +98,8 @@ style="width: 80px;
 
 	button {
 		border-radius: 20px;
-		border: 1px solid #FF4B2B;
-		background-color: #FF4B2B;
+		border: 1px solid #0055a5;
+		background-color: #0055a5;;
 		color: #FFFFFF;
 		font-size: 12px;
 		font-weight: bold;
@@ -235,13 +231,11 @@ style="width: 80px;
 	}
 
 	.overlay {
-		background: #7F8C8D;
-		background: -webkit-linear-gradient(to right, #ECF0F1, #7F8C8D);
-		background: linear-gradient(to right, #ECF0F1, #7F8C8D);
+		background: linear-gradient(135deg, #003366, #0055a5);
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: 0 0;
-		color: #000000;
+		color: #fff;
 		position: relative;
 		left: -100%;
 		height: 100%;
